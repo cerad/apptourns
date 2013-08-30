@@ -3,52 +3,8 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d18d074914a92c8cd55bb15baf96dc27",
+    "hash": "71e5a0f1de1d1a7e7c87946045448a44",
     "packages": [
-        {
-            "name": "cerad/cerad",
-            "version": "dev-master",
-            "target-dir": "src",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cerad/cerad.git",
-                "reference": "7d028880f364f6ffa57e13cc1937bd14a311173a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cerad/cerad/zipball/7d028880f364f6ffa57e13cc1937bd14a311173a",
-                "reference": "7d028880f364f6ffa57e13cc1937bd14a311173a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "symfony-bundles",
-            "autoload": {
-                "psr-0": {
-                    "Cerad": ""
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Art Hundiak",
-                    "email": "ahundiak@gmail.com"
-                }
-            ],
-            "description": "Cerad Libraries",
-            "homepage": "https://github.com/cerad/cerad.git",
-            "keywords": [
-                "security"
-            ],
-            "support": {
-                "source": "https://github.com/cerad/cerad/tree/master",
-                "issues": "https://github.com/cerad/cerad/issues"
-            },
-            "time": "2013-08-30 14:04:32"
-        },
         {
             "name": "doctrine/common",
             "version": "2.3.0",
@@ -1218,9 +1174,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "cerad/cerad": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": {
         "php": ">=5.3.3"
     },
