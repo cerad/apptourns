@@ -1,0 +1,371 @@
+parameters:
+
+    cerad_tourns_tournaments:
+
+# =====================================================
+         opencup:
+             status:   Active
+             season:   SP2013
+             sport:    Soccer
+             group:    ALYS
+             groupSub: Open Cup
+             project:  opencup
+             
+             title:   "Open Cup 2013"
+             desc:    "USSF Open Cup 2013 - Decatur, Alabama - April 12, 13, 14"
+             
+             submit:  "Emails your application to Dean Johnson and yourself."
+             prefix:   OpenCup2013
+             
+             assignor:
+                 name:  "Dean Johnson"
+                 email: "deanjohnson@knology.net"
+                 phone:  256.337.0493
+                 
+             plan:
+                 lodgingNights:
+                    #nights:
+                         Fri:
+                             type:      radio
+                             label:     Lodging Friday Night
+                             date:     '2013-04-12'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                         Sat:
+                             type:      radio
+                             label:     Lodging Saturday Night
+                             date:     '2013-04-13'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                             
+                 availabilityDays:
+                     #days:
+                         Fri:
+                             type:      select
+                             label:     Availability Friday
+                             date:     '2013-04-12'
+                             default:   None
+                             choices:
+                                 None:     None
+                                 Evening:  Kickoff 5PM
+                                 Not Sure: Not Sure
+                         Sat:
+                             type:      select
+                             label:     Availability Saturday
+                             date:     '2013-04-13'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+                         Sun:
+                             type:      select
+                             label:     Availability Sunday
+                             date:     '2013-04-14'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+             
+# ====================================================
+         classic:
+             status:   Active
+             season:   SP2013
+             sport:    Soccer
+             group:    ALYS
+             groupSub: HFC Classic
+             project:  classic
+             
+             title:   "HFC Classic 2013"
+             desc:    "USSF HFC Spring Classic 2013 - Huntsville, Alabama - April 19, 20, 21"
+             
+             submit:  "Emails your application to Art Hundiak and yourself."
+             prefix:   Classic2013
+             
+             assignor:
+                 name:  "Art Hundiak"
+                 email: "ahundiak@gmail.com"
+                 phone:  256.457.5943
+                 
+             plan:
+                 lodgingNights:
+                    #nights:
+                         Fri:
+                             type:      radio
+                             label:     Lodging Friday Night
+                             date:     '2013-04-19'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                         Sat:
+                             type:      radio
+                             label:     Lodging Saturday Night
+                             date:     '2013-04-20'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                             
+                 availabilityDays:
+                     #days:
+                         Fri:
+                             type:      select
+                             label:     Availability Friday
+                             date:     '2013-04-19'
+                             default:   None
+                             choices:
+                                 None:     None
+                                 Evening:  Kickoff 5PM
+                                 Not Sure: Not Sure
+                         Sat:
+                             type:      select
+                             label:     Availability Saturday
+                             date:     '2013-04-20'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+                         Sun:
+                             type:      select
+                             label:     Availability Sunday
+                             date:     '2013-04-21'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+                                 
+# ===========================================================================                 
+         statecup:
+             status:   Active
+             season:   SP2013
+             sport:    Soccer
+             group:    ALYS
+             groupSub: State Cup
+             project:  statecup
+             
+             title:   "State Cup 2013"
+             desc:    "USSF Alabama State Cup Preliminaries - Spring 2013 - Decatur, Alabama - May 3, 4, 5"
+             
+             submit:  "Emails your application to Ohannes Younanian and yourself."
+             prefix:   StateCupSP2013
+             
+             assignor:
+                 name:  "Ohannes Younanian"
+                 email: "ohannesy@yahoo.com"
+                 phone:  334.477.6313
+                 
+             plan:
+                 lodgingNights:
+                    #nights:
+                         Fri:
+                             type:      radio
+                             label:     Lodging Friday Night
+                             date:     '2013-05-03'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                         Sat:
+                             type:      radio
+                             label:     Lodging Saturday Night
+                             date:     '2013-05-04'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                             
+                 availabilityDays:
+                     #days:
+                         Fri:
+                             type:      select
+                             label:     Availability Friday
+                             date:     '2013-05-03'
+                             default:   None
+                             choices:
+                                 None:     None
+                                 Evening:  Kickoff 5PM
+                                 Not Sure: Not Sure
+                         Sat:
+                             type:      select
+                             label:     Availability Saturday
+                             date:     '2013-05-04'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+                         Sun:
+                             type:      select
+                             label:     Availability Sunday
+                             date:     '2013-05-05'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+                                 
+# ===========================================================================                 
+         statecupff:
+             status:   Active
+             season:   SP2013
+             sport:    Soccer
+             group:    ALYS
+             groupSub: State Cup FF
+             project:  statecupff
+             
+             title:   "State Cup FF 2013"
+             desc:    "USSF Alabama State Cup Final Four - Spring 2013 - Decatur, Alabama - May 10, 11, 12"
+             
+             submit:  "Emails your application to Ohannes Younanian and yourself."
+             prefix:   StateCupSP2013FF
+             
+             assignor:
+                 name:  "Ohannes Younanian"
+                 email: "ohannesy@yahoo.com"
+                 phone:  334.477.6313
+                 
+             plan:
+                 lodgingNights:
+                    #nights:
+                         Fri:
+                             type:      radio
+                             label:     Lodging Friday Night
+                             date:     '2013-05-10'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                         Sat:
+                             type:      radio
+                             label:     Lodging Saturday Night
+                             date:     '2013-05-11'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                             
+                 availabilityDays:
+                     #days:
+                         Fri:
+                             type:      select
+                             label:     Availability Friday
+                             date:     '2013-05-10'
+                             default:   None
+                             choices:
+                                 None:     None
+                                 Evening:  Kickoff 5PM
+                                 Not Sure: Not Sure
+                         Sat:
+                             type:      select
+                             label:     Availability Saturday
+                             date:     '2013-05-11'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+                         Sun:
+                             type:      select
+                             label:     Availability Sunday
+                             date:     '2013-05-12'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+                                 
+ # ===============================================================================
+         presidentscup:
+             status:   Active
+             season:   SP2013
+             sport:    Soccer
+             group:    ALYS
+             groupSub: Presidents Cup
+             project:  presidentscup
+             
+             title:   "President's Cup 2013"
+             desc:    "USSF Alabama President's Cup - Spring 2013 - Decatur, Alabama - June 6, 7, 8, 9"
+             
+             submit:  "Emails your application to Ohannes Younanian and yourself."
+             prefix:   PresidentsCup2013
+             
+             assignor:
+                 name:  "Ohannes Younanian"
+                 email: "ohannesy@yahoo.com"
+                 phone:  334.477.6313
+                 
+             plan:
+                 lodgingNights:
+                    #nights:
+                         Thu:
+                             type:      radio
+                             label:     Lodging Thursday Night
+                             date:     '2013-06-06'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                         Fri:
+                             type:      radio
+                             label:     Lodging Friday Night
+                             date:     '2013-06-07'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                         Sat:
+                             type:      radio
+                             label:     Lodging Saturday Night
+                             date:     '2013-06-08'
+                             choices:  [No: No, Yes: Yes]
+                             default:   No
+                             
+                 availabilityDays:
+                     #days:
+                         Thu:
+                             type:      select
+                             label:     Availability Thursday
+                             date:     '2013-06-06'
+                             default:   None
+                             choices:
+                                 None:     None
+                                 Evening:  Kickoff 6PM
+                                 Not Sure: Not Sure
+                         Fri:
+                             type:      select
+                             label:     Availability Friday
+                             date:     '2013-06-07'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 NotSure:        Not Sure
+                         Sat:
+                             type:      select
+                             label:     Availability Saturday
+                             date:     '2013-06-08'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+                         Sun:
+                             type:      select
+                             label:     Availability Sunday
+                             date:     '2013-06-09'
+                             default:   None
+                             choices:
+                                 None:           None
+                                 All Day:        All Day
+                                 Morning Only:   Morning Only
+                                 Afternoon Only: Afternoon Only
+                                 Not Sure:       Not Sure
+ 

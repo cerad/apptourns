@@ -1,0 +1,33 @@
+cerad_tourns_index:
+    pattern:  /
+    defaults: { _controller: CeradTournsBundle:Main:welcome }
+    
+cerad_tourns_welcome:
+    pattern:  /welcome
+    defaults: { _controller: CeradTournsBundle:Main:welcome }
+
+cerad_tourns_login:
+    pattern:  /login
+    defaults: { _controller: CeradTournsBundle:Main:welcome }
+    
+cerad_tourns_login_check:
+    pattern:  /login-check
+    
+cerad_tourns_logout:
+    pattern:  /logout
+    
+cerad_tourns_admin_edit:
+    pattern:  /{project}/admin/edit/{id}
+    defaults: { _controller: CeradTournsBundle:Admin:edit }
+    
+cerad_tourns_admin_list:
+    pattern:  /{project}/admin.{_format}
+    defaults: { _controller: CeradTournsBundle:Admin:list, _format: html }
+    requirements:
+        _format:  html|csv|xls|pdf
+
+# Kind of fragile, matches everything
+cerad_tourns_project:
+    pattern:  /{project}/{op}
+    defaults: { _controller: CeradTournsBundle:Main:signup, op: null }
+    

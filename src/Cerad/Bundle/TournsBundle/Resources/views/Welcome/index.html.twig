@@ -1,0 +1,65 @@
+{% extends '@CeradTourns/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+   <link rel="stylesheet" href="{{ asset('bundles/ceradtourns/css/tourns.css') }}" media="all" />
+{% endblock %}
+ 
+{% block content %}
+   
+{# ---------------------------
+ # List of active tournaments
+ #}   
+<h1>Signup For Tournament</h1>
+<ul>
+{% for tourn in tourns %}
+{% if  tourn.status == 'Active' %}
+<li style="margin-bottom: 4px;"><a href="{{ path('cerad_tourns_project', { 'project': tourn.project }) }}">{{tourn.desc}}</a></li>
+{% endif  %}
+{% endfor %}
+ </ul>
+
+{# ---------------------------
+ # Assignor Login
+ #}
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    User: {{ app.user.username }}
+    <a href="{{ path('cerad_tourns_logout') }}">Log Out</a>
+{% else %}
+
+<h3>Administrator Log In</h3>
+
+{% if login_error %}
+    <div>{{ login_error.message }}</div>
+{% endif %}
+
+<form action="{{ path('cerad_tourns_login_check') }}" method="post">
+    
+    <input type="hidden" name="_csrf_token" value="{{ login_csrf_token }}" />
+    
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="_username" value="{{ login_last_username }}" />
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="_password" />
+    
+    <label for="remember_me">Remember Me</label>
+    <input type="checkbox" id="remember_me" name="_remember_me" value="on" checked />
+
+    <button type="submit">Log In</button>
+</form>
+{% endif %}
+
+{# ---------------------------
+ # Admin stuff
+ #}
+{% if is_granted("ROLE_ASSIGNOR") %}
+<h1>Administrate Tournament</h1>
+<ul>
+{% for tourn in tourns %}
+    <li style="margin-bottom: 4px;"><a href="{{ path('cerad_tourns_admin_list', { 'project': tourn.project }) }}">{{tourn.desc}}</a></li>
+{% endfor %}
+ </ul>
+{% endif %}
+
+{% endblock %}{# end content block #}
