@@ -42,14 +42,64 @@ class MainController extends Controller
         
         return $this->render('@CeradTourns\Welcome\index.html.twig',$tplData);        
     }
-    public function signupAction(Request $request, $project, $op = null)
+    public function registerAction(Request $request, $project, $op = null)
     {
-        $tourns = $this->getParameter('tourns');
-        
+        // Extract tourn information for project
+        $tourns = $this->getParameter('cerad_tourns_tournaments');
         if (!isset($tourns[$project])) return $this->welcomeAction($request);
-        
         $tourn = $tourns[$project];
         
+        /* ========================
+         * Initialize Person
+         */
+        $personRepo = $this->get('cerad_person.repository');
+
+        $person     = $personRepo->newPerson();
+        
+        $personType    = $this->get('cerad_tourns.person.form_type');
+        $ussfidType    = $this->get('cerad_person.ussf_contractor_id.form_type');
+        $leagueType    = $this->get('cerad_person.ussf_league.form_type');
+        $badgeType     = $this->get('cerad_person.ussf_referee_badge.form_type');
+        $upgradingType = $this->get('cerad_person.ussf_referee_upgrading.form_type');
+        
+        $formData = array(
+            'person'    => $person,
+            'badge'     => null,
+            'ussfid'    => null,
+            'league'    => null,
+            'upgrading' => 'No',
+        );
+        
+        $form = $this->createFormBuilder($formData)
+            ->add('person',   $personType)
+            ->add('badge',    $badgeType)
+            ->add('ussfid',   $ussfidType)
+            ->add('league',   $leagueType)
+            ->add('upgrading',$upgradingType)
+          //->add('update', 'submit')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid() && 1) 
+        {             
+            $formData = $form->getData();
+            $plan = $this->processFormData($personRepo,$formData);
+            
+          //$personRepo->persist($person);
+          //$personRepo->flush();
+        }
+        
+        // Template stuff
+        $tplData = $tourn;
+        $tplData['msg']      = null; // $msg; from flash bag
+        $tplData['form']     = $form->createView();
+      //$tplData['official'] = $official;
+        return $this->render('CeradTournsBundle:Register:index.html.twig',$tplData);
+        
+        /* ========================
+         * Old stuff
+         */
         $manager = $this->get('cerad_tourn.tourn_official.manager');
         $manager->setTournMeta($tourn);
         
@@ -62,7 +112,7 @@ class MainController extends Controller
         if ($op == 'new')
         {
             $session->set('tournOfficialId',null);
-            return $this->redirect($this->generateUrl('cerad_tourn', array('project' => $project)));
+            return $this->redirect($this->generateUrl('cerad_tourns_project', array('project' => $project)));
         }
         
         // Load existing from session
@@ -149,6 +199,51 @@ class MainController extends Controller
         $tplData['form']     = $form->createView();
         $tplData['official'] = $official;
         return $this->render('CeradTournBundle:Tourn:signup.html.twig',$tplData);
+    }
+    /* ===============================================
+     * Lot's of possible processing to do
+     * All ends with a plan
+     */
+    protected function processFormData($repo,$formData)
+    {
+        // Have a person identifier?
+        $person = $formData['person'];
+        $ussfid = $formData['ussfid'];
+        
+        if (strlen($ussfid) == 21)
+        {
+            $personIdentifier = $repo->findIdentifierByValue($ussfid);
+            if ($personIdentifier)
+            {
+                // Have an existing record
+                $person = $personIdentifier->getPerson();
+                
+                // Could check certain fields for updates
+            }
+            else
+            {
+                $personIdentifier = $person->newIdentifier();
+                $personIdentifier->setSource('USSFC');
+                $personIdentifier->setValue($ussfid);
+                $person->addIdentifier($personIdentifier);
+            }
+        }
+        $cert = $person->getCertUSSFReferee();
+        $cert->setIdentifier($ussfid);
+        $cert->setBadgex   ($formData['badge']); //die('Badge ' . $formData['badge']);
+        $cert->setUpgrading($formData['upgrading']);
+        
+        $league = $person->getLeagueUSSFContractor();
+        $league->setIdentifier($ussfid);
+        $league->setLeague($formData['league']);
+        
+        $person->getPersonPersonPrimary();
+        
+        $repo->persist($person);
+        $repo->flush();
+       
+        echo 'USSFID ' . $ussfid;
+        return null;
     }
     protected function sendRefereeEmail($tourn,$plans)
     {   

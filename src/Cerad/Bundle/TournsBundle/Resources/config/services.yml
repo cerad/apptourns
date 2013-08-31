@@ -5,3 +5,14 @@ services:
 #    cerad_tourns.example:
 #        class: %cerad_tourns.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+    cerad_tourn.tourn.entity_manager:
+        alias: doctrine.orm.default_entity_manager
+        
+    doctrine.orm.persons_entity_manager:
+        alias: doctrine.orm.default_entity_manager
+        
+    cerad_tourns.person.form_type:
+        class: Cerad\Bundle\TournsBundle\Form\Type\PersonFormType
+        tags:
+            - { name: form.type, alias: cerad_tourns_person }

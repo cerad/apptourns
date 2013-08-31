@@ -1,4 +1,9 @@
+{# @CeradTourns/layout.html.twig #}
 {% extends '@CeradTourns/base.html.twig' %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('bundles/ceradtourns/css/tourns.css') }}" media="all" />
+{% endblock %}
 
 {% block body %} 
 <div id="layout-content">{% block content %}{% endblock %}</div>

@@ -14,7 +14,7 @@ class AdminController extends Controller
     }
     public function editAction(Request $request, $project, $id)
     {
-        $tourns = $this->getParameter('tourns');
+        $tourns = $this->getParameter('cerad_tourns_tournaments');
         if (!isset($tourns[$project])) return $this->welcomeAction($request);
         $tourn = $tourns[$project];
 
@@ -59,18 +59,22 @@ class AdminController extends Controller
     }
     public function listAction(Request $request, $project, $_format)
     {   
-        $tourns = $this->getParameter('tourns');
-        
-        if (!isset($tourns[$project])) 
-        {
-            return $this->redirect($this->generateUrl('cerad_tourn_welcome'));
-        }
+        $tourns = $this->getParameter('cerad_tourns_tournaments');
+        if (!isset($tourns[$project])) { return $this->redirect($this->generateUrl('cerad_tourn_welcome')); }
         $tourn = $tourns[$project];
         
-        $manager = $this->get('cerad_tourn.tourn_official.manager');
-        $manager->setTournMeta($tourn);
-        
-        $officials = $manager->loadOfficials($tourn);
+        $personRepo = $this->get('cerad_person.repository');
+        $persons    = $personRepo->findAll();
+
+        $officials = array();
+        foreach($persons as $person)
+        {
+            $officials[] = array(
+                'id'     => $person->getId(),
+                'person' => $person, 
+                'status' => 'Active',
+            );
+        }
         
         if ($_format == 'xls') 
         {
@@ -91,13 +95,13 @@ class AdminController extends Controller
         }
         $tplData = array();
         
-        $tplData['tourn']     = $tourn;
-        $tplData['tourns']    = $tourns;
+        $tplData['tourn']   = $tourn;
+        $tplData['tourns']  = $tourns;
         
         $tplData['project']   = $project;
         $tplData['officials'] = $officials;
         
-        return $this->render('CeradTournBundle:Tourn:list.html.twig',$tplData);        
+        return $this->render('@CeradTourns/Person/List/index.html.twig',$tplData);        
     }
 }
 ?>
