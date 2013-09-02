@@ -1,0 +1,76 @@
+parameters:
+
+    cerad_tourns_projects:
+    
+        kicks:
+            info:     
+                id:        USSF_AL_HFC_Kicks2013
+                status:    Active
+                season:    FA2013
+                sport:     Soccer
+                group:     ALYS
+                groupSub:  HFC Kicks
+                slug:      kicks
+
+                domain:    USSF
+                domainSub: Somethhing
+                
+                title:   "HFC Kicks 2013"
+                desc:    "USSF HFC Kicks 2013 - Huntsville, Alabama - October 18, 19, 20"
+                
+                submit:  "Emails your application to Art Hundiak and yourself."
+                prefix:   Kicks2013
+             
+                assignor:
+                    name:  "Art Hundiak"
+                    email: "ahundiak@gmail.com"
+                    phone:  256.457.5943
+
+                 
+            plan:
+                lodgingNights:
+                    Fri:
+                        type:      radio
+                        label:     Lodging Friday Night
+                        date:     '2013-10-18'
+                        choices:  [No: No, Yes: Yes]
+                        default:   No
+                    Sat:
+                        type:      radio
+                        label:     Lodging Saturday Night
+                        date:     '2013-10-19'
+                        choices:  [No: No, Yes: Yes]
+                        default:   No
+                             
+                availabilityDays:
+                    Fri:
+                        type:      select
+                        label:     Availability Friday
+                        date:     '2013-10-18'
+                        default:   None
+                        choices:
+                            None:    None
+                            Evening: Kickoff 5PM
+                            NotSure: Not Sure
+                    Sat:
+                        type:      select
+                        label:     Availability Saturday
+                        date:     '2013-10-19'
+                        default:   None
+                        choices:
+                            None:          None
+                            AllDay:        All Day
+                            MorningOnly:   Morning Only
+                            AfternoonOnly: Afternoon Only
+                            NotSure:       Not Sure
+                    Sun:
+                        type:      select
+                        label:     Availability Sunday
+                        date:     '2013-10-20'
+                        default:   None
+                        choices:
+                            None:          None
+                            AllDay:        All Day
+                            MorningOnly:   Morning Only
+                            AfternoonOnly: Afternoon Only
+                            NotSure:       Not Sure

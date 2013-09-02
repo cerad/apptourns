@@ -6,11 +6,11 @@
 {# ---------------------------
  # List of active tournaments
  #}   
-<h1>Signup For Tournament</h1>
+<h1>Register For Tournament</h1>
 <ul>
-{% for tourn in tourns %}
-{% if  tourn.status == 'Active' %}
-<li style="margin-bottom: 4px;"><a href="{{ path('cerad_tourns_project', { 'project': tourn.project }) }}">{{tourn.desc}}</a></li>
+{% for project in projects %}
+{% if  project.status == 'Active' %}
+<li style="margin-bottom: 4px;"><a href="{{ path('cerad_tourns_project', { 'slug': project.slug }) }}">{{ project.desc }}</a></li>
 {% endif  %}
 {% endfor %}
  </ul>
@@ -52,8 +52,8 @@
 {% if is_granted("ROLE_ASSIGNOR") %}
 <h1>Administrate Tournament</h1>
 <ul>
-{% for tourn in tourns %}
-    <li style="margin-bottom: 4px;"><a href="{{ path('cerad_tourns_admin_list', { 'project': tourn.project }) }}">{{tourn.desc}}</a></li>
+{% for project in projects %}
+    <li style="margin-bottom: 4px;"><a href="{{ path('cerad_tourns_admin_list', { 'project': project.slug }) }}">{{ project.desc }}</a></li>
 {% endfor %}
  </ul>
 {% endif %}

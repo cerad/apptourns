@@ -1,15 +1,16 @@
+{# @CeradTourns/Register/index.html.twig   #}
 {% extends '@CeradTourns/layout.html.twig' %}
 
 {% block content %}
    
-<h1>{{ desc }}</h1>
+<h1>{{ project.desc }}</h1>
 <p>You must be at least 14 years old to referee at this tournament.</p>
-<p><a href="{{ path('cerad_tourns_project',{ 'project': project, 'op': 'new' }) }}">Start over with a new application</a></p>
+<p><a href="{{ path('cerad_tourns_project',{ 'slug': project.slug, 'op': 'new' }) }}">Start over with a new application</a></p>
 {% if msg %}
 <p><em>{{ msg }}</em></p>
 {% endif %}
 
-<form class="s1" action="{{ path('cerad_tourns_project',{ 'project': project }) }}" method="post" {{ form_enctype(form) }} novalidate>
+<form class="s1" action="{{ path('cerad_tourns_project',{ 'slug': project.slug }) }}" method="post" {{ form_enctype(form) }} novalidate>
     <fieldset><legend><span>Contact Information</span></legend>
         {{ form_row(form.person.name)      }}
         {{ form_row(form.person.firstName) }}
@@ -23,13 +24,13 @@
         {{ form_row(form.person.dob)       }}
     </fieldset>
     <fieldset><legend><span>USSF Referee Certification</span></legend>
-        {{ form_row(form.ussfid)    }}
+        {{ form_row(form.ussfId)    }}
         {{ form_row(form.badge)     }}
-        {{ form_row(form.league)    }}
+        {{ form_row(form.orgId)     }}
         {{ form_row(form.upgrading) }}
     <fieldset>
         <div class="controls">
-            <span>{{ submit }}</span>
+            <span>{{ project.submit }}</span>
             <input type="submit" name="tournSubmit" value="Email Application" />
         </div>
     </fieldset>

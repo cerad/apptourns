@@ -32,68 +32,70 @@ class MainController extends Controller
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove      (SecurityContext::AUTHENTICATION_ERROR);
         }
-           
+        $projectRepo = $this->get('cerad_tourns.project.repository');
+        $projects = $projectRepo->findAll();
+        
         $tplData = array();
         $tplData['login_error']         = $error;
         $tplData['login_csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
         $tplData['login_last_username'] = $session->get(SecurityContext::LAST_USERNAME);
         
-        $tplData['tourns'] = $this->getParameter('cerad_tourns_tournaments');
+        $tplData['projects'] = $projects;
         
         return $this->render('@CeradTourns\Welcome\index.html.twig',$tplData);        
     }
-    public function registerAction(Request $request, $project, $op = null)
+    public function registerAction(Request $request, $slug, $op = null)
     {
-        // Extract tourn information for project
-        $tourns = $this->getParameter('cerad_tourns_tournaments');
-        if (!isset($tourns[$project])) return $this->welcomeAction($request);
-        $tourn = $tourns[$project];
-        
+        // Get the project
+        $projectRepo = $this->get('cerad_tourns.project.repository');
+        $project = $projectRepo->findBySlug($slug);
+        if (!$project) return $this->welcomeAction($request);
+               
         /* ========================
          * Initialize Person
          */
         $personRepo = $this->get('cerad_person.repository');
-
         $person     = $personRepo->newPerson();
         
         $personType    = $this->get('cerad_tourns.person.form_type');
-        $ussfidType    = $this->get('cerad_person.ussf_contractor_id.form_type');
-        $leagueType    = $this->get('cerad_person.ussf_league.form_type');
+        $ussfIdType    = $this->get('cerad_person.ussf_contractor_id.form_type');
+        $orgIdType     = $this->get('cerad_person.ussf_org_state.form_type');
         $badgeType     = $this->get('cerad_person.ussf_referee_badge.form_type');
         $upgradingType = $this->get('cerad_person.ussf_referee_upgrading.form_type');
         
-        $formData = array(
+        $dto = array(
             'person'    => $person,
             'badge'     => null,
-            'ussfid'    => null,
-            'league'    => null,
+            'ussfId'    => null,
+            'orgId'     => null,
             'upgrading' => 'No',
         );
         
-        $form = $this->createFormBuilder($formData)
+        $form = $this->createFormBuilder($dto)
             ->add('person',   $personType)
             ->add('badge',    $badgeType)
-            ->add('ussfid',   $ussfidType)
-            ->add('league',   $leagueType)
+            ->add('ussfId',   $ussfIdType)
+            ->add('orgId',    $orgIdType)
             ->add('upgrading',$upgradingType)
           //->add('update', 'submit')
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isValid() && 1) 
+        if ($form->isValid()) 
         {             
-            $formData = $form->getData();
-            $plan = $this->processFormData($personRepo,$formData);
+            //$formData = $form->getData();
+            //$plan = $this->processFormData($personRepo,$formData);
             
           //$personRepo->persist($person);
           //$personRepo->flush();
         }
         
         // Template stuff
-        $tplData = $tourn;
-        $tplData['msg']      = null; // $msg; from flash bag
-        $tplData['form']     = $form->createView();
+        $tplData = array();
+        $tplData['project'] = $project;
+        $tplData['msg'    ]   = null; // $msg; from flash bag
+        $tplData['form'   ]  = $form->createView();
       //$tplData['official'] = $official;
         return $this->render('CeradTournsBundle:Register:index.html.twig',$tplData);
         

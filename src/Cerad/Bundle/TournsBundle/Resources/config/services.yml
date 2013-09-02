@@ -16,3 +16,8 @@ services:
         class: Cerad\Bundle\TournsBundle\Form\Type\PersonFormType
         tags:
             - { name: form.type, alias: cerad_tourns_person }
+            
+    cerad_tourns.project.repository:
+        class:  Cerad\Bundle\TournsBundle\Model\ProjectRepository
+        arguments:  
+            - '%cerad_tourns_projects%'
