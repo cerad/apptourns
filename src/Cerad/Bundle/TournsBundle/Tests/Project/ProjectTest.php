@@ -12,7 +12,7 @@ class ProjectTest extends WebTestCase
         
         $projectRepo = $client->getContainer()->get('cerad_tourns.project.repository');
         
-        $project = $projectRepo->findByTourn('kicks');
+        $project = $projectRepo->findBySlug('kicks');
         
         $this->assertEquals('USSF_AL_HFC_Kicks2013',$project->getId());
         
