@@ -29,7 +29,8 @@ class Project
     public function getStatus()     { return $this->config['info']['status'];    }
     public function getSubmit()     { return $this->config['info']['submit'];    }
     
-    public function getPlan()       { return $this->config['plan']; }
+    public function getPlan()           { return $this->config['plan']; }
+    public function getPlanProperties() { return $this->config['plan']; }
     
     // Needs to be refined a bit
     public function getDates()      { return isset($this->config['searches']['dates'])   ? $this->config['searches']['dates']   : array(); }

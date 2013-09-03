@@ -1,107 +1,64 @@
 <?php
 namespace Cerad\Bundle\TournsBundle\Controller;
 
-use Symfony\Component\Security\Core\SecurityContext;
+//  Symfony\Component\Security\Core\SecurityContext;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Cerad\TournBundle\Entity\OfficialPlans;
-use Cerad\Bundle\CoreBundle\Entity\Person;
-use Cerad\Bundle\CoreBundle\Entity\PersonCert;
 
-class MainController extends Controller
+class RegisterController extends Controller
 {
-    protected function getParameter($name)
+    const SESSION_PLAN_ID = 'register_plan_id';
+    
+    protected function createDto($request,$project)
     {
-        return $this->container->getParameter($name);
-    }
-    public function welcomeAction(Request $request)
-    {
-        // Allow admin signin from this page
-        $session = $request->getSession();
-        $error = null;
-       
-        // get the login error if there is one
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) 
+        // Have a previous plan in session?
+        if ($request->getSession()->has(self::SESSION_PLAN_ID))
         {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } 
-        else 
-        {
-            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
-            $session->remove      (SecurityContext::AUTHENTICATION_ERROR);
+            $planId = $request->getSession()->get(self::SESSION_PLAN_ID);
+            //die('Session plan ' . $planId);
         }
-        $projectRepo = $this->get('cerad_tourns.project.repository');
-        $projects = $projectRepo->findAll();
-        
-        $tplData = array();
-        $tplData['login_error']         = $error;
-        $tplData['login_csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
-        $tplData['login_last_username'] = $session->get(SecurityContext::LAST_USERNAME);
-        
-        $tplData['projects'] = $projects;
-        
-        return $this->render('@CeradTourns\Welcome\index.html.twig',$tplData);        
-    }
-    public function registerAction(Request $request, $slug, $op = null)
-    {
-        // Get the project
-        $projectRepo = $this->get('cerad_tourns.project.repository');
-        $project = $projectRepo->findBySlug($slug);
-        if (!$project) return $this->welcomeAction($request);
-               
-        /* ========================
-         * Initialize Person
-         */
+        // New person
         $personRepo = $this->get('cerad_person.repository');
         $person     = $personRepo->newPerson();
         
-        $personType    = $this->get('cerad_tourns.person.form_type');
-        $ussfIdType    = $this->get('cerad_person.ussf_contractor_id.form_type');
-        $orgIdType     = $this->get('cerad_person.ussf_org_state.form_type');
-        $badgeType     = $this->get('cerad_person.ussf_referee_badge.form_type');
-        $upgradingType = $this->get('cerad_person.ussf_referee_upgrading.form_type');
+        // The plan
+        $plan = $person->getPlan($project->getId());
+        $plan->setPlanProperties($project->getPlanProperties());
         
+        // Pack it up
         $dto = array(
             'person'    => $person,
+            'plan'      => $plan,
             'badge'     => null,
             'ussfId'    => null,
             'orgId'     => null,
             'upgrading' => 'No',
         );
-        
-        $form = $this->createFormBuilder($dto)
+        return $dto;
+    }
+    protected function createFormBuilderDto($dto)
+    {
+      //$planType = 
+        $personType    = $this->get('cerad_tourns.person.form_type');
+        $ussfIdType    = $this->get('cerad_person.ussf_contractor_id.form_type');
+        $orgIdType     = $this->get('cerad_person.ussf_org_state.form_type');
+        $badgeType     = $this->get('cerad_person.ussf_referee_badge.form_type');
+        $upgradingType = $this->get('cerad_person.ussf_referee_upgrading.form_type');
+                
+        $builder = $this->createFormBuilder($dto)
+          //->add('plan',     $planType)
             ->add('person',   $personType)
             ->add('badge',    $badgeType)
             ->add('ussfId',   $ussfIdType)
             ->add('orgId',    $orgIdType)
             ->add('upgrading',$upgradingType)
           //->add('update', 'submit')
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) 
-        {             
-            $dto = $form->getData();
-            $plan = $this->processDto($dto); // $personRepo
-            
-          //$personRepo->persist($person);
-          //$personRepo->flush();
-            
-        }
-        
-        // Template stuff
-        $tplData = array();
-        $tplData['msg'    ] = null; // $msg; from flash bag
-        $tplData['form'   ] = $form->createView();
-        $tplData['project'] = $project;
-
-        return $this->render('CeradTournsBundle:Register:index.html.twig',$tplData);
-        
+        ;
+        return $builder;
     }
-    /* ===============================================
+        /* ===============================================
      * Lot's of possible processing to do
      * All ends with a plan
      */
@@ -110,6 +67,7 @@ class MainController extends Controller
         $personRepo = $this->get('cerad_person.repository');
          
         // Unpack dto
+        $plan      = $dto['plan'];
         $person    = $dto['person'];
         $badge     = $dto['badge'];
         $ussfId    = $dto['ussfId'];
@@ -124,7 +82,8 @@ class MainController extends Controller
                 // Have an existing record
                 $person = $personFed->getPerson();
                 
-                // Could check certain fields for updates
+                // TODO: Add plan to it
+                
             }
             else
             {
@@ -135,17 +94,61 @@ class MainController extends Controller
         }
         $cert = $personFed->getCertReferee();
         $cert->setBadgex   ($badge);
-        $cert->setUpgrading($badge);
+        $cert->setUpgrading($upgrading);
         
         $org = $personFed->getOrgState();
         $org->setOrgId($orgId);
         
         $person->getPersonPersonPrimary();
         
+        // Plan should take care of itself?
+        echo sprintf("Person Plan %s %s\n",$person->getId(),$plan->getPerson()->getId());
+        
+        // And save
         $personRepo->persist($person);
         $personRepo->flush();
        
         return null;
+    }
+
+    public function registerAction(Request $request, $slug, $op = null)
+    {
+        // Get the project
+        $projectRepo = $this->get('cerad_tourns.project.repository');
+        $project = $projectRepo->findBySlug($slug);
+        if (!$project) return $this->redirect($this->generateUrl('cerad_tourns_welcome'));
+               
+        // This could be passed in or pull from a dispatch?
+        $dto = $this->createDto($request,$project);
+                        
+        // This could also be passed in
+        $form = $this->createFormBuilderDto($dto)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) 
+        {             
+            // Maybe dispatch something to adjust form
+            $dto = $form->getData();
+            
+            // Handled with a dispatch
+            $this->processDto($dto);
+            
+            // Send processedDto message to kick off email?
+            
+            // Store plan id in session
+            $plan = $dto['plan'];die('Plan ' . self::SESSION_PLAN_ID . ' ' . $plan->getId());
+            $request->getSession()->set(self::SESSION_PLAN_ID, $plan->getId());
+            
+            //return $this->redirect($this->generateUrl('cerad_tourns_project',array('slug' => $slug)));
+        }
+        
+        // Template stuff
+        $tplData = array();
+        $tplData['msg'    ] = null; // $msg; from flash bag
+        $tplData['form'   ] = $form->createView();
+        $tplData['project'] = $project;
+
+        return $this->render('CeradTournsBundle:Register:index.html.twig',$tplData);        
     }
     protected function sendRefereeEmail($tourn,$plans)
     {   

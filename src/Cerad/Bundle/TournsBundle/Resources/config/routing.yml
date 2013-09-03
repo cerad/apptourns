@@ -29,5 +29,5 @@ cerad_tourns_admin_list:
 # Kind of fragile, matches everything
 cerad_tourns_project:
     pattern:  /{slug}/{op}
-    defaults: { _controller: CeradTournsBundle:Main:register, op: null }
+    defaults: { _controller: CeradTournsBundle:Register:register, op: null }
     
