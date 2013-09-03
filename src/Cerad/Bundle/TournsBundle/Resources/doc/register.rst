@@ -11,3 +11,7 @@ Step1
     email - still need to deal with unique emails
     name
     password
+
+Everythine worked until tried to get userManager.
+Need to setup security.
+
