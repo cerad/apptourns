@@ -43,7 +43,7 @@ class MainController extends Controller
       //$tplData['flashes']  = $request->getSession()->getFlashBag()->all();
         $tplData['projects'] = $projects;
         
-        return $this->render('@CeradTourns\Welcome\index.html.twig',$tplData);        
+        return $this->render('@CeradTourns/Welcome/index.html.twig',$tplData);        
     }
     public function registerAction(Request $request, $slug, $op = null)
     {

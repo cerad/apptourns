@@ -12,6 +12,9 @@ services:
     doctrine.orm.persons_entity_manager:
         alias: doctrine.orm.default_entity_manager
         
+    doctrine.orm.accounts_entity_manager:
+        alias: doctrine.orm.default_entity_manager
+        
     cerad_tourns.person.form_type:
         class: Cerad\Bundle\TournsBundle\Form\Type\PersonFormType
         tags:

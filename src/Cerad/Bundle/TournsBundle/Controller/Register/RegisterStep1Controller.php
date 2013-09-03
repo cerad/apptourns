@@ -3,6 +3,9 @@ namespace Cerad\Bundle\TournsBundle\Controller\Register;
 
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\Validator\Constraints\Email     as EmailConstraint;
+use Symfony\Component\Validator\Constraints\NotBlank  as NotBlankConstraint;
+
 use Cerad\Bundle\PersonBundle\Validator\Constraints\USSF\ContractorId as FedIdConstraint;
 
 class RegisterStep1Controller extends RegisterBaseController
@@ -12,71 +15,92 @@ class RegisterStep1Controller extends RegisterBaseController
         /* ===============================================
          * In principle we should always have input values
          */
-        if (!$slug || !$op || $project)
+        if (!$slug || !$op || !$project)
         {
             return $this->punt($request,'RegisterStep1: Missing slug or op or project.');
         }
-        echo sprintf("Step 1 %s %s %s<br \>\n",$slug,$op,$project->getId());
-        die('Step 1');
-    }    
-    protected function createDto($request,$project)
-    {
-        // Have a previous plan in session?
-        if ($request->getSession()->has(self::SESSION_PLAN_ID))
-        {
-            $planId = $request->getSession()->get(self::SESSION_PLAN_ID);
-            //die('Session plan ' . $planId);
+        // Simple model
+        $model = $this->createModel($request,$project);
+        
+        // Simple custom form
+        $form = $this->createFormBuilderForModel($request,$model)->getForm();
+        
+        $form->handleRequest($request);
+
+        if ($form->isValid()) 
+        {             
         }
-        // New person
-        $personRepo = $this->get('cerad_person.repository');
-        $person     = $personRepo->newPerson();
         
-        // The plan
-        $plan = $person->getPlan($project->getId());
-        $plan->setPlanProperties($project->getPlanProperties());
+        $tplData = array();
+        $tplData['form']    = $form->createView();
+        $tplData['project'] = $project;
         
-        // Pack it up
-        $dto = array(
-            'person'    => $person,
-            'plan'      => $plan,
-            'badge'     => null,
-            'ussfId'    => null,
-            'orgId'     => null,
-            'upgrading' => 'No',
-        );
-        return $dto;
-    }
-    protected function createFormBuilderDto($dto)
+        return $this->render('@CeradTourns/Register/Step1/index.html.twig',$tplData);   
+    }    
+    protected function createModel($request,$project)
     {
-      //$planType = 
-        $personType    = $this->get('cerad_tourns.person.form_type');
-        $ussfIdType    = $this->get('cerad_person.ussf_contractor_id_fake.form_type');
-        $orgIdType     = $this->get('cerad_person.ussf_org_state.form_type');
-        $badgeType     = $this->get('cerad_person.ussf_referee_badge.form_type');
-        $upgradingType = $this->get('cerad_person.ussf_referee_upgrading.form_type');
-        
+        $model = array(
+            'fedId'    => null,
+            'name'     => null,
+            'email'    => null,
+            'password' => null,
+            'social'   => null, // Future
+        );
+        return $model;
+    }
+    protected function createFormBuilderForModel($request,$model)
+    {
+        $fedIdType = $this->get('cerad_person.ussf_contractor_id_fake.form_type');
+         
         $formOptions = array(
             'validation_groups'  => array('basic'),
             'cascade_validation' => true,
         );
         $constraintOptions = array('groups' => 'basic');
                 
-        $builder = $this->createFormBuilder($dto,$formOptions)
-          //->add('plan',     $planType)
-            ->add('person',   $personType)
-            ->add('badge',    $badgeType)
-            ->add('ussfId',   $ussfIdType, array(
-               'constraints' => array(
-                   new FedIdConstraint($constraintOptions),
-                ),
-             ))
-            ->add('orgId',    $orgIdType)
-            ->add('upgrading',$upgradingType)
-          //->add('update', 'submit')
-        ;
+        $builder = $this->createFormBuilder($model,$formOptions);
+        
+        $builder->add('fedId',$fedIdType, array(
+            'constraints' => array(
+                new FedIdConstraint($constraintOptions),
+            ),
+        ));
+        $builder->add('email','email', array(
+            'required' => true,
+            'label'    => 'Arbiter Email',
+            'trim'     => true,
+            'constraints' => array(
+                new NotBlankConstraint($constraintOptions),
+                new EmailConstraint   ($constraintOptions),
+            ),
+            'attr' => array('size' => 30),
+         ));
+         $builder->add('name','text', array(
+            'required' => true,
+            'label'    => 'Your Name',
+            'trim'     => true,
+            'constraints' => array(
+                new NotBlankConstraint($constraintOptions),
+            ),
+            'attr' => array('size' => 30),
+        ));
+        $builder->add('password', 'repeated', array(
+            'type'     => 'password',
+            'label'    => 'Zayso Password',
+            'required' => true,
+            'attr'     => array('size' => 20),
+            
+            'invalid_message' => 'The password fields must match.',
+            'constraints'     => new NotBlankConstraint($constraintOptions),
+            'first_options'   => array('label' => 'Zayso Password'),
+            'second_options'  => array('label' => 'Zayso Password(confirm)'),
+            
+            'first_name'  => 'pass1',
+            'second_name' => 'pass2',
+        ));
         return $builder;
     }
-        /* ===============================================
+    /* ===============================================
      * Lot's of possible processing to do
      * All ends with a plan
      */

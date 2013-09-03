@@ -19,7 +19,11 @@ class AppKernel extends Kernel
             
             
           //new Cerad\Bundle\CommonBundle\CeradCommonBundle(),
+            
+            new Cerad\Bundle\AccountBundle\CeradAccountBundle(),
+            
             new Cerad\Bundle\PersonBundle\CeradPersonBundle(),
+            
             new Cerad\Bundle\TournsBundle\CeradTournsBundle(),
         );
 
