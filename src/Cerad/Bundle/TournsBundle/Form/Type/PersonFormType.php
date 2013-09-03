@@ -17,7 +17,7 @@ class PersonFormType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class'         => 'Cerad\Bundle\PersonBundle\Entity\Person',
-          //'validation_groups'  => array('create'),
+            'validation_groups'  => array('basic'),
             'cascade_validation' => true,
         ));
     }
@@ -26,8 +26,8 @@ class PersonFormType extends AbstractType
         $notBlank = new NotBlank();
         
         $builder->add('name',      'text', array('label' => 'Full  Name*', 'constraints' => $notBlank, 'attr' => array('size' => 30)));
-        $builder->add('firstName', 'text', array('label' => 'First Name*', 'constraints' => $notBlank));
-        $builder->add('lastName',  'text', array('label' => 'Last  Name*', 'constraints' => $notBlank));
+        $builder->add('firstName', 'text', array('label' => 'First Name*', 'required' => false,));
+        $builder->add('lastName',  'text', array('label' => 'Last  Name*', 'required' => false,));
         $builder->add('nickName',  'text', array('label' => 'Nick  Name' , 'required' => false,));
         
         $builder->add('phone', 'cerad_person_phone',  array('required' => false,));
@@ -53,15 +53,50 @@ class PersonFormType extends AbstractType
           //'expanded'      => true,
           //'multiple'      => false,
           //'attr' => array('class' => 'radio-medium'),
-        ));        
+        ));
+        /* =================================
+         * See note below for why choice was used instead of single_text
+         */
+        /* ===========================
+         * Default years starts at 1920 and works up
+         * Did not really care for that, wanted it reversed
+         */
+        $now = new \DateTime();
+        $year = $now->format('Y');
+        $years = array();
+        for($years = array(); $year >= 1920; $year--) { $years[] = $year; };
+        
+        $builder->add('dob', 'birthday', array(
+            'label'         => 'Date of Birth',
+            'required'      => false,    
+          //'multiple'      => false,    // Generates option does not exist which makes sense
+            'widget'        => 'choice',
+            'years'         => $years,
+            'input'         => 'datetime',
+            'empty_value'   => 'DOB', // Adds DOB to select lists, '' if selected
+            'attr' => array(),
+        ));
+        /* ====================================
+         * This single_text works geat on giles but no so much
+         * on willow.  Probably a difference in php versions.
+         * Might have something to do with time zones
+         * Add a app to the sos bundle for testing
+         * 
+         * model_timezone
+         * view_timezone
+         * format
+         */
+        if (0) {
         $builder->add('dob', 'birthday', array(
             'label'         => 'Date of Birth (mm/dd/yyyy)',
             'required'      => false,
-            'widget'        => 'single_text',
+            'widget'        => 'single_text', // 'choice', // 'single_text',
+            'format'        => 'MMVddVyyy',
             'input'         => 'datetime',
             'attr' => array('placeholder'   => 'mm/dd/yyyy'),
-        ));        
-    }
+        ));  
+        }
+   }
     protected $genderChoices = array ('M' => 'Male', 'F' => 'Female');
     
     protected $stateChoices  = array

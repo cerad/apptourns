@@ -6,6 +6,7 @@ namespace Cerad\Bundle\TournsBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Cerad\Bundle\PersonBundle\Validator\Constraints\USSF\ContractorId as FedIdConstraint;
 
 class RegisterController extends Controller
 {
@@ -42,16 +43,26 @@ class RegisterController extends Controller
     {
       //$planType = 
         $personType    = $this->get('cerad_tourns.person.form_type');
-        $ussfIdType    = $this->get('cerad_person.ussf_contractor_id.form_type');
+        $ussfIdType    = $this->get('cerad_person.ussf_contractor_id_fake.form_type');
         $orgIdType     = $this->get('cerad_person.ussf_org_state.form_type');
         $badgeType     = $this->get('cerad_person.ussf_referee_badge.form_type');
         $upgradingType = $this->get('cerad_person.ussf_referee_upgrading.form_type');
+        
+        $formOptions = array(
+            'validation_groups'  => array('basic'),
+            'cascade_validation' => true,
+        );
+        $constraintOptions = array('groups' => 'basic');
                 
-        $builder = $this->createFormBuilder($dto)
+        $builder = $this->createFormBuilder($dto,$formOptions)
           //->add('plan',     $planType)
             ->add('person',   $personType)
             ->add('badge',    $badgeType)
-            ->add('ussfId',   $ussfIdType)
+            ->add('ussfId',   $ussfIdType, array(
+               'constraints' => array(
+                   new FedIdConstraint($constraintOptions),
+                ),
+             ))
             ->add('orgId',    $orgIdType)
             ->add('upgrading',$upgradingType)
           //->add('update', 'submit')
@@ -102,7 +113,7 @@ class RegisterController extends Controller
         $person->getPersonPersonPrimary();
         
         // Plan should take care of itself?
-        echo sprintf("Person Plan %s %s\n",$person->getId(),$plan->getPerson()->getId());
+        // echo sprintf("Person Plan %s %s\n",$person->getId(),$plan->getPerson()->getId());
         
         // And save
         $personRepo->persist($person);
@@ -136,8 +147,8 @@ class RegisterController extends Controller
             // Send processedDto message to kick off email?
             
             // Store plan id in session
-            $plan = $dto['plan'];die('Plan ' . self::SESSION_PLAN_ID . ' ' . $plan->getId());
-            $request->getSession()->set(self::SESSION_PLAN_ID, $plan->getId());
+            //$plan = $dto['plan'];die('Plan ' . self::SESSION_PLAN_ID . ' ' . $plan->getId());
+            //$request->getSession()->set(self::SESSION_PLAN_ID, $plan->getId());
             
             //return $this->redirect($this->generateUrl('cerad_tourns_project',array('slug' => $slug)));
         }
