@@ -28,7 +28,19 @@ class RegisterStep1Controller extends RegisterBaseController
         $form->handleRequest($request);
 
         if ($form->isValid()) 
-        {             
+        {    
+            $model = $form->getData();
+            
+            $model = $this->processModel($request,$project,$model);
+            
+            // If all went well then user and person were created and persisted
+            
+            // Store the plan in the session
+            $personPlan = $model['personPlan'];
+            $request->getSession()->set(self::SESSION_PLAN_ID,$personPlan->getId());
+            
+            // Now we want to log the user in
+            
         }
         
         $tplData = array();
@@ -36,7 +48,78 @@ class RegisterStep1Controller extends RegisterBaseController
         $tplData['project'] = $project;
         
         return $this->render('@CeradTourns/Register/Step1/index.html.twig',$tplData);   
-    }    
+    }  
+    protected function processModel($request,$project,$model)
+    {
+        // Unpack
+        $fedId    = $model['fedId'   ];
+        $name     = $model['name'    ];
+        $email    = $model['email'   ];
+        $password = $model['password'];
+      //$social   = $model['social'  ];
+ 
+        /* =================================================
+         * Process the person first
+         */
+        $personRepo = $this->get('cerad_person.repository');
+        
+        $personFed = $personRepo->findFed($fedId);
+        
+        if (!$personFed)
+        {
+            // Build a complete person record
+            $person = $personRepo->newPerson();
+            $person->setName ($name);
+            $person->setEmail($email);
+            
+            $personFed = $person->getFedUSSFC();
+            $personFed->setId($fedId);
+            
+            $person->getPersonPersonPrimary();
+            
+            $personPlan = $person->getPlan($project->getId());
+        }
+        else
+        {
+            // TODO: More security, check email etc
+            $person = $personFed->getPerson();
+            $personPlan = $person->getPlan($projectId);            
+        }
+        $model['personPlan'] = $personPlan;
+        
+        /* ==================================================
+         * Now take care of the account
+         * Already checked for duplicate emails/user names
+         */
+        die('getting user manager');
+        $userManager = $this->get('cerad_account.user_manager');
+        die('getting user');
+        $user = $userManager->createUser();
+        
+        $user->setUsername($email);
+        $user->setEmail   ($email);
+        $user->setName    ($name);
+        $user->setEnabled(true);
+        $user->setPersonId($person->getId());
+        
+        $model['user'] = $user;
+        
+        /* ===============================
+         * And persist
+         */
+        die('ready to persist');
+        $userManager->updateUser($user);
+        
+        $personRepo->persist($person);
+        $person->flush();
+        
+        // Done
+        return $model;
+        
+    }
+    /* ==================================
+     * Your basic dto model
+     */
     protected function createModel($request,$project)
     {
         $model = array(
@@ -48,6 +131,9 @@ class RegisterStep1Controller extends RegisterBaseController
         );
         return $model;
     }
+    /* ================================================
+     * Create the form
+     */
     protected function createFormBuilderForModel($request,$model)
     {
         $fedIdType = $this->get('cerad_person.ussf_contractor_id_fake.form_type');
@@ -151,47 +237,7 @@ class RegisterStep1Controller extends RegisterBaseController
         $personRepo->flush();
        
         return null;
-    }
-
-    public function registerActionx(Request $request, $slug, $op = null)
-    {
-        // Get the project
-        $projectRepo = $this->get('cerad_tourns.project.repository');
-        $project = $projectRepo->findBySlug($slug);
-        if (!$project) return $this->redirect($this->generateUrl('cerad_tourns_welcome'));
-               
-        // This could be passed in or pull from a dispatch?
-        $dto = $this->createDto($request,$project);
-                        
-        // This could also be passed in
-        $form = $this->createFormBuilderDto($dto)->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isValid()) 
-        {             
-            // Maybe dispatch something to adjust form
-            $dto = $form->getData();
-            
-            // Handled with a dispatch
-            $this->processDto($dto);
-            
-            // Send processedDto message to kick off email?
-            
-            // Store plan id in session
-            //$plan = $dto['plan'];die('Plan ' . self::SESSION_PLAN_ID . ' ' . $plan->getId());
-            //$request->getSession()->set(self::SESSION_PLAN_ID, $plan->getId());
-            
-            //return $this->redirect($this->generateUrl('cerad_tourns_project',array('slug' => $slug)));
-        }
-        
-        // Template stuff
-        $tplData = array();
-        $tplData['msg'    ] = null; // $msg; from flash bag
-        $tplData['form'   ] = $form->createView();
-        $tplData['project'] = $project;
-
-        return $this->render('CeradTournsBundle:Register:index.html.twig',$tplData);        
-    }
+    }        
     protected function sendRefereeEmail($tourn,$plans)
     {   
         $prefix = $tourn['prefix']; // OpenCup2013
