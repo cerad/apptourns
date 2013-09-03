@@ -1,5 +1,5 @@
 <?php
-namespace Cerad\Bundle\TournsBundle\Controller;
+namespace Cerad\Bundle\TournsBundle\Controller\Register;
 
 //  Symfony\Component\Security\Core\SecurityContext;
 

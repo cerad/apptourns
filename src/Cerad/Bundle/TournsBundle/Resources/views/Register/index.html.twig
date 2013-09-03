@@ -5,12 +5,17 @@
    
 <h1>{{ project.desc }}</h1>
 <p>You must be at least 14 years old to referee at this tournament.</p>
-<p><a href="{{ path('cerad_tourns_project',{ 'slug': project.slug, 'op': 'new' }) }}">Start over with a new application</a></p>
+<p><a href="{{ path('cerad_tourns_project_register',{ 'slug': project.slug, 'op': 'new' }) }}">Start over with a new application</a></p>
 {% if msg %}
 <p><em>{{ msg }}</em></p>
 {% endif %}
 
-<form class="s1" action="{{ path('cerad_tourns_project',{ 'slug': project.slug }) }}" method="post" {{ form_enctype(form) }} novalidate>
+<form 
+    class="s1" 
+    action="{{ path('cerad_tourns_project_register',{ 'slug': project.slug }) }}" 
+    method="post" {{ form_enctype(form) }} 
+    novalidate
+>
     <fieldset><legend><span>Contact Information</span></legend>
         {{ form_row(form.person.name)      }}
         {{ form_row(form.person.firstName) }}
@@ -28,6 +33,7 @@
         {{ form_row(form.badge)     }}
         {{ form_row(form.orgId)     }}
         {{ form_row(form.upgrading) }}
+    </fieldset>
     <fieldset>
         <div class="controls">
             <span>{{ project.submit }}</span>

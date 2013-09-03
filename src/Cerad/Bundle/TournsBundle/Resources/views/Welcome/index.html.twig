@@ -4,16 +4,14 @@
 {% block content %}
    
 {# ---------------------------
+ # Display any error messages
+ #}
+{% include '@CeradTourns/Welcome/flashes.html.twig' %}
+
+{# ---------------------------
  # List of active tournaments
  #}   
-<h1>Register For Tournament</h1>
-<ul>
-{% for project in projects %}
-{% if  project.status == 'Active' %}
-<li style="margin-bottom: 4px;"><a href="{{ path('cerad_tourns_project', { 'slug': project.slug }) }}">{{ project.desc }}</a></li>
-{% endif  %}
-{% endfor %}
- </ul>
+{{ include('@CeradTourns/Welcome/list_public.html.twig', { 'role' : 'user' }) }}
 
 {# ---------------------------
  # Assignor Login
@@ -47,15 +45,8 @@
 {% endif %}
 
 {# ---------------------------
- # Admin stuff
+ # Assignor Admin stuff
  #}
-{% if is_granted("ROLE_ASSIGNOR") %}
-<h1>Administrate Tournament</h1>
-<ul>
-{% for project in projects %}
-    <li style="margin-bottom: 4px;"><a href="{{ path('cerad_tourns_admin_list', { 'project': project.slug }) }}">{{ project.desc }}</a></li>
-{% endfor %}
- </ul>
-{% endif %}
+{% include '@CeradTourns/Welcome/list_assignor.html.twig'%}
 
 {% endblock %}{# end content block #}

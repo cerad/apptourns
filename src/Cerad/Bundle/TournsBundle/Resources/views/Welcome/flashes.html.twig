@@ -1,0 +1,13 @@
+{# @CeradTourns/Welcome/flashes.html.twig   #}
+
+{% set flashes = app.session.flashbag.all %}
+{% if  flashes | length %}
+<h1>Error Messages</h1>
+{% for type, flash in flashes %}
+{% for message in flash  %}
+<ul class="flash-messages">
+    <li>{{ type }}: {{ message }}</li>
+</ul>
+{% endfor %}
+{% endfor %}
+{% endif  %}

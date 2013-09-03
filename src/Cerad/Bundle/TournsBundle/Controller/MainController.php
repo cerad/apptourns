@@ -6,9 +6,6 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Cerad\TournBundle\Entity\OfficialPlans;
-use Cerad\Bundle\CoreBundle\Entity\Person;
-use Cerad\Bundle\CoreBundle\Entity\PersonCert;
 
 class MainController extends Controller
 {
@@ -20,9 +17,9 @@ class MainController extends Controller
     {
         // Allow admin signin from this page
         $session = $request->getSession();
-        $error = null;
-       
+        
         // get the login error if there is one
+        $error = null;
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) 
         {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
@@ -36,10 +33,14 @@ class MainController extends Controller
         $projects = $projectRepo->findAll();
         
         $tplData = array();
+        
+        // Get rid of
         $tplData['login_error']         = $error;
         $tplData['login_csrf_token']    = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
         $tplData['login_last_username'] = $session->get(SecurityContext::LAST_USERNAME);
         
+        // The good stuff
+      //$tplData['flashes']  = $request->getSession()->getFlashBag()->all();
         $tplData['projects'] = $projects;
         
         return $this->render('@CeradTourns\Welcome\index.html.twig',$tplData);        

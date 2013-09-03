@@ -27,7 +27,8 @@ cerad_tourns_admin_list:
         _format:  html|csv|xls|pdf
 
 # Kind of fragile, matches everything
-cerad_tourns_project:
+# Maybe put some conditions on what slug can do
+cerad_tourns_project_register:
     pattern:  /{slug}/{op}
-    defaults: { _controller: CeradTournsBundle:Register:register, op: null }
+    defaults: { _controller: CeradTournsBundle:Register/RegisterMain:register, op: null }
     
