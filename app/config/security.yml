@@ -12,7 +12,7 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ASSIGNOR, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        memory_user_provider:
+        in_memory_user_provider:
             memory:
                 users:
                     user:     { password: user894,  roles: [ 'ROLE_USER' ]  }
@@ -22,33 +22,43 @@ security:
                     
         cerad_account_user_provider:
             id: cerad_account.user_provider
-
+            
+        chained_user_provider:
+            chain:
+                providers: [ in_memory_user_provider, cerad_account_user_provider ]
+                
+# ================================================================================
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-            
-        tourns:
-            pattern:   ^/
+        main:
+            pattern:   ^/         
             anonymous: ~
             
             form_login:
-                check_path:    cerad_tourns_login_check
-                login_path:    cerad_tourns_login
-                default_target_path: cerad_tourns_welcome
-                
-                provider:      memory_user_provider
-                csrf_provider: form.csrf_provider
+                provider:            cerad_account_user_provider
+                login_path:          cerad_tourn_account_login
+                check_path:          cerad_tourn_account_login_check
+                default_target_path: cerad_tourn_home
+
+                username_parameter:  cerad_account_login[username]
+                password_parameter:  cerad_account_login[password]
+                csrf_parameter:      cerad_account_login[_token]
+                csrf_provider:       form.csrf_provider
+                intention:           authenticate
                 
             logout:
-                path:       cerad_tourns_logout
-                target:     cerad_tourns_welcome   
-                
+                path:   cerad_tourn_account_logout
+                target: cerad_tourn_welcome
+                                
             remember_me:
                 key:      "%secret%"
                 lifetime: 31536000  # 365 days in seconds
                 path:     cerad_tourns_welcome
                 domain:   ~
+                name:     zayso_remember_me
+                remember_me_parameter: cerad_account_login[_remember_me]
 
     access_control:
         - { path: '^/[A-Za-z0-9_-]+/admin',roles: ROLE_ASSIGNOR }

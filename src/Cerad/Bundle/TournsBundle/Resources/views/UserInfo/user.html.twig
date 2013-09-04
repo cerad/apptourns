@@ -1,0 +1,11 @@
+{# @CeradTourns/UserInfo/index.html.twig #}
+
+{#
+    Know we are logged in as a user
+    Assume for now a person is linked
+#}
+<div id="userinfo">
+    Zayso User: {{ user.username }} Person: {{ person.name }} USSF: {{ person.fedUSSFC.id | slice(5) }}
+    <a href="{{ path('cerad_tourn_home')           }}">List of Tournaments</a>
+    <a href="{{ path('cerad_tourn_account_logout') }}">Log Out</a>
+</div>

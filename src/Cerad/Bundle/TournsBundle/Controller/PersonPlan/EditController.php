@@ -25,7 +25,7 @@ class EditController extends BaseController
             return $this->punt($request,'PersonPlanEdit: No project found for: ' . $slug);
         }
         // Security
-        if (!$this->isRoleUser() && 0)
+        if (!$this->hasRoleUser() && 0)
         {
             return $this->redirect($this->generateUrl('cerad_tourns_welcome',array('slug' => $slug)));
         }

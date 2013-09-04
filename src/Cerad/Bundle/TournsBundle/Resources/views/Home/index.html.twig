@@ -1,4 +1,4 @@
-{# @CeradTourns/Welcome/index.html.twig #}
+{# @CeradTourns/Home/index.html.twig #}
 {% extends '@CeradTourns/layout.html.twig' %}
 
 {% block content %}
@@ -12,10 +12,5 @@
  # List of active tournaments
  #}   
 {{ include('@CeradTourns/Welcome/list_public.html.twig', { 'role' : 'user' }) }}
-
-{# ---------------------------
- # Assignor Admin stuff
- #}
-{% include '@CeradTourns/Welcome/list_assignor.html.twig'%}
 
 {% endblock %}{# end content block #}

@@ -5,7 +5,13 @@
 <link rel="stylesheet" href="{{ asset('bundles/ceradtourns/css/tourns.css') }}" media="all" />
 {% endblock %}
 
-{% block body %} 
+{% block body %}
+<div id="layout-body">
+    
+<div id="layout-userinfo">{{ render(controller('CeradTournsBundle:UserInfo:show')) }}</div>
+
 <div id="layout-content">{% block content %}{% endblock %}</div>
+
+</div>
 {% endblock %} {# end body block #}
 

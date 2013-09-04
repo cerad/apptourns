@@ -4,15 +4,9 @@ namespace Cerad\Bundle\TournsBundle\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
-class MainController extends Controller
+class WelcomeController extends BaseController
 {
-    protected function getParameter($name)
-    {
-        return $this->container->getParameter($name);
-    }
     public function welcomeAction(Request $request)
     {
         // Allow admin signin from this page

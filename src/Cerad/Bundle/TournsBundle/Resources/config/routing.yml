@@ -21,16 +21,16 @@ cerad_tourn_contact:
     defaults: { _controller: CeradTournsBundle:Contact:contact }
 
 # ==================================
-# Account stuff
+# Account Security stuff
 cerad_tourn_account_login:
-    pattern:  /login
-    defaults: { _controller: CeradTournsBundle:Account/Security:login }
+    pattern:  /account/login
+    defaults: { _controller: CeradTournsBundle:Account/Login:login }
     
 cerad_tourn_account_login_check:
-    pattern:  /login-check
+    pattern:  /account/login-check
     
 cerad_tourn_account_logout:
-    pattern:  /logout
+    pattern:  /account/logout
     
 # ==================================
 # Account management
