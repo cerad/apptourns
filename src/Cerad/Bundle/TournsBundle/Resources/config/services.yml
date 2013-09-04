@@ -20,6 +20,11 @@ services:
         tags:
             - { name: form.type, alias: cerad_tourns_person }
             
+    cerad_tourns.person_plan.form_type:
+        class: Cerad\Bundle\TournsBundle\Form\Type\PlanFormType
+        tags:
+            - { name: form.type, alias: cerad_tourns_person_plan }
+            
     cerad_tourns.project.repository:
         class:  Cerad\Bundle\TournsBundle\Model\ProjectRepository
         arguments:  
