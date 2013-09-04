@@ -1,6 +1,10 @@
 security:
+    hide_user_not_found: false
+
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        Cerad\Bundle\AccountBundle\Entity\User: 
+            id: cerad_account.user_encoder
         
     role_hierarchy:
         ROLE_ASSIGNOR:    [ROLE_USER, ROLE_ASSIGNOR]
@@ -15,6 +19,9 @@ security:
                     admin:    { password: admin894, roles: [ 'ROLE_ADMIN' ] }
                     su:       { password: su894,    roles: [ 'ROLE_SUPER_ADMIN'] }
                     assignor: { password: assign,   roles: [ 'ROLE_ASSIGNOR'] }
+                    
+        cerad_account_user_provider:
+            id: cerad_account.user_provider
 
     firewalls:
         dev:

@@ -12,6 +12,8 @@ Step1
     name
     password
 
-Everythine worked until tried to get userManager.
+Everything worked until tried to get userManager.
+
 Need to setup security.
 
+It was actually config.yml which has some cerad_account parameters.

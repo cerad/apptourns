@@ -65,3 +65,20 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+    
+# Account Bundle Configuration
+# These gat passed to extension.load
+# The name (cerad_account) is important.  Matches the alias in the extension class
+cerad_account:
+  
+    db_driver:     orm
+    firewall_name: main
+    
+    user_class:            Cerad\Bundle\AccountBundle\Entity\User
+    user_identifier_class: Cerad\Bundle\AccountBundle\Entity\UserIdentifier
+      
+    model_manager_name: accounts
+    
+    service:
+        user_manager:    cerad_account.user_manager
+        person_manager:  cerad_person.manager
