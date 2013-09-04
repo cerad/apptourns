@@ -1,0 +1,26 @@
+{# @CeradTourns/Person/Edit/form.html.twig   #}
+<form 
+    id     = "cerad_tourn_person_edit"
+    class  = "cerad_tourn_person_edit cerad_common_form1" 
+    action = "{{ path('cerad_tourn_person_edit',{ 'id' : person.id }) }}" 
+    method = "post" {{ form_enctype(form) }} 
+    novalidate
+>
+    <fieldset><legend><span>Person Information</span></legend>
+        {{ form_row(form.person) }}
+    </fieldset>
+    <fieldset><legend><span>USSF Information</span></legend>
+        {{ form_row(form.fedId)     }}
+        {{ form_row(form.badge)     }}
+        {{ form_row(form.orgId)     }}
+        {{ form_row(form.upgrading) }}
+    </fieldset>
+    <fieldset>
+        <div class="controls">
+            <span><a href="{{ path('cerad_tourn_home') }}">Return to List of Tournaments When Done</a></span>
+            <input type="submit" name="personEdit" value="Update Person" />
+        </div>
+    </fieldset>
+{{ form_rest(form) }}
+</form>
+

@@ -1,0 +1,13 @@
+{# @CeradTourns/Home/list_user.html.twig   #}
+
+<h3>Signup For Tournament</h3>
+<ul class="tournaments-list">
+{% for project in projects %}
+{% if  project.status == 'Active' %}
+    <li style="margin-bottom: 4px;">
+        <a href="{{ path('cerad_tourns_person_plan', { 'slug': project.slug }) }}"
+        >{{ project.desc }}</a>
+    </li>
+{% endif  %}
+{% endfor %}
+</ul>

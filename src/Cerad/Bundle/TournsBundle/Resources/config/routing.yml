@@ -58,8 +58,8 @@ cerad_tourn_person_create:
     defaults: { _controller: CeradTournsBundle:Person/Create:create }
     
 cerad_tourn_person_edit:
-    pattern:  /person/edit
-    defaults: { _controller: CeradTournsBundle:Person/Edit:edit }
+    pattern:  /person/edit/{id}
+    defaults: { _controller: CeradTournsBundle:Person/Edit:edit, id: 0 }
     
 cerad_tourn_person_person_edit:
     pattern:  /person-person/edit
