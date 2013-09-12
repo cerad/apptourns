@@ -1,0 +1,34 @@
+
+
+CeradTest13:
+            info:
+                id:       CeradTest13
+                slugs:     
+                    - ceradtest
+                    - ceradtest2013
+                status:   Active
+                verified: Yes
+                
+                fedId:     AYSO
+                fedRoleId: AYSOV
+                
+                modelId:   ayso_natgames
+                
+                title:   "Cerad Test 13 2013"
+                desc:    "USSF Cerad Test 2013 - Huntsville, Alabama - October 18, 19, 20"
+              
+CeradTest12:
+            info:
+                id:       CeradTest12
+                slugs:     
+                    - ceradtest2012
+                status:   Completed
+                verified: Yes
+                
+                fedId:     AYSO
+                fedRoleId: AYSOV
+                modelId:   ussf_alabama
+                  
+                title:   "Cerad Test 02 2012"
+                desc:    "USSF Cerad Test 2012 - Huntsville, Alabama - October 18, 19, 20"
+                
