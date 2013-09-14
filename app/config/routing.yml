@@ -3,6 +3,6 @@ cerad_app:
     prefix:   /
 
 cerad_tourns:
-    resource: "@CeradTournsBundle/Resources/config/routing.yml"
+    resource: "@CeradTournBundle/Resources/config/routing.yml"
     prefix:   /
 
