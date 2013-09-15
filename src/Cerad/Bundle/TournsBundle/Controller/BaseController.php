@@ -1,12 +1,16 @@
 <?php
 namespace Cerad\Bundle\TournsBundle\Controller;
 
-//  Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
 class BaseController extends Controller
 {
+    const SESSION_PROJECT_SLUG      = 'project_slug';
     const SESSION_PERSON_PLAN_ID    = 'cerad_tourns_person_plan_id';
     const FLASHBAG_TYPE             = 'cerad_tourns';
     const FLASHBAG_ACCOUNT_CREATED  = 'cerad_tourn_account_created';
@@ -37,6 +41,110 @@ class BaseController extends Controller
     protected function hasRoleAssignor($projectId = null)
     {
         return $this->get('security.context')->isGranted('ROLE_ASSIGNOR');
+    }
+    /* ===================================================
+     * This is similiar to what the authentication listener does on success
+     * This should me moved to some sort of user service
+     */
+    public function loginUser(Request $request, UserInterface $user)
+    {
+        $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+
+        $securityContext = $this->get('security.context');
+        
+        $securityContext->setToken($token);
+        
+        $session = $request->getSession();
+        $session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
+        $session->remove(SecurityContextInterface::LAST_USERNAME);
+
+        /* ============================================================
+         * Lots of other good stuff
+         * AbstractAuthenticationListener
+         */
+        return;
+        
+        if (null !== $this->dispatcher) {
+            $loginEvent = new InteractiveLoginEvent($request, $token);
+            $this->dispatcher->dispatch(SecurityEvents::INTERACTIVE_LOGIN, $loginEvent);
+        }
+
+        $response = $this->successHandler->onAuthenticationSuccess($request, $token);
+
+        if (!$response instanceof Response) {
+            throw new \RuntimeException('Authentication Success Handler did not return a Response.');
+        }
+
+        if (null !== $this->rememberMeServices) {
+            $this->rememberMeServices->loginSuccess($request, $response, $token);
+        }
+
+    }
+
+    /* =================================================
+     * Shared between login controllers
+     */
+    protected function getAuthenticationInfo(Request $request)
+    {
+        $error = null;
+        
+        // Check request for error
+        if ($request->attributes->has(SecurityContextInterface::AUTHENTICATION_ERROR)) 
+        {
+            $error = $request->attributes->get(SecurityContextInterface::AUTHENTICATION_ERROR);
+        }
+        // Then look in session
+        $session = $request->getSession();
+        if (!$session)
+        {
+            $info['lastUsername'] = null;
+            $info['error'] = $error ? $error->getMessage() : null;
+            return $info;
+        }
+        
+        // Pull user name
+        $info['lastUsername'] = $session ? $session->get(SecurityContextInterface::LAST_USERNAME) : null;
+        
+        // Check for error in context
+        if (!$error && $session->has(SecurityContextInterface::AUTHENTICATION_ERROR)) 
+        {
+            $error = $session->get(SecurityContextInterface::AUTHENTICATION_ERROR);
+            $session->remove      (SecurityContextInterface::AUTHENTICATION_ERROR);
+       }
+       $info['error'] = $error ? $error->getMessage() : null;
+       return $info; 
+    }    
+    /* ==============================================================
+     * Project Handling
+     */
+    protected function setSessionProjectSlug(Request $request)
+    {
+        $slug = $request->get('slug');
+        if (!$slug) return;
+        
+        $request->getSession()->set(self::SESSION_PROJECT_SLUG,$slug);
+    }
+    protected function getSessionProjectSlug(Request $request)
+    {
+        return $request->getSession()->get(self::SESSION_PROJECT_SLUG);
+    }
+    protected function getProjects($status = 'Active')
+    {
+        $projectRepo = $this->get('cerad_project.project_repository');
+        return $projectRepo->findAllByStatus($status);   
+    }
+    protected function getProject($slug = null)
+    {
+        if ($slug)
+        {
+            $projectRepo = $this->get('cerad_project.project_repository');
+            $project = $projectRepo->findBySlug($slug);
+            if ($project) return $project;
+            
+            throw new \Exception('No project for: ' . $slug);
+        }
+        $find = $this->get('cerad_project.find_default.in_memory');
+        return $find->project;
     }
 }
 ?>

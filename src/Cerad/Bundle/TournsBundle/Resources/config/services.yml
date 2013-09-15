@@ -1,31 +1,9 @@
 parameters:
-#    cerad_tourns.example.class: Cerad\Bundle\TournsBundle\Example
 
 services:
-#    cerad_tourns.example:
-#        class: %cerad_tourns.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
-
-    cerad_tourn.tourn.entity_manager:
-        alias: doctrine.orm.default_entity_manager
-        
-    doctrine.orm.persons_entity_manager:
-        alias: doctrine.orm.default_entity_manager
-        
-    doctrine.orm.accounts_entity_manager:
-        alias: doctrine.orm.default_entity_manager
-        
-    cerad_tourns.person.form_type:
-        class: Cerad\Bundle\TournsBundle\Form\Type\PersonFormType
-        tags:
-            - { name: form.type, alias: cerad_tourns_person }
-            
-    cerad_tourns.person_plan.form_type:
-        class: Cerad\Bundle\TournsBundle\Form\Type\PlanFormType
-        tags:
-            - { name: form.type, alias: cerad_tourns_person_plan }
-            
-    cerad_tourns.project.repository:
-        class:  Cerad\Bundle\TournsBundle\Model\ProjectRepository
+    cerad_tourns.twig_extension:
+        class:  Cerad\Bundle\TournsBundle\TwigExtension\TournsExtension
         arguments:  
-            - '%cerad_tourns_projects%'
+            - '%cerad_tourn_show_configs%'
+        tags:
+            - { name: twig.extension }

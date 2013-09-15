@@ -76,14 +76,14 @@ cerad_tourn_person_person_create:
 # ================================================
 # Here we shift to the tourns routes
 # All og which start with a project slug
-
-cerad_tourns_register:
-    pattern:  /{slug}/register
-    defaults: { _controller: CeradTournsBundle:Tourns/Register:register}
-    
+   
 cerad_tourns_welcome:
     pattern:  /{slug}/welcome
-    defaults: { _controller: CeradTournsBundle:Tourns/Welcome:welcome}
+    defaults: { _controller: CeradTournsBundle:Tourns/TournsWelcome:welcome}
+    
+cerad_tourns_home:
+    pattern:  /{slug}/home
+    defaults: { _controller: CeradTournsBundle:Tourns/TournsHome:home}
     
 cerad_tourns_person_plan:
     pattern:  /{slug}/person/plan/{id}

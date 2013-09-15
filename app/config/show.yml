@@ -9,7 +9,7 @@ parameters:
             wordpress:      false  # Style sheets and javascripts
             
         default:
-            layout_header:  true
+            layout_header:  false
             layout_topmenu: false
             janrain:        true
             wordpress:      false

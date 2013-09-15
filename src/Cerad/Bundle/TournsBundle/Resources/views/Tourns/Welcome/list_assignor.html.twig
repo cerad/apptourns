@@ -1,0 +1,18 @@
+{# @CeradTourns/Welcome/list_assignor.html.twig   #}
+
+{% if is_granted("ROLE_ASSIGNOR") %}
+
+<h1>Administrate Tournament</h1>
+<ul>
+{% for project in projects %}
+    <li style="margin-bottom: 4px;">
+        <a href="{{ path('cerad_tourns_admin_list', { 'project': project.slug }) }}"
+        >
+        {{ project.desc }}
+        </a>
+    </li>
+{% endfor %}
+</ul>
+
+{% endif %}
+
