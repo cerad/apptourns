@@ -3,39 +3,53 @@ namespace Cerad\Bundle\TournsBundle\Controller\Account;
 
 use Symfony\Component\HttpFoundation\Request;
 
+use Cerad\Bundle\TournBundle\Controller\BaseController as MyBaseController;
+
+use FOS\UserBundle\FOSUserEvents;
+use Cerad\Bundle\UserBundle\Event\UserEvent;
+
+use Cerad\Bundle\UserBundle\ValidatorConstraint\UsernameAndEmailUniqueConstraint;
+
 use Symfony\Component\Validator\Constraints\Email     as EmailConstraint;
 use Symfony\Component\Validator\Constraints\NotBlank  as NotBlankConstraint;
 
-use Cerad\Bundle\PersonBundle\Validator\Constraints\USSF\ContractorId as FedIdConstraint;
-use Cerad\Bundle\TournsBundle\Controller\BaseController;
-
-use FOS\UserBundle\FOSUserEvents;
-use FOS\UserBundle\Event\UserEvent;
-use FOS\UserBundle\Event\FormEvent;
-use FOS\UserBundle\Event\FilterUserResponseEvent;
-
-class CreateController extends BaseController
+class AccountCreateController extends MyBaseController
 {
-    /* ================================================
-     * For creating a new account the slug is not relevant
-     * If someone really cares about it then try stashing in a session
-     * 
-     * TODO: Might be kind of handy for determining the required fedId if any
-     */
-    public function createAction(Request $request, $slug = null)
+    public function createFormAction(Request $request)
+    {
+        // Always need the project
+        $project = $this->getProject($request);
+        
+        // The model
+        $model = $this->createModel($project);
+        
+        // The form
+        $form = $this->createModelForm($project, $model);
+        
+        $tplData = array();
+        $tplData['form'] = $form->createView();
+        
+        return $this->render('@CeradTourns/Account/Create/AccountCreateForm.html.twig',$tplData);   
+  
+    }
+
+    public function createAction(Request $request)
     {
         // If already signed in then no need to make an account
         if ($this->hasRoleUser()) return $this->redirect('cerad_tourn_home');
             
+        // Always need the project
+        $project = $this->getProject();
+        
         // The model
-        $model = $this->createModel($request);
+        $model = $this->createModel($project);
         
         // This will let janrain have a shot at it
         $dispatcher = $this->get('event_dispatcher');
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, new UserEvent($model['user'], $request));
          
         // Simple custom form
-        $form = $this->createFormBuilderForModel($request, $model)->getForm();
+        $form = $this->createModelForm($project, $model);
         
         $form->handleRequest($request);
 
@@ -46,27 +60,31 @@ class CreateController extends BaseController
              * The event is poorly named
              * Should be REGISTRATION_SUBMITTED or something
              */
-            $formEvent = new FormEvent($form, $request);
-            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $formEvent);
+          //$formEvent = new FormEvent($form, $request);
+          //$dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $formEvent);
 
             $model = $form->getData();
             
-            $model = $this->processModel($request,$model);
+            $model = $this->processModel($project,$model);
             
             // If all went well then user and person were created and persisted
-            $response = $formEvent->getResponse();
+            $response = null; //$formEvent->getResponse();
             if (!$response) $response = $this->redirect('cerad_tourn_home');
             
             // This will log the user in
-            $dispatcher->dispatch(
-                    FOSUserEvents::REGISTRATION_COMPLETED, 
-                    new FilterUserResponseEvent($model['user'], $request, $response)
-            );
+            // If I had the service running
+          //$dispatcher->dispatch(
+          //        FOSUserEvents::REGISTRATION_COMPLETED, 
+          //        new FilterUserResponseEvent($model['user'], $request, $response)
+          //);
             
             // Flag as just having created an account
             $user = $model['user'];
             $request->getSession()->getFlashBag()->add(self::FLASHBAG_ACCOUNT_CREATED,$user->getUsername());;
 
+            // Log the user in
+            $this->loginUser($request,$user);
+            
             // And done
             return $response;
         }        
@@ -74,9 +92,9 @@ class CreateController extends BaseController
         $tplData = array();
         $tplData['form'] = $form->createView();
         
-        return $this->render('@CeradTourns/Account/Create/index.html.twig',$tplData);   
+        return $this->render('@CeradTourn/Account/Create/AccountCreateIndex.html.twig',$tplData);   
     }  
-    protected function processModel($request,$model)
+    protected function processModel($project,$model)
     {
         // Unpack
         $user     = $model['user'    ];
@@ -89,19 +107,24 @@ class CreateController extends BaseController
         /* =================================================
          * Process the person first
          */
-        $personRepo = $this->get('cerad_person.repository');
+        $personRepo = $this->get('cerad_person.person_repository');
         
         $personFed = $personRepo->findFed($fedId);
         
         if (!$personFed)
         {
             // Build a complete person record
-            $person = $personRepo->newPerson();
-            $person->setName ($name);
-            $person->setEmail($email);
+            $person = $personRepo->createPerson();
             $person->getPersonPersonPrimary();
+            
+            // A value object
+            $personNameVO = $person->createName();
+            $personNameVO->full = $name;
+            $person->setName($personNameVO);
+            
+            $person->setEmail($email);
            
-            $personFed = $person->getFedUSSFC();
+            $personFed = $person->getFed($project->getFedRoleId());
             $personFed->setId($fedId);
         }
         else
@@ -120,16 +143,14 @@ class CreateController extends BaseController
          * Now take care of the account
          * Already checked for duplicate emails/user names
          */
-        $userManager = $this->get('cerad_account.user_manager');
+        $userManager = $this->get('cerad_user.user_manager');
 
-      // Already made
-      //$user = $userManager->createUser();
-        
-        $user->setUsername($email);
-        $user->setEmail   ($email);
-        $user->setName    ($name);
-        $user->setPlainPassword($password);
-        $user->setEnabled (true);
+        // Fill in the user
+        $user->setEmail         ($email);
+        $user->setUsername      ($email);
+        $user->setAccountName   ($name);
+        $user->setAccountEnabled(true);
+        $user->setPasswordPlain($password);
         $user->setPersonId($person->getId());
         
         $model['user'] = $user;
@@ -139,8 +160,8 @@ class CreateController extends BaseController
          */
         $userManager->updateUser($user);
         
-        $personRepo->persist($person);
-        $personRepo->flush();
+        $personRepo->save($person);
+        $personRepo->commit();
         
         // Done
         return $model;
@@ -148,10 +169,10 @@ class CreateController extends BaseController
     /* ==================================
      * Your basic dto model
      */
-    protected function createModel($request)
+    protected function createModel($project)
     {
         // Do this here so janrain can add stuff
-        $userManager = $this->get('cerad_account.user_manager');
+        $userManager = $this->get('cerad_user.user_manager');
         $user = $userManager->createUser();
 
         $model = array(
@@ -160,36 +181,47 @@ class CreateController extends BaseController
             'name'     => null,
             'email'    => null,
             'password' => null,
+            'project'  => $project,
         );
         return $model;
     }
     /* ================================================
      * Create the form
      */
-    protected function createFormBuilderForModel($request,$model)
+    protected function createModelForm($project,$model)
     {
-        $fedIdType = $this->get('cerad_person.ussf_contractor_id_fake.form_type');
-         
+        
+        /* ==================================================================
+         * Make form type based on AYSOV or USSF
+         * Be nice if the constraibnt type could come along with the form
+         * Need to see how to inject the constraint options
+         */
+        $fedRoleId = $project->getFedRoleId();
+        $fedIdTypeService  = sprintf('cerad_person_%s_id_fake',strtolower($fedRoleId));
+        
+        /* ======================================================
+         * Start building
+         */
         $formOptions = array(
-            'validation_groups'  => array('basic'),
+          //'validation_groups'  => array('basic'),
             'cascade_validation' => true,
+          //'fake_fed_id' => true,
         );
-        $constraintOptions = array('groups' => 'basic');
-                
+        $constraintOptions = array(); // array('groups' => 'basic');
+        
         $builder = $this->createFormBuilder($model,$formOptions);
         
-        $builder->add('fedId',$fedIdType, array(
-            'constraints' => array(
-                new FedIdConstraint($constraintOptions),
-            ),
+        $builder->add('fedId',$fedIdTypeService, array(
+            'required' => false,
         ));
         $builder->add('email','email', array(
             'required' => true,
-            'label'    => 'Arbiter Email',
+            'label'    => 'Email',
             'trim'     => true,
             'constraints' => array(
                 new NotBlankConstraint($constraintOptions),
                 new EmailConstraint   ($constraintOptions),
+                new UsernameAndEmailUniqueConstraint($constraintOptions),
             ),
             'attr' => array('size' => 30),
          ));
@@ -216,53 +248,6 @@ class CreateController extends BaseController
             'first_name'  => 'pass1',
             'second_name' => 'pass2',
         ));
-        return $builder;
-    }
-    protected function sendEmail($request,$model)
-    {   
-        $prefix = $tourn['prefix']; // OpenCup2013
-        
-        $assignorName  = $tourn['assignor']['name'];
-        $assignorEmail = $tourn['assignor']['email'];
-        
-      //$assignorEmail = 'ahundiak@nasoa.org';
-        
-        $adminName =  'Art Hundiak';
-        $adminEmail = 'ahundiak@gmail.com';
-        
-        $refereeName  = $plans->getPerson()->getFirstName() . ' ' . $plans->getPerson()->getLastName();
-        $refereeEmail = $plans->getPerson()->getEmail();
-        
-        $tplData = $tourn;
-        $tplData['plans'] = $plans; 
-        $body = $this->renderView('CeradTournBundle:Tourn:email.txt.twig',$tplData);
-    
-        $subject = sprintf("[%s] Ref App %s",$prefix,$refereeName);
-       
-        // This goes to the assignor
-        $message = \Swift_Message::newInstance();
-        $message->setSubject($subject);
-        $message->setBody($body);
-        $message->setFrom(array('admin@zayso.org' => $prefix));
-        $message->setBcc (array($adminEmail => $adminName));
-        
-        $message->setTo     (array($assignorEmail  => $assignorName));
-        $message->setReplyTo(array($refereeEmail   => $refereeName));
-
-        $this->get('mailer')->send($message);
-      //return;
-        
-        // This goes to the referee
-        $message = \Swift_Message::newInstance();
-        $message->setSubject($subject);
-        $message->setBody($body);
-        $message->setFrom(array('admin@zayso.org' => $prefix));
-      //$message->setBcc (array($adminEmail => $adminName));
-        
-        $message->setTo     (array($refereeEmail  => $refereeName));
-        $message->setReplyTo(array($assignorEmail => $assignorName));
-
-        $this->get('mailer')->send($message);
+        return $builder->getForm();
     }
 }
-?>

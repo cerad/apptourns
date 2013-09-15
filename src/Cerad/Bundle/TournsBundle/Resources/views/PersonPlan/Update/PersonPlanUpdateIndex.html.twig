@@ -1,0 +1,12 @@
+{# @CeradTourns/PersonPlan/Update/PersonPlanUpdateIndex.html.twig   #}
+{% extends '@CeradTourns/Layout.html.twig' %}
+
+{% block content %}
+   
+<h3>{{ project.desc}}</h3>
+<h3>{{ person.name.full}}</h3>
+
+{% include '@CeradTourns/PersonPlan/Update/PersonPlanUpdateForm.html.twig' %}
+{% include '@CeradTourns/PersonPlan/Update/PersonPlanUpdateHelp.html.twig' %}
+
+{% endblock %}{# end content block #}

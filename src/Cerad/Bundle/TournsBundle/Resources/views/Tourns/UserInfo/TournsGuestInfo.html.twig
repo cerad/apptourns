@@ -1,0 +1,10 @@
+{# @CeradTourn/Tourn/UserInfo/TournGuestInfo.html.twig   #}
+
+<div>
+    Guest
+    <a href="{{ path('cerad_tourns_welcome', { 'slug' : project.slug }) }}">Welcome</a>
+
+    <a href="{{ path('cerad_tourn_account_create') }}">Create New Account</a>
+    <a href="{# path('cerad_tourn_account_password_reset_request') #}">Reset Password</a>
+    <a href="{{ path('cerad_tourn_account_user_login') }}">Log In</a>
+</div>

@@ -3,19 +3,28 @@ USSF_AL_HFC_Kicks2013:
     
             info:     
                 id:        USSF_AL_HFC_Kicks2013
+                
+                slugs:
+                  - kicks
+                  - kicks2013
+                  
+                fedId:     USSF
+                fedRoleId: USSFC
+                
+                title:   "HFC Kicks 2013"
+                desc:    "USSF HFC Kicks 2013 - Huntsville, Alabama - October 18, 19, 20"
+ 
                 status:    Active
+                verified:  Yes
+                
                 season:    FA2013
                 sport:     Soccer
                 group:     ALYS
                 groupSub:  HFC Kicks
-                slug:      kicks
 
                 domain:    USSF
                 domainSub: Somethhing
-                
-                title:   "HFC Kicks 2013"
-                desc:    "USSF HFC Kicks 2013 - Huntsville, Alabama - October 18, 19, 20"
-                
+                                
                 submit:  "Emails your application to Art Hundiak and yourself."
                 prefix:   Kicks2013
              
@@ -24,8 +33,14 @@ USSF_AL_HFC_Kicks2013:
                     email: "ahundiak@gmail.com"
                     phone:  256.457.5943
 
+                season:    FA2013
+                sport:     Soccer
+                group:     ALYS
+                groupSub:  HFC Kicks
+                domain:    USSF
+                domainSub: Somethhing
                  
-            plan:
+            basic:
                 refereeLevel:
                     type:    select
                     label:   Level to Referee At
@@ -153,3 +168,8 @@ USSF_AL_HFC_Kicks2013:
                                 MorningOnly:   Morning Only
                                 AfternoonOnly: Afternoon Only
                                 NotSure:       Not Sure
+                notes:
+                    type:  textarea
+                    label: Notes
+                    rows:  5
+                    cols:  40

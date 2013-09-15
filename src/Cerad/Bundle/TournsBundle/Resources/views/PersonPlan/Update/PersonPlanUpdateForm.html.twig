@@ -1,0 +1,22 @@
+{# @CeradTourns/PersonPlan/Update/PersonPlanUpdateForm.html.twig   #}
+<form 
+    id     = "cerad_tourn_person_plan"
+    class  = "cerad_tourn_person_plan cerad_common_form1" 
+    action = "{{ path('cerad_tourns_person_plan_update',{ 'slug' : project.slug, 'personId' : person.id }) }}" 
+    method = "post" {{ form_enctype(form) }} 
+    novalidate
+>
+    <fieldset><legend><span>Basic Plans</span></legend>
+        {{ form_rest(form.basic) }}
+    </fieldset>
+    <fieldset>
+        <div class="controls">
+            <span>
+                <a href="{{ path('cerad_tourns_home', { 'slug' : project.slug }) }}">Return to Home.</a>
+            </span>
+            <input type="submit" name="personPlanUpdate" value="Update Plan" />
+        </div>
+    </fieldset>
+{{ form_rest(form) }}
+</form>
+

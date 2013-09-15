@@ -113,7 +113,21 @@ class BaseController extends Controller
        }
        $info['error'] = $error ? $error->getMessage() : null;
        return $info; 
-    }    
+    }
+    /* ==============================================================
+     * Get the currently signed in user's person
+     */
+    protected function getUserPerson()
+    {
+        $user = $this->getUser();
+        $personId = $user->getPersonId();
+        if (!$personId) return null;
+        
+        $personRepo = $this->get('cerad_person.person_repository');
+        $person = $personRepo->find($personId);
+        return $person;
+        
+    }
     /* ==============================================================
      * Project Handling
      */
@@ -133,16 +147,20 @@ class BaseController extends Controller
         $projectRepo = $this->get('cerad_project.project_repository');
         return $projectRepo->findAllByStatus($status);   
     }
-    protected function getProject($slug = null)
+    protected function getProject(Request $request = null)
     {
+        $slug = $this->getSessionProjectSlug($request);
+        
         if ($slug)
         {
             $projectRepo = $this->get('cerad_project.project_repository');
             $project = $projectRepo->findBySlug($slug);
             if ($project) return $project;
             
-            throw new \Exception('No project for: ' . $slug);
+            throw new \Exception('No Project For: ' . $slug);
         }
+        
+        // Not really applicable here
         $find = $this->get('cerad_project.find_default.in_memory');
         return $find->project;
     }
