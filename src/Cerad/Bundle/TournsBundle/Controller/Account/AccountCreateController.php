@@ -211,7 +211,7 @@ class AccountCreateController extends MyBaseController
         ));
         $builder->add('email','email', array(
             'required' => true,
-            'label'    => 'Email',
+            'label'    => 'Arbiter Email',
             'trim'     => true,
             'constraints' => array(
                 new NotBlankConstraint($constraintOptions),
