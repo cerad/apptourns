@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
+use Cerad\Bundle\UserBundle\Model\UserInterface;
+
 class BaseController extends Controller
 {
     const FED_ROLE_ID = 'USSFC';

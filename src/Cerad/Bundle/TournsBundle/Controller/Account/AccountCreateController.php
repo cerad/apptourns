@@ -3,7 +3,7 @@ namespace Cerad\Bundle\TournsBundle\Controller\Account;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Cerad\Bundle\TournBundle\Controller\BaseController as MyBaseController;
+use Cerad\Bundle\TournsBundle\Controller\BaseController as MyBaseController;
 
 use FOS\UserBundle\FOSUserEvents;
 use Cerad\Bundle\UserBundle\Event\UserEvent;
@@ -17,20 +17,16 @@ class AccountCreateController extends MyBaseController
 {
     public function createFormAction(Request $request)
     {
-        // Always need the project
-        $project = $this->getProject($request);
-        
         // The model
-        $model = $this->createModel($project);
+        $model = $this->createModel();
         
         // The form
-        $form = $this->createModelForm($project, $model);
+        $form = $this->createModelForm($model);
         
         $tplData = array();
         $tplData['form'] = $form->createView();
         
         return $this->render('@CeradTourns/Account/Create/AccountCreateForm.html.twig',$tplData);   
-  
     }
 
     public function createAction(Request $request)
@@ -38,18 +34,15 @@ class AccountCreateController extends MyBaseController
         // If already signed in then no need to make an account
         if ($this->hasRoleUser()) return $this->redirect('cerad_tourn_home');
             
-        // Always need the project
-        $project = $this->getProject();
-        
         // The model
-        $model = $this->createModel($project);
+        $model1 = $this->createModel();
         
         // This will let janrain have a shot at it
         $dispatcher = $this->get('event_dispatcher');
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, new UserEvent($model['user'], $request));
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, new UserEvent($model1['user'], $request));
          
         // Simple custom form
-        $form = $this->createModelForm($project, $model);
+        $form = $this->createModelForm($model1);
         
         $form->handleRequest($request);
 
@@ -63,9 +56,9 @@ class AccountCreateController extends MyBaseController
           //$formEvent = new FormEvent($form, $request);
           //$dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $formEvent);
 
-            $model = $form->getData();
+            $model2 = $form->getData();
             
-            $model = $this->processModel($project,$model);
+            $model3 = $this->processModel($model2);
             
             // If all went well then user and person were created and persisted
             $response = null; //$formEvent->getResponse();
@@ -79,7 +72,7 @@ class AccountCreateController extends MyBaseController
           //);
             
             // Flag as just having created an account
-            $user = $model['user'];
+            $user = $model3['user'];
             $request->getSession()->getFlashBag()->add(self::FLASHBAG_ACCOUNT_CREATED,$user->getUsername());;
 
             // Log the user in
@@ -92,17 +85,17 @@ class AccountCreateController extends MyBaseController
         $tplData = array();
         $tplData['form'] = $form->createView();
         
-        return $this->render('@CeradTourn/Account/Create/AccountCreateIndex.html.twig',$tplData);   
+        return $this->render('@CeradTourns/Account/Create/AccountCreateIndex.html.twig',$tplData);   
     }  
-    protected function processModel($project,$model)
+    protected function processModel($model)
     {
         // Unpack
-        $user     = $model['user'    ];
-        $name     = $model['name'    ];
-        $fedId    = $model['fedId'   ];
-        $email    = $model['email'   ];
-        $password = $model['password'];
-      //$social   = $model['social'  ];
+        $user      = $model['user'    ];
+        $name      = $model['name'    ];
+        $fedId     = $model['fedId'   ];
+        $fedRoleId = $model['fedRoleId' ];
+        $email     = $model['email'   ];
+        $password  = $model['password'];
  
         /* =================================================
          * Process the person first
@@ -124,7 +117,7 @@ class AccountCreateController extends MyBaseController
             
             $person->setEmail($email);
            
-            $personFed = $person->getFed($project->getFedRoleId());
+            $personFed = $person->getFed($fedRoleId);
             $personFed->setId($fedId);
         }
         else
@@ -169,26 +162,26 @@ class AccountCreateController extends MyBaseController
     /* ==================================
      * Your basic dto model
      */
-    protected function createModel($project)
+    protected function createModel()
     {
         // Do this here so janrain can add stuff
         $userManager = $this->get('cerad_user.user_manager');
         $user = $userManager->createUser();
 
         $model = array(
-            'fedId'    => null,
-            'user'     => $user,
-            'name'     => null,
-            'email'    => null,
-            'password' => null,
-            'project'  => $project,
+            'fedId'     => null,
+            'fedRoleId' => self::FED_ROLE_ID,
+            'user'      => $user,
+            'name'      => null,
+            'email'     => null,
+            'password'  => null,
         );
         return $model;
     }
     /* ================================================
      * Create the form
      */
-    protected function createModelForm($project,$model)
+    protected function createModelForm($model)
     {
         
         /* ==================================================================
@@ -196,8 +189,11 @@ class AccountCreateController extends MyBaseController
          * Be nice if the constraibnt type could come along with the form
          * Need to see how to inject the constraint options
          */
-        $fedRoleId = $project->getFedRoleId();
-        $fedIdTypeService  = sprintf('cerad_person_%s_id_fake',strtolower($fedRoleId));
+        $fedRoleId = $model['fedRoleId'];
+        
+        $fedIdTypeServiceId = sprintf('cerad_person.%s_id_Fake.form_type',$fedRoleId);
+
+        $fedIdTypeService   = $this->get($fedIdTypeServiceId);
         
         /* ======================================================
          * Start building
@@ -205,7 +201,6 @@ class AccountCreateController extends MyBaseController
         $formOptions = array(
           //'validation_groups'  => array('basic'),
             'cascade_validation' => true,
-          //'fake_fed_id' => true,
         );
         $constraintOptions = array(); // array('groups' => 'basic');
         
