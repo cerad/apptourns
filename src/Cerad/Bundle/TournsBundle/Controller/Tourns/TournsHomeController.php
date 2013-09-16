@@ -8,7 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 class TournsHomeController extends MyBaseController
 {
     public function homeAction(Request $request)
-    {   
+    {
+        $this->setSessionProjectSlug($request);
+        
         $projects = $this->getProjects();
         
         $person = $this->getUserPerson();

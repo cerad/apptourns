@@ -1,4 +1,0 @@
-#!/bin/bash
-php console cache:clear --env=prod --no-debug
-php console assets:install ../../zayso/web/arbiter/tourn
-php console assetic:dump   ../../zayso/web/arbiter/tourn

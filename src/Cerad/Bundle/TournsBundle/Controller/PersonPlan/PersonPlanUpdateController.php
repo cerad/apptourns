@@ -11,13 +11,19 @@ use Cerad\Bundle\TournBundle\FormType\DynamicFormType;
  */
 class PersonPlanUpdateController extends MyBaseController
 {   
-    public function updateAction(Request $request, $personId, $slug)
-    {   
+    public function updateAction(Request $request)
+    {
+        // Need a listener
+        $this->setSessionProjectSlug($request);
+        
         // Security
         if (!$this->hasRoleUser()) return $this->redirect('cerad_tourn_welcome');
         
         // The project
-        $project = $this->getProject($slug);
+        $project = $this->getProject($request);
+        
+        // The personId
+        $personId = $request->get('personId');
         
         // The model
         $model = $this->createModel($project,$personId);
@@ -36,7 +42,7 @@ class PersonPlanUpdateController extends MyBaseController
             // Notify email system
             // $person2 = $model2['person'];
             
-            return $this->redirect('cerad_tourn_home');
+            return $this->redirect('cerad_tourns_home',array('slug' => $project->getSlug()));
         }
 
         // Template stuff
