@@ -1,8 +1,10 @@
 {# @CeradTourns/Layout.html.twig #}
 {% extends '@CeradTourns/Base.html.twig' %}
 
-{% block stylesheetsx %}
-<link rel="stylesheet" href="{# asset('bundles/ceradtourns/css/tourns.css') #}" media="all" />
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('bundles/ceradtourns/css/reset.css') }}" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/ceradtourns/css/basic.css') }}" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/ceradtourns/css/forms.css') }}" media="all" />
 {% endblock %}
 
 {% block layout_body %}

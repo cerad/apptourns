@@ -1,38 +1,14 @@
-/* forms2.scss */
-html, body,
-fieldset, form, label, legend {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  vertical-align: baseline; }
-
-/* Layout */
-#container {
-  padding-bottom: 18px;
-  width: 640px; }
-
-#container-inner {
-  border: 10px solid #fff;
-  border-color: #fff #fff #ababab;
-  padding: 20px; }
-
-h1 {
-  border-bottom: 5px solid #fff;
-  color: #666666;
-  font-size: 1.2em;
-  font-weight: bold;
-  line-height: 1;
-  margin: 10px 0px 10px 10px;
-  padding: 0 0 0 0;
-  /* Was 28 */ }
-
-p {
-  margin: 0 0 0 10px; }
-
 /* ==========================================================
  * Forms stuff
  */
-form.s1 {
+form.cerad_common_form1 {
+  margin-left: 10px;
+  padding: 0;
+  border: thin black solid;
+  vertical-align: baseline;
+  width: 700px; }
+
+form.cerad_common_form2 {
   margin-left: 10px;
   padding: 0;
   border: thin black solid;
@@ -40,7 +16,7 @@ form.s1 {
   width: 700px; }
 
 fieldset {
-  border: medium solid lime;
+  border: thin solid black;
   /*
   border-style: solid;
   border-width: medium;
@@ -66,7 +42,19 @@ fieldset div label {
   font-size: 1.0em;
   font-weight: bold;
   line-height: 0.9;
-  width: 33%;
+  width: 40%;
+  text-align: left;
+  margin-top: 5px;
+  margin-right: 15px;
+  padding-left: 0px 0px 0px 0px; }
+
+form.zayso_form2 fieldset div label {
+  color: #666;
+  float: left;
+  font-size: 1.0em;
+  font-weight: bold;
+  line-height: 0.9;
+  width: 50%;
   text-align: left;
   margin-top: 5px;
   margin-right: 15px;
