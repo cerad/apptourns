@@ -121,14 +121,13 @@ class BaseController extends Controller
      */
     protected function getUserPerson()
     {
-        $user = $this->getUser();
-        $personId = $user->getPersonId();
-        if (!$personId) return null;
+        $user  = $this->getUser();
+        $fedId = $user->getPersonFedId();
+        if (!$fedId) return null;
         
         $personRepo = $this->get('cerad_person.person_repository');
-        $person = $personRepo->find($personId);
+        $person = $personRepo->findByFed($fedId);
         return $person;
-        
     }
     /* ==============================================================
      * Project Handling
