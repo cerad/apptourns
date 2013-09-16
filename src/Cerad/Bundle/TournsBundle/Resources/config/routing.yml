@@ -46,7 +46,7 @@ cerad_tourns_home:
     defaults: { _controller: CeradTournsBundle:Tourns/TournsHome:home}
     
 cerad_tourns_person_plan_update:
-    pattern:  /{slug}/person/plan/{personId}
+    pattern:  /person/plan/{personId}/{slug}
     defaults: { _controller: CeradTournsBundle:PersonPlan/PersonPlanUpdate:update, 'personId' : 0}
     
 # ==============================
@@ -55,6 +55,10 @@ cerad_tourns_person_plan_update:
 # Essientally the person plan stuff
 cerad_tourns_index:
     pattern:  /{slug}
+    defaults: { _controller: CeradTournsBundle:Tourns/TournsIndex:index }
+    
+cerad_tourn_index:
+    pattern:  /
     defaults: { _controller: CeradTournsBundle:Tourns/TournsIndex:index }
     
 # =================================

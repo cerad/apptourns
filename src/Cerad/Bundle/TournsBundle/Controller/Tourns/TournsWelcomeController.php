@@ -8,13 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 class TournsWelcomeController extends MyBaseController
 {
     public function welcomeAction(Request $request)
-    {
-        $this->setSessionProjectSlug($request);
-        
-        $projects = $this->getProjects();
-        
+    { 
+        if ($this->hasRoleUser()) return $this->redirect('cerad_tourn_welcome');
+ 
         $tplData = array();
-        $tplData['projects'] = $projects;
+        $tplData['projects'] = $projects = $this->getProjects();
         
         return $this->render('@CeradTourns/Tourns/Welcome/TournsWelcomeIndex.html.twig',$tplData);        
     }

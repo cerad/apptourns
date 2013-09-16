@@ -1,0 +1,5 @@
+#!/bin/bash
+php console cache:clear --env=prod --no-debug
+php console assets:install ~/public_html/arbiter/tourn
+php console assetic:dump   ~/public_html/arbiter/tourn
+

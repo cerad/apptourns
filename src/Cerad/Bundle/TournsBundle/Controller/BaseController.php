@@ -10,8 +10,8 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class BaseController extends Controller
 {
-    const SESSION_PROJECT_SLUG      = 'project_slug';
-    const SESSION_PERSON_PLAN_ID    = 'cerad_tourns_person_plan_id';
+    const FED_ROLE_ID = 'USSFC';
+    
     const FLASHBAG_TYPE             = 'cerad_tourns';
     const FLASHBAG_ACCOUNT_CREATED  = 'cerad_tourn_account_created';
     
@@ -131,38 +131,18 @@ class BaseController extends Controller
     /* ==============================================================
      * Project Handling
      */
-    protected function setSessionProjectSlug(Request $request)
-    {
-        $slug = $request->get('slug');
-        if (!$slug) return;
-        
-        $request->getSession()->set(self::SESSION_PROJECT_SLUG,$slug);
-    }
-    protected function getSessionProjectSlug(Request $request)
-    {
-        return $request->getSession()->get(self::SESSION_PROJECT_SLUG);
-    }
     protected function getProjects($status = 'Active')
     {
         $projectRepo = $this->get('cerad_project.project_repository');
         return $projectRepo->findAllByStatus($status);   
     }
-    protected function getProject(Request $request = null)
+    protected function getProject($slug)
     {
-        $slug = $this->getSessionProjectSlug($request);
-        
-        if ($slug)
-        {
-            $projectRepo = $this->get('cerad_project.project_repository');
-            $project = $projectRepo->findBySlug($slug);
-            if ($project) return $project;
+        $projectRepo = $this->get('cerad_project.project_repository');
+        $project = $projectRepo->findBySlug($slug);
+        if ($project) return $project;
             
-            throw new \Exception('No Project For: ' . $slug);
-        }
-        
-        // Not really applicable here
-        $find = $this->get('cerad_project.find_default.in_memory');
-        return $find->project;
+        throw new \Exception('No Project For: ' . $slug);
     }
 }
 ?>

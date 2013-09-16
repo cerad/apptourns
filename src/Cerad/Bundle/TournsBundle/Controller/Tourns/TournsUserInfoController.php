@@ -11,10 +11,6 @@ class TournsUserInfoController extends MyBaseController
     {        
         $tplData = array();
         
-        $project = $this->getProject($request);
-        
-        $tplData['project'] = $project;
-        
         // Guest
         if (!$this->hasRoleUser())
         {
@@ -22,17 +18,10 @@ class TournsUserInfoController extends MyBaseController
         }
         
         // Pass user and main userPerson to the listing
-        $user = $this->getUser();
-        $personId = $user->getPersonId();
-        $personRepo = $this->get('cerad_person.person_repository');
-        $person = $personRepo->find($personId);
+        $user   = $this->getUser();
+        $person = $this->getUserPerson();
         
-        if (!$person) 
-        {
-            $person = $personRepo->createPerson();
-            $person->getPersonPersonPrimary();
-        }
-        $personFed = $person->getFed($project->getFedRoleId());
+        $personFed = $person->getFed(self::FED_ROLE_ID);
         
         $tplData['user']      = $this->getUser();
         $tplData['person']    = $person;

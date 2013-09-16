@@ -1,12 +1,11 @@
 {# @CeradTourns/Tourns/Welcome/TournsListPublic.html.twig   #}
 
-<h3>Signup For Tournament</h3>
+<h3>Register For Tournament</h3>
 <ul class="tournaments-list">
 {% for project in projects %}
 {% if  project.status == 'Active' %}
     <li style="margin-bottom: 4px;">
-        <a href="{{ path('cerad_tourns_welcome', { 'slug': project.slug }) }}"
-        >{{ project.desc }}</a>
+      {{ project.desc }}
     </li>
 {% endif  %}
 {% endfor %}
