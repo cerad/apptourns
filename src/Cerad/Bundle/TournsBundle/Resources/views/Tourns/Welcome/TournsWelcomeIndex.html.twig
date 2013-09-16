@@ -5,8 +5,10 @@
 
 {{ include('@CeradTourns/Tourns/Welcome/TournsListPublic.html.twig') }}
 
+<h3>Log in below if you have an account.</h3>
 {{ render(controller('CeradTournsBundle:AccountUser/AccountUserLogin:loginForm')) }}
 
+<h3>Create an account.</h3>
 {{ render(controller('CeradTournsBundle:Account/AccountCreate:createForm')) }}
 
 {% endblock %}{# end content block #}

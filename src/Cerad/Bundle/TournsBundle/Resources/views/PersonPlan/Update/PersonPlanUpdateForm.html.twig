@@ -11,10 +11,8 @@
     </fieldset>
     <fieldset>
         <div class="controls">
-            <span>
-                <a href="{{ path('cerad_tourn_home') }}">Return to Home.</a>
-            </span>
-            <input type="submit" name="personPlanUpdate" value="Update Plan" />
+            <span>{{ project.submit }}</span>
+            <input type="submit" name="personPlanUpdate" value="Email Application" />
         </div>
     </fieldset>
 {{ form_rest(form) }}
