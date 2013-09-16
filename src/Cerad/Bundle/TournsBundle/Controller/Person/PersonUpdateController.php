@@ -1,16 +1,16 @@
 <?php
-namespace Cerad\Bundle\TournBundle\Controller\Person;
+namespace Cerad\Bundle\TournsBundle\Controller\Person;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Cerad\Bundle\TournBundle\Controller\BaseController as MyBaseController;
+use Cerad\Bundle\TournsBundle\Controller\BaseController as MyBaseController;
 
 use Symfony\Component\Validator\Constraints\Email     as EmailConstraint;
 use Symfony\Component\Validator\Constraints\NotBlank  as NotBlankConstraint;
 
 class PersonUpdateController extends MyBaseController
 {
-    public function updateAction(Request $request, $personId = 0)
+    public function updateAction(Request $request, $personId)
     {   
         // Security
         if (!$this->hasRoleUser()) { return $this->redirect('cerad_tourn_welcome'); }
@@ -25,7 +25,7 @@ class PersonUpdateController extends MyBaseController
         {   
             $model1 = $form->getData();
             
-            $model2 = $this->processModel($project,$model1);
+            $model2 = $this->processModel($model1);
             $person2 = $model2['person'];
             
             return $this->redirect('cerad_tourn_home');
@@ -35,10 +35,9 @@ class PersonUpdateController extends MyBaseController
         $tplData = array();
         $tplData['form']    = $form->createView();
         $tplData['person']  = $model['person'];
-        $tplData['project'] = $project;
         return $this->render('@CeradTourns/Person/Update/PersonUpdateIndex.html.twig', $tplData);
     }
-    protected function processModel($project,$model)
+    protected function processModel($model)
     { 
         // Update person
         $person = $model['person'];
@@ -58,7 +57,7 @@ class PersonUpdateController extends MyBaseController
         $badge     = $model['badge'    ];
         $upgrading = $model['upgrading'];
         
-        $personFed     = $person->getFed($project->getFedRoleId());
+        $personFed     = $person->getFed(self::FED_ROLE_ID);
         $personOrg     = $personFed->getOrg();
         $personCertRef = $personFed->getCertReferee();
         
