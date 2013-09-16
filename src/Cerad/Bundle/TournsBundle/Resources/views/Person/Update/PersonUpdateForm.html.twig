@@ -1,0 +1,31 @@
+{# @CeradTourns/Account/Create/AccountCreateForm.html.twig   #}
+<form 
+    id     = "cerad_tourn_person_update"
+    class  = "cerad_tourn_person_udpate cerad_common_form1" 
+    action = "{{ path('cerad_tourn_person_update', { 'personId' : person.id }) }}" 
+    method = "POST" {{ form_enctype(form) }} 
+    novalidate
+>
+    <fieldset><legend><span>Person Information</span></legend>
+        {{ form_row(form.personNameFull)  }}
+        {{ form_row(form.personNameFirst) }}
+        {{ form_row(form.personNameLast)  }}
+        {{ form_row(form.personNameNick)  }}
+        {{ form_row(form.personEmail)     }}
+        {{ form_row(form.personPhone)     }}
+    </fieldset>
+    <fieldset><legend><span>AYSO Information</span></legend>
+       {{ form_row(form.fedId) }}
+       {{ form_row(form.orgId) }}
+       {{ form_row(form.badge) }}
+       {{ form_row(form.upgrading) }}
+     </fieldset>
+    <fieldset>
+        <div class="controls">
+            <span><a href="{{ path('cerad_tourn_home') }}">Return to Home When Done</a></span>
+            <input type="submit" name="personUpdate" value="Update Person" />
+        </div>
+    </fieldset>
+{{ form_rest(form) }}
+</form>
+
