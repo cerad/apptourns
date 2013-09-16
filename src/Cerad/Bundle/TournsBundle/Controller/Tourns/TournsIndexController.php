@@ -9,11 +9,9 @@ class TournsIndexController extends MyBaseController
 {
     public function indexAction(Request $request)
     {
-        $this->setSessionProjectSlug($request);
+        $request->getSession()->remove('project_slug');
         
-        $slug = $this->getSessionProjectSlug($request);
-        
-        return $this->redirect('cerad_tourns_welcome', array('slug' => $slug));        
+        return $this->redirect('cerad_tourn_welcome');        
     }
 }
 ?>

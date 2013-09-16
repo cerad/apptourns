@@ -32,29 +32,27 @@ cerad_tourn_account_user_logout:
 cerad_tourn_welcome:
     pattern:  /welcome
     defaults: { _controller: CeradTournsBundle:Tourns/TournsWelcome:welcome}
-    
-cerad_tourns_welcome:
-    pattern:  /{slug}/welcome
-    defaults: { _controller: CeradTournsBundle:Tourns/TournsWelcome:welcome}
-    
+        
 cerad_tourn_home:
     pattern:  /home
     defaults: { _controller: CeradTournsBundle:Tourns/TournsHome:home}
     
-cerad_tourns_home:
-    pattern:  /{slug}/home
-    defaults: { _controller: CeradTournsBundle:Tourns/TournsHome:home}
+cerad_tourn_person_update:
+    pattern:  /person/{personId}
+    defaults: { _controller: CeradTournsBundle:Person/PersonUpdate:update, 'personId' : 0}
     
-cerad_tourns_person_plan_update:
+cerad_tourn_person_plan_update:
     pattern:  /person/plan/{personId}/{slug}
-    defaults: { _controller: CeradTournsBundle:PersonPlan/PersonPlanUpdate:update, 'personId' : 0}
-    
+    defaults: { _controller: CeradTournsBundle:PersonPlan/PersonPlanUpdate:update}
+  
 # ==============================
-# Basically the last stop
-# Store the slug in the session
-# Essientally the person plan stuff
+# For legacy access, slug is ignored
 cerad_tourns_index:
     pattern:  /{slug}
+    defaults: { _controller: CeradTournsBundle:Tourns/TournsIndex:index }
+    
+cerad_tourn_index:
+    pattern:  /
     defaults: { _controller: CeradTournsBundle:Tourns/TournsIndex:index }
     
 # =================================

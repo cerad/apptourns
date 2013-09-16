@@ -5,7 +5,7 @@
 {% for project in projects %}
 {% if  project.status == 'Active' %}
     <li style="margin-bottom: 4px;">
-        <a href="{{ path('cerad_tourns_person_plan_update', { 'slug': project.slug, 'personId' : person.id }) }}"
+        <a href="{{ path('cerad_tourn_person_plan_update', { 'slug': project.slug, 'personId' : person.id }) }}"
         >{{ project.desc }}</a>
     </li>
 {% endif  %}

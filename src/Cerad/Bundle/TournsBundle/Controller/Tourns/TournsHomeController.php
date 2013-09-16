@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 class TournsHomeController extends MyBaseController
 {
     public function homeAction(Request $request)
-    {
-        $this->setSessionProjectSlug($request);
+    {   
+        if (!$this->hasRoleUser()) return $this->redirect('cerad_tourn_welcome');
         
         $projects = $this->getProjects();
         

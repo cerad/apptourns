@@ -9,8 +9,8 @@ class TournsWelcomeController extends MyBaseController
 {
     public function welcomeAction(Request $request)
     {
-        $this->setSessionProjectSlug($request);
-        
+        if ($this->hasRoleUser()) return $this->redirect('cerad_tourn_home');
+
         $projects = $this->getProjects();
         
         $tplData = array();
