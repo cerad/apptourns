@@ -20,18 +20,18 @@ class PersonPlanUpdateController extends MyBaseController
         $project = $this->getProject($slug);
         
         // The model
-        $model = $this->createModel($project,$personId);
+        $model1 = $this->createModel($project,$personId);
                       
         // The form
-        $form = $this->createModelForm($project,$model);
+        $form = $this->createModelForm($model1);
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {             
             // Maybe dispatch something to adjust form
-            $model1 = $form->getData();
+            $model2 = $form->getData();
             
-            $model2 = $this->processModel($project,$model1);
+            $model3 = $this->processModel($model2);
             
             // Notify email system
             // $person2 = $model2['person'];
@@ -44,9 +44,9 @@ class PersonPlanUpdateController extends MyBaseController
         $tplData['msg'    ] = null; // $msg; from flash bag
         $tplData['form'   ] = $form->createView();
         
-        $tplData['plan'   ] = $model['plan'];
-        $tplData['person' ] = $model['person'];
-        $tplData['project'] = $project;
+        $tplData['plan'   ] = $model1['plan'];
+        $tplData['person' ] = $model1['person'];
+        $tplData['project'] = $model1['project'];
 
         return $this->render('@CeradTourns\PersonPlan\Update\PersonPlanUpdateIndex.html.twig',$tplData);        
     }
@@ -63,14 +63,17 @@ class PersonPlanUpdateController extends MyBaseController
         
         // Pack it up
         $model = array();
-        $model['plan'  ] = $plan;
-        $model['basic' ] = $plan->getBasic();
-        $model['person'] = $person;
+        $model['plan'  ]  = $plan;
+        $model['basic' ]  = $plan->getBasic();
+        $model['person']  = $person;
+        $model['project'] = $project;
         
         return $model;
     }
-    protected function createModelForm($project, $model)
+    protected function createModelForm($model)
     {   
+        $project = $model['project'];
+        
         $basicType = new DynamicFormType('basic',$project->getBasic());
         
         $formOptions = array(
@@ -96,7 +99,7 @@ class PersonPlanUpdateController extends MyBaseController
      * Lot's of possible processing to do
      * All ends with a plan
      */
-    protected function processModel($project,$model)
+    protected function processModel($model)
     {
         $personRepo = $this->get('cerad_person.person_repository');
          
@@ -104,6 +107,8 @@ class PersonPlanUpdateController extends MyBaseController
         $plan   = $model['plan'];
         $basic  = $model['basic'];
         $person = $model['person'];
+        
+        $basic['notes'] = strip_tags($basic['notes']);
         
         $plan->setBasic($basic);
                 
