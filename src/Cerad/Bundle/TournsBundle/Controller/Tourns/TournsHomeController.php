@@ -9,7 +9,16 @@ class TournsHomeController extends MyBaseController
 {
     public function homeAction(Request $request)
     {   
+        // Must be signed in
         if (!$this->hasRoleUser()) return $this->redirect('cerad_tourn_welcome');
+        
+        // Is this the first time since the account was created?
+        $msgs = $request->getSession()->getFlashBag()->get(self::FLASHBAG_ACCOUNT_CREATED);
+        if (count($msgs))
+        {
+            $person = $this->getUserPerson();
+            return $this->redirect('cerad_tourn_person_update',array('personId' => $person->getId()));
+        }
         
         $projects = $this->getProjects();
         

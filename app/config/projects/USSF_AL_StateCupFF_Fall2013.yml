@@ -1,0 +1,153 @@
+USSF_AL_StateCupFF_Fall2013:
+    
+    info:     
+        id: USSF_AL_StateCupFF_Fall2013
+                
+        slugs:
+            - statecupff
+            - statecupfffall2013
+                  
+        fedId:     USSF
+        fedRoleId: USSFC
+
+        # U14-U18
+        title:   "State Cup Final Four Fall 2013"
+        desc:    "USSF Alabama State Cup Final Four - Fall 2013 - Montgomery, Alabama - Nov 8, 9, 10"
+ 
+        status:    Active
+        verified:  Yes
+                                
+        submit:  "Emails your application to Ohannes Younanian and yourself."
+        prefix:   StateCupFF
+             
+        assignor:
+            name:  "Ohannes Younanian"
+            email: "ohannesy@yahoo.com"
+            phone:  334.477.6313
+
+        season:    FA2013
+        sport:     Soccer
+        group:     ALYS
+        groupSub:  State Cup FF
+        domain:    USSF
+        domainSub: Somethhing
+        
+    basic:
+        refereeLevel:
+            type:    select
+            label:   Level to Referee At
+            default: Competitive
+            choices:
+                Competitive:  Competitive
+                Elite:        Elite
+                Recreational: Recreational
+                                                
+        comfortLevelCenter:
+            type:    select
+            label:   Comfort Level To Center
+            default: U14
+            choices: 
+                U14: U14
+                U16: U16
+                U19: U19
+                        
+        comfortLevelAssist:
+            type:    select
+            label:   Comfort Level To Assist
+            default: U14
+            choices: 
+                U14: U14
+                U16: U16
+                U19: U19
+                        
+        requestAssessment:
+            type:      radio
+            label:     Assessment Request
+            choices:  [None: None, Informal: Informal, Formal: Formal]
+            default:   None
+
+        lodgingNights:
+            type: collection
+            items:
+                Fri:
+                    type:      radio
+                    label:     Lodging Friday Night
+                    date:     '2013-11-08'
+                    choices:  [No: No, Yes: Yes] # Probably don't work
+                    default:   No
+                Sat:
+                    type:      radio
+                    label:     Lodging Saturday Night
+                    date:     '2013-11-09'
+                    choices:  [No: No, Yes: Yes]
+                    default:   No
+                            
+        lodgingWith: 
+            type:  text 
+            label: Lodging With 
+            size:  30
+                    
+        travelingWith: 
+            type:  text 
+            label: Traveling With 
+            size:  30
+                    
+        travelingFrom: 
+            type:  text 
+            label: Traveling From 
+            size:  30
+                    
+        teamClubAffilation:
+            type:    select
+            label:   Team/Club Affiliation
+            default: None
+            choices: 
+                None: None
+                Yes1: Club/Team is in  this tournament
+                Yes2: Club/Team is NOT this tournament
+                        
+        teamClubName: 
+            type:  text 
+            label: Team/Club Name 
+            size:  30
+                             
+        availabilityDays:
+            type: collection
+            items:
+                Fri:
+                    type:      select
+                    label:     Availability Friday
+                    date:     '2013-11-08'
+                    default:   None
+                    choices:
+                        None:    None
+                        Evening: Kickoff 5PM
+                        NotSure: Not Sure
+                Sat:
+                    type:      select
+                    label:     Availability Saturday
+                    date:     '2013-11-09'
+                    default:   None
+                    choices:
+                        None:          None
+                        AllDay:        All Day
+                        MorningOnly:   Morning Only
+                        AfternoonOnly: Afternoon Only
+                        NotSure:       Not Sure
+                Sun:
+                    type:      select
+                    label:     Availability Sunday
+                    date:     '2013-11-10'
+                    default:   None
+                    choices:
+                        None:          None
+                        AllDay:        All Day
+                        MorningOnly:   Morning Only
+                        AfternoonOnly: Afternoon Only
+                        NotSure:       Not Sure
+        notes:
+            type:  textarea
+            label: Notes
+            rows:  5
+            cols:  40
+                 

@@ -2,7 +2,7 @@
 USSF_AL_HFC_Kicks2013:
     
             info:     
-                id:        USSF_AL_HFC_Kicks2013
+                id:        USSF_AL_HFCKicks_Fall2013
                 
                 slugs:
                   - kicks
@@ -49,18 +49,7 @@ USSF_AL_HFC_Kicks2013:
                         Competitive:  Competitive
                         Elite:        Elite
                         Recreational: Recreational
-                        
-                comfortLevelCenter:
-                    type:    select
-                    label:   Comfort Level To Center
-                    default: U10
-                    choices: 
-                        U10: U10
-                        U12: U12
-                        U14: U14
-                        U16: U16
-                        U19: U19
-                        
+                                                
                 comfortLevelCenter:
                     type:    select
                     label:   Comfort Level To Center
