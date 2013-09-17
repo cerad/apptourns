@@ -12,6 +12,9 @@ class TournsHomeController extends MyBaseController
         // Must be signed in
         if (!$this->hasRoleUser()) return $this->redirect('cerad_tourn_welcome');
         
+        // Need to make sure the account has a person
+        $person = $this->getUserPerson(false);
+        
         // Is this the first time since the account was created?
         $msgs = $request->getSession()->getFlashBag()->get(self::FLASHBAG_ACCOUNT_CREATED);
         if (count($msgs))

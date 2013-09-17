@@ -119,14 +119,22 @@ class BaseController extends Controller
     /* ==============================================================
      * Get the currently signed in user's person
      */
-    protected function getUserPerson()
+   protected function getUserPerson($autoCreate = false)
     {
+        $personRepo = $this->get('cerad_person.person_repository');
+        
         $user  = $this->getUser();
         $fedId = $user->getPersonFedId();
-        if (!$fedId) return null;
+        if ($fedId)
+        {
+            $person = $personRepo->findByFed($fedId);
+            if ($person) return $person;
+        }
+        if (!$autoCreate) return null;
         
-        $personRepo = $this->get('cerad_person.person_repository');
-        $person = $personRepo->findByFed($fedId);
+        $person = $personRepo->createPerson();
+        $person->getPersonPersonPrimary();
+       
         return $person;
     }
     /* ==============================================================

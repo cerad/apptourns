@@ -97,6 +97,18 @@ class AccountCreateController extends MyBaseController
         $email     = $model['email'   ];
         $password  = $model['password'];
  
+        // If they left it blank
+        if (!$fedId)
+        {
+       
+            $fedIdTransformerServiceId = sprintf('cerad_person.%s_id_fake.data_transformer',$fedRoleId);
+
+            $fedIdTransformer = $this->get($fedIdTransformerServiceId);
+            
+            $fedId = $fedIdTransformer->reverseTransform('99');
+            
+            $model['fedId'] = $fedId;
+        }
         /* =================================================
          * Process the person first
          */
