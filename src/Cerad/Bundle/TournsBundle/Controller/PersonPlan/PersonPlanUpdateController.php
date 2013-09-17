@@ -33,8 +33,7 @@ class PersonPlanUpdateController extends MyBaseController
             
             $model3 = $this->processModel($model2);
             
-            // Notify email system
-            // $person2 = $model2['person'];
+            $this->sendEmail($model3);
             
             return $this->redirect('cerad_tourn_home');
         }
@@ -118,51 +117,72 @@ class PersonPlanUpdateController extends MyBaseController
        
         return $model;
     }
-    protected function sendRefereeEmail($tourn,$plans)
+    protected function sendEmail($model)
     {   
-        $prefix = $tourn['prefix']; // OpenCup2013
+        $project = $model['project'];
+        $person  = $model['person'];
+        $plan    = $model['plan'];
         
-        $assignorName  = $tourn['assignor']['name'];
-        $assignorEmail = $tourn['assignor']['email'];
+        $personFed = $person->getFed($project->getFedRoleId());
         
-      //$assignorEmail = 'ahundiak@nasoa.org';
+        $prefix = $project->getPrefix(); // OpenCup2013
+        
+        $assignor = $project->getAssignor();
+        
+        $assignorName  = $assignor['name'];
+        $assignorEmail = $assignor['email'];
         
         $adminName =  'Art Hundiak';
         $adminEmail = 'ahundiak@gmail.com';
         
-        $refereeName  = $plans->getPerson()->getFirstName() . ' ' . $plans->getPerson()->getLastName();
-        $refereeEmail = $plans->getPerson()->getEmail();
+        $personName = $person->getName();
         
-        $tplData = $tourn;
-        $tplData['plans'] = $plans; 
-        $body = $this->renderView('CeradTournBundle:Tourn:email.txt.twig',$tplData);
-    
-        $subject = sprintf("[%s] Ref App %s",$prefix,$refereeName);
+        $refereeName  = $personName->full;
+        $refereeEmail = $person->getEmail();
+        
+        /* =================================================
+         * Use templates for email subject and body
+         */
+        $tplData = array();
+        $tplData['plan']        = $plan;
+        $tplData['person']      = $person;
+        
+        $tplData['fed']         = $personFed;
+        $tplData['org']         = $personFed->getOrg();
+        $tplData['certReferee'] = $personFed->getCertReferee();
+        
+        $tplData['project']  = $project;
+        $tplData['assignor'] = $assignor;
+        
+        $subject = $this->renderView('@CeradTourns\PersonPlan\Update\PersonPlanUpdateEmailSubject.html.twig',$tplData);       
+        $body    = $this->renderView('@CeradTourns\PersonPlan\Update\PersonPlanUpdateEmailBody.html.twig',   $tplData);
        
-        // This goes to the assignor
-        $message = \Swift_Message::newInstance();
-        $message->setSubject($subject);
-        $message->setBody($body);
-        $message->setFrom(array('admin@zayso.org' => $prefix));
-        $message->setBcc (array($adminEmail => $adminName));
+      //die(nl2br($body));
         
-        $message->setTo     (array($assignorEmail  => $assignorName));
-        $message->setReplyTo(array($refereeEmail   => $refereeName));
+        // This goes to the assignor
+        $message1 = \Swift_Message::newInstance();
+        $message1->setSubject($subject);
+        $message1->setBody($body);
+        $message1->setFrom(array('admin@zayso.org' => $prefix));
+        $message1->setBcc (array($adminEmail => $adminName));
+        
+        $message1->setTo     (array($assignorEmail => $assignorName));
+        $message1->setReplyTo(array($refereeEmail  => $refereeName));
 
-        $this->get('mailer')->send($message);
-      //return;
+        $this->get('mailer')->send($message1);
         
         // This goes to the referee
-        $message = \Swift_Message::newInstance();
-        $message->setSubject($subject);
-        $message->setBody($body);
-        $message->setFrom(array('admin@zayso.org' => $prefix));
-      //$message->setBcc (array($adminEmail => $adminName));
-        
-        $message->setTo     (array($refereeEmail  => $refereeName));
-        $message->setReplyTo(array($assignorEmail => $assignorName));
+        $message2 = \Swift_Message::newInstance();
+        $message2->setSubject($subject);
+        $message2->setBody($body);
+        $message2->setFrom(array('admin@zayso.org' => $prefix));
+      
+        $message2->setTo     (array($refereeEmail  => $refereeName));
+        $message2->setReplyTo(array($assignorEmail => $assignorName));
 
-        $this->get('mailer')->send($message);
+        $this->get('mailer')->send($message2);
+        
+        return $model;
     }
 }
 ?>

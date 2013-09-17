@@ -1,6 +1,8 @@
 <?php
 namespace Cerad\Bundle\TournsBundle\TwigExtension;
 
+use Cerad\Bundle\PersonBundle\DataTransformer\PhoneTransformer;
+
 class TournsExtension extends \Twig_Extension
 {
     protected $env;
@@ -28,6 +30,12 @@ class TournsExtension extends \Twig_Extension
     protected function escape($string)
     {
         return twig_escape_filter($this->env,$string);
+    }
+    public function getFilters()
+    {
+        return array(            
+            'cerad_phone' => new \Twig_Filter_Method($this, 'phone'),   
+        );
     }
     public function getFunctions()
     {
@@ -57,6 +65,14 @@ class TournsExtension extends \Twig_Extension
             throw new \Exception('Undefined show config param : ' . $param);
         }
         return $this->showConfig[$param];
+    }
+    protected $phoneTransformer;
+    
+    public function phone($value)
+    {
+        if (!$this->phoneTransformer) $this->phoneTransformer = new PhoneTransformer();
+        
+        return $this->phoneTransformer->transform($value);
     }
 }
 ?>

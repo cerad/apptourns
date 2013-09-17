@@ -1,0 +1,32 @@
+{# @CeradTourns/PersonPlan/Update/PersonPlanUpdateEmailBody.html.twig   #}
+{% autoescape false %}
+
+{{ person.name.full }} "{{ person.name.nick }}"
+
+{{ org.OrgId }} {{ fed.id | slice(5) }} {{ certReferee.badgex }}
+
+{{ person.email }} {{ person.phone | cerad_phone }} {{ person.address.city }} {{ person.address.state }}
+
+{% set basic = plan.basic %}
+Lodging: {% for key, value in basic.lodgingNights %}{{ key }}-{{ value }}{% if not loop.last %}, {% endif %} {% endfor %} {{ basic.lodgingWith }} 
+Traveling: {{ basic.travelingFrom }} - {{ basic.travelingWith }}
+Availability: {% for key, value in basic.availabilityDays %}{{ key }}-{{ value }}{% if not loop.last %}, {% endif %} {% endfor %} {{ ' ' }}
+Level: {{ basic.refereeLevel }} {{ basic.comfortLevelCenter }} {{ basic.comfortLevelAssist }} 
+Club Team: {{ basic.teamClubAffilation }} {{ basic.teamClubName}}
+
+Upgrading: {{ certReferee.upgrading }}, Assessment: {{ basic.requestAssessment }}
+
+Notes:
+{{ basic.notes }}
+---
+
+Change Availability at: {{ url('cerad_tourn_index') }}
+
+Thanks
+
+{{ assignor.name }}
+{{ project.title }} Assignor
+{{ assignor.phone }}
+{{ assignor.email }}
+
+{% endautoescape %}
