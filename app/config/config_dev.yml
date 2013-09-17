@@ -23,7 +23,19 @@ monolog:
         chromephp:
             type:  chromephp
             level: info
-
+        mail:
+            type:         fingers_crossed
+            action_level: error
+            handler:      buffered
+        buffered:
+            type:    buffer
+            handler: swift
+        swift:
+            type:       swift_mailer
+            from_email: admin@zayso.org
+            to_email:   ahundiak@gmail.com
+            subject:   "[ZaysoError] AppTourns"
+            level:      debug
 assetic:
     use_controller: true
 
