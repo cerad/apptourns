@@ -15,5 +15,5 @@ parameters:
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    cerad_account.master_password: ~
+    cerad_user_master_password: something
 

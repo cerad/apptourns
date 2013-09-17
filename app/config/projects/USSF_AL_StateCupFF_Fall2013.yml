@@ -12,7 +12,7 @@ USSF_AL_StateCupFF_Fall2013:
 
         # U14-U18
         title:   "State Cup Final Four Fall 2013"
-        desc:    "USSF Alabama State Cup Final Four - Fall 2013 - Montgomery, Alabama - Nov 8, 9, 10"
+        desc:    "USSF Alabama State Cup Final Four AND Governor's Cup - Fall 2013 - Montgomery, Alabama - Nov 8, 9, 10"
  
         status:    Active
         verified:  Yes
@@ -45,8 +45,10 @@ USSF_AL_StateCupFF_Fall2013:
         comfortLevelCenter:
             type:    select
             label:   Comfort Level To Center
-            default: U14
+            default: U10
             choices: 
+                U10: U10
+                U12: U12
                 U14: U14
                 U16: U16
                 U19: U19
@@ -54,8 +56,10 @@ USSF_AL_StateCupFF_Fall2013:
         comfortLevelAssist:
             type:    select
             label:   Comfort Level To Assist
-            default: U14
+            default: U10
             choices: 
+                U10: U10
+                U12: U12
                 U14: U14
                 U16: U16
                 U19: U19
