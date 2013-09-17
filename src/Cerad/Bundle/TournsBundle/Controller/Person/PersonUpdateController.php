@@ -48,6 +48,11 @@ class PersonUpdateController extends MyBaseController
         $name->nick  = $model['personNameNick'];
         $person->setName($name);
         
+        $address = $person->getAddress();
+        $address->city  = $model['personAddressCity' ];
+        $address->state = $model['personAddressState'];
+        $person->setAddress($address);
+        
         $person->setEmail($model['personEmail']);
         $person->setPhone($model['personPhone']);
         
@@ -117,6 +122,11 @@ class PersonUpdateController extends MyBaseController
          
         $model['personEmail'] = $person->getEmail();
         $model['personPhone'] = $person->getPhone();
+        
+       // Value object, just flatten for now
+        $address = $person->getAddress();
+        $model['personAddressCity']  = $address->city;
+        $model['personAddressState'] = $address->state;
         
         return $model;
     }
@@ -218,6 +228,19 @@ class PersonUpdateController extends MyBaseController
             ),
             'attr' => array('size' => 20),
         ));
+        $builder->add('personAddressCity','text', array(
+            'required' => false,
+            'label'    => 'Home City',
+            'trim'     => true,
+            'constraints' => array(
+            ),
+            'attr' => array('size' => 20),
+        ));
+        $builder->add('personAddressState','cerad_person_state', array(
+            'required' => false,
+            'label'    => 'Home State',
+        ));
+
         return $builder->getForm();
     }
 }
