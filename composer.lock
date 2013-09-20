@@ -3,8 +3,51 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d9d6b571db36b4d03e4a92cfb7b690bb",
+    "hash": "fde5caf027b2d330807b98375a85525b",
     "packages": [
+        {
+            "name": "cerad/cerad",
+            "version": "dev-apptourns",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cerad/cerad2.git",
+                "reference": "24ee727cb6e9bc6cc3b3ca32c73d3f07ef6d9ece"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cerad/cerad2/zipball/24ee727cb6e9bc6cc3b3ca32c73d3f07ef6d9ece",
+                "reference": "24ee727cb6e9bc6cc3b3ca32c73d3f07ef6d9ece",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "symfony-bundles",
+            "autoload": {
+                "psr-0": {
+                    "Cerad": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Art Hundiak",
+                    "email": "ahundiak@gmail.com"
+                }
+            ],
+            "description": "Cerad Libraries",
+            "homepage": "https://github.com/cerad/ceradc.git",
+            "keywords": [
+                "security"
+            ],
+            "support": {
+                "source": "https://github.com/cerad/cerad2/tree/apptourns",
+                "issues": "https://github.com/cerad/cerad2/issues"
+            },
+            "time": "2013-09-20 08:31:26"
+        },
         {
             "name": "codeplex/phpexcel",
             "version": "1.7.8",
@@ -1294,6 +1337,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "cerad/cerad": 20,
         "friendsofsymfony/user-bundle": 20
     },
     "platform": {
