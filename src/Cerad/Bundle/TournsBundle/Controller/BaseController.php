@@ -123,11 +123,11 @@ class BaseController extends Controller
     {
         $personRepo = $this->get('cerad_person.person_repository');
         
-        $user  = $this->getUser();
-        $fedId = $user->getPersonFedId();
-        if ($fedId)
+        $user = $this->getUser();
+        $personGuid = $user->getPersonGuid();
+        if ($personGuid)
         {
-            $person = $personRepo->findByFed($fedId);
+            $person = $personRepo->findOneByGuid($personGuid);
             if ($person) return $person;
         }
         if (!$autoCreate) return null;
