@@ -1,0 +1,34 @@
+{# @CeradTourns/PersonList/PersonListIndex.html.twig   #}
+{% extends '@CeradTourns/Layout.html.twig' %}
+
+{% block content %}
+
+<h3>{{ project.desc }}</h3>
+<table id="person-list" border="1" style="max-widthx: 850px;">
+<thead>
+<tr><th colspan="20">Tournament Officials - Count: {{ persons | length }}</th></tr>
+<tr>
+    <th>Update</th>
+    <th>Person</th>
+</tr>
+</thead>
+<tbody>
+{% for person in persons %}
+{% set name = person.name %}
+<tr id="person-{{person.id}}">
+    <td>
+        <a href="{{ path('cerad_tourn_admin_person_plan_update', { 'personId' : person.id, 'slug': slug}) }}">
+            Update
+        </a>
+    </td>
+    <td>
+        {{ name.full    }}<br />
+        {{ person.email }}<br />
+        {{ person.phone }}
+    </td>
+</tr>
+{% endfor %} {# persons #}
+</tbody>
+</table>
+    
+{% endblock %}{# end content block #}

@@ -61,6 +61,21 @@ cerad_tourn_person_plan_update:
     pattern:  /person/plan/{personId}/{slug}
     defaults: { _controller: CeradTournsBundle:PersonPlan/PersonPlanUpdate:update}
   
+# =================================
+# TODO: Admin Interface
+cerad_tourn_admin_person_plan_update:
+    pattern:  /admin/person/plan/update/{personId}/{slug}
+    defaults: { _controller: CeradTournsBundle:Admin/PersonPlan/AdminPersonPlanUpdate:update }
+    
+cerad_tourn_admin_person_plans_list:
+    pattern:  /admin/person/plans/list/{slug}.{_format}
+    defaults:
+        _controller: CeradTournsBundle:Admin/PersonPlans/AdminPersonPlansList:list
+        _template: '@CeradTourns/Admin/PersonPlans/List/AdminPersonPlansListIndex.html.twig'
+        _format: html
+    requirements:
+        _format:  html|csv|xls|pdf
+
 # ==============================
 # For legacy access, slug is ignored
 cerad_tourns_index:
@@ -70,15 +85,3 @@ cerad_tourns_index:
 cerad_tourn_index:
     pattern:  /
     defaults: { _controller: CeradTournsBundle:Tourns/TournsIndex:index }
-    
-# =================================
-# TODO: Admin Interface
-cerad_tourns_admin_edit:
-    pattern:  /{project}/admin/edit/{id}
-    defaults: { _controller: CeradTournsBundle:Admin:edit }
-    
-cerad_tourns_admin_list:
-    pattern:  /{project}/admin.{_format}
-    defaults: { _controller: CeradTournsBundle:Admin:list, _format: html }
-    requirements:
-        _format:  html|csv|xls|pdf

@@ -1,7 +1,8 @@
 {# @CeradTourn/Tourn/UserInfo/TournAdminInfo.html.twig   #}
 
-<ul style="display: inline;">
-    <li>Admin User: {{ user.accountName }}</li>
-    <li><a href="{{ path('cerad_tourn_home') }}">Home</a></li>
-    <li><a href="{{ path('cerad_tourn_account_user_logout') }}">Logout</a></li>
-</ul>
+<div>
+    Admin User: {{ user.accountName }}
+    <a href="{{ path('cerad_tourn_home') }}">Home</a>
+    <a href="{{ path('cerad_tourn_person_update', { personId: person.id }) }}">My Info</a>
+    <a href="{{ path('cerad_tourn_account_user_logout') }}">Logout</a>
+</div>
