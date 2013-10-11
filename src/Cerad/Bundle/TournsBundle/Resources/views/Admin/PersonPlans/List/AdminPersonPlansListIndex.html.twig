@@ -6,7 +6,10 @@
 <h3>{{ project.desc }}</h3>
 <table id="person-list" border="1" style="max-widthx: 850px;">
 <thead>
-<tr><th colspan="20">Tournament Officials - Count: {{ persons | length }}</th></tr>
+<tr><th colspan="20">
+        <a href="{{ path('cerad_tourn_admin_person_plans_list', {'slug' : slug, '_format': 'xls'} )}}">Generate Excel</a>
+        Tournament Officials - Count: {{ persons | length }}
+    </th></tr>
 <tr>
     <th>Update</th>
     <th>Person</th>

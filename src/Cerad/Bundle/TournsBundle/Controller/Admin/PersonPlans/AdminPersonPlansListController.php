@@ -18,12 +18,11 @@ class AdminPersonPlansListController extends MyBaseController
                 
         if ($_format == 'xls') 
         {
-            $export = $this->get('cerad_tourn.officials.export.excel');
-            $export->setTournMeta($tourn);
+            $export = $this->get('cerad_tourns.officials.export_xls');
 
-            $export->generate($officials);
+            $export->generate($model['project'],$model['persons']);
             
-            $outFileName = ucfirst($project) . date('Ymd-Hi') . '.xls';
+            $outFileName = ucfirst($model['slug']) . date('Ymd-Hi') . '.xls';
         
             $response = new Response();
             $response->setContent($export->getBuffer());
