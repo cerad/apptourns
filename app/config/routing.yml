@@ -1,3 +1,7 @@
+cerad_arbiter:
+    resource: "@CeradArbiterBundle/Resources/config/routing.yml"
+    prefix:   /
+
 cerad_app:
     resource: "@CeradAppBundle/Resources/config/routing.yml"
     prefix:   /
