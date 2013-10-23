@@ -44,6 +44,7 @@ class SaveRefereeSchedule
     protected function addPosition($referee,$pos,$game)
     {
         if (!$referee) return;
+
         if ($referee == 'NA') return;
         
         $data = array('referee' => $referee, 'pos' => $pos,'game' => $game);
@@ -73,6 +74,7 @@ class SaveRefereeSchedule
             case 'CAMP FOREST FC CFFC 2K1 (TN)': return 'Adam Brooks'; break;
             
             case 'VESTAVIA ATTACK 98 BLACK (AL)': return 'John Mayer'; break;
+
             case '': return ''; break;
             case '': return ''; break;
         
@@ -95,11 +97,13 @@ class SaveRefereeSchedule
             $this->addPosition($game['ar1'],    'AR',$game);
             $this->addPosition($game['ar2'],    'AR',$game);
             
-            $referee = $this->getRefereeForTeam($game['home']);
-            $this->addPosition($referee,'SPEC',$game);
+
+            //$referee = $this->getRefereeForTeam($game->getHomeTeam());
+            //$this->addPosition($referee,'SPEC',$game);
             
-            $referee = $this->getRefereeForTeam($game['away']);
-            $this->addPosition($referee,'SPEC',$game);
+            //$referee = $this->getRefereeForTeam($game->getAwayTeam());
+            //$this->addPosition($referee,'SPEC',$game);
+
         }
         ksort($this->referees);
         

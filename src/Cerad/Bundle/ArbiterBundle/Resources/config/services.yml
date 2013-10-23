@@ -1,6 +1,3 @@
-parameters:
-#    cerad_arbiter.example.class: Cerad\Bundle\ArbiterBundle\Example
-
 services:
 #    cerad_arbiter.example:
 #        class: %cerad_arbiter.example.class%
@@ -11,3 +8,11 @@ services:
         
     cerad_arbiter.schedule.tourn.referee.save:
         class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\SaveRefereeSchedule
+
+    cerad_arbiter.schedule.tourn.les.load:
+        class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\LoadLesSchedule
+        
+    cerad_arbiter.schedule.tourn.arbiter.save:
+        class:  Cerad\Bundle\ArbiterBundle\Schedule\Tourn\SaveArbiterSchedule
+        
+        
