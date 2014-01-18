@@ -55,11 +55,15 @@ cerad_tourn_home:
     
 cerad_tourn_person_update:
     pattern:  /person/{personId}
-    defaults: { _controller: CeradTournsBundle:Person/PersonUpdate:update, 'personId' : 0}
+    defaults: 
+        _controller: CeradTournsBundle:Person/PersonUpdate:update
+        _template: '@CeradTourns/Person/Update/PersonUpdateIndex.html.twig'
+        personId' : 0
     
 cerad_tourn_person_plan_update:
     pattern:  /person/plan/{personId}/{slug}
-    defaults: { _controller: CeradTournsBundle:PersonPlan/PersonPlanUpdate:update}
+    defaults: 
+        _controller: CeradTournsBundle:PersonPlan/PersonPlanUpdate:update
   
 # =================================
 # TODO: Admin Interface

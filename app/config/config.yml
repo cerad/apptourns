@@ -2,7 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml   }
     - { resource: projects.yml   }
-    - { resource: show.yml       }
 
 framework:
     #esi:             ~

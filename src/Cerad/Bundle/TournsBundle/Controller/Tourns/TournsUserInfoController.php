@@ -21,7 +21,7 @@ class TournsUserInfoController extends MyBaseController
         $user   = $this->getUser();
         $person = $this->getUserPerson(true);
         
-        $personFed = $person->getFed(self::FED_ROLE_ID);
+        $personFed = $person->getFed($this->getFedRole());
         
         $tplData['user']      = $user;
         $tplData['person']    = $person;

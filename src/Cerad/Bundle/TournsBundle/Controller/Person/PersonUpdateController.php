@@ -10,42 +10,41 @@ use Symfony\Component\Validator\Constraints\NotBlank  as NotBlankConstraint;
 
 class PersonUpdateController extends MyBaseController
 {
-    public function updateAction(Request $request, $personId)
+    public function updateAction(Request $request)
     {   
         // Security
         if (!$this->hasRoleUser()) { return $this->redirect('cerad_tourn_welcome'); }
         
         // Simple model
-        $model = $this->createModel($personId);
+        $model = $this->createModel($request);
+        if ($model['_response']) return $model['response'];
 
         $form = $this->createModelForm($model);
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {   
-            $model1 = $form->getData();
+            $modelPosted = $form->getData();
             
-            $model2 = $this->processModel($model1);
-            $person2 = $model2['person'];
+            $this->processModel($modelPosted);
             
             return $this->redirect('cerad_tourn_home');
             return $this->redirect('cerad_tourn_person_update',array('personId' => $person2->getId()));
         }
         
         $tplData = array();
-        $tplData['form']    = $form->createView();
-        $tplData['person']  = $model['person'];
-        return $this->render('@CeradTourns/Person/Update/PersonUpdateIndex.html.twig', $tplData);
+        $tplData['form']   = $form->createView();
+        $tplData['person'] = $model['person'];
+        return $this->render($model['_template'], $tplData);
     }
     protected function processModel($model)
     { 
         // Update person
         $person = $model['person'];
-        $name = $person->getName();
+        $name   = $person->getName();
         $name->full  = $model['personNameFull'];
         $name->first = $model['personNameFirst'];
         $name->last  = $model['personNameLast'];
-        $name->nick  = $model['personNameNick'];
         $person->setName($name);
         
         $address = $person->getAddress();
@@ -57,18 +56,16 @@ class PersonUpdateController extends MyBaseController
         $person->setPhone($model['personPhone']);
         
         // Certs
-      //$fedId     = $model['fedId'    ];
-        $orgId     = $model['orgId'    ];
+        $orgKey    = $model['orgKey'   ];
         $badge     = $model['badge'    ];
         $upgrading = $model['upgrading'];
         
-        $personFed     = $person->getFed(self::FED_ROLE_ID);
-        $personOrg     = $personFed->getOrg();
-        $personCertRef = $personFed->getCertReferee();
+        $personFed        = $person->getFed($this->getFedRole());
+        $personFedCertRef = $personFed->getCertReferee();
         
-        $personOrg->setOrgId($orgId);
-        $personCertRef->setBadgex($badge);
-        $personCertRef->setUpgrading($upgrading);
+        $personFed->setOrgKey($orgKey);
+        $personFedCertRef->setBadgeUser($badge);
+        $personFedCertRef->setUpgrading($upgrading);
         
         // And persist
         $personRepo = $this->get('cerad_person.person_repository');
@@ -79,11 +76,15 @@ class PersonUpdateController extends MyBaseController
         return $model;
     }
     /* ===============================================
-     * Person + cert + org
+     * Person + referee cert
      */
-    protected function createModel($personId)
+    protected function createModel(Request $request)
     {
+        // Init model
+        $model = parent::createModel($request);
+
         // Get the person
+        $personId   = $request->get('personId');
         $personRepo = $this->get('cerad_person.person_repository');
         $person = null;
         
@@ -97,20 +98,20 @@ class PersonUpdateController extends MyBaseController
         if (!$person) $person = $this->getUserPerson();
         if (!$person)
         {
+            $model['_response'] = $this->redirect('cerad_tourn_home');
+            return $model;
             throw new \Exception('No person in cerad_tourn_person_update');
         }
-        $personFed = $person->getFed(self::FED_ROLE_ID);
+        $personFed = $person->getFed($this->getFedRole());
  
-        $personOrg     = $personFed->getOrg();
-        $personCertRef = $personFed->getCertReferee();
+        $personFedCertRef = $personFed->getCertReferee();
         
         // Simple model
-        $model = array();
         $model['person']    = $person;
-        $model['fedId']     = $personFed->getId();
-        $model['orgId']     = $personOrg->getOrgId();
-        $model['badge']     = $personCertRef->getBadgex();
-        $model['upgrading'] = $personCertRef->getUpgrading();
+        $model['fedKey']    = $personFed->getFedKey();
+        $model['orgKey']    = $personFed->getOrgKey();
+        $model['badge']     = $personFedCertRef->getBadgeUser();
+        $model['upgrading'] = $personFedCertRef->getUpgrading();
         
         // Value object, just flatten for now
         $name = $person->getName();
@@ -118,7 +119,6 @@ class PersonUpdateController extends MyBaseController
         $model['personNameFull']  = $name->full;
         $model['personNameFirst'] = $name->first;
         $model['personNameLast']  = $name->last;
-        $model['personNameNick']  = $name->nick;
          
         $model['personEmail'] = $person->getEmail();
         $model['personPhone'] = $person->getPhone();
@@ -133,18 +133,17 @@ class PersonUpdateController extends MyBaseController
     /* ==========================================
      * Hand crafted form
      */
-
-    public function createModelForm($model = null)
+    public function createModelForm($model)
     {
-        $fedRoleId = self::FED_ROLE_ID;
+        $fedRole = $this->getFedRole();
         
         // Service id's are not case sensitive
-        $fedIdTypeServiceId = sprintf('cerad_person.%s_id_Fake.form_type',      $fedRoleId);
-        $orgIdTypeServiceId = sprintf('cerad_person.%s_org_id.form_type',       $fedRoleId);
-        $badgeTypeServiceId = sprintf('cerad_person.%s_referee_badge.form_type',$fedRoleId);
-        
-        $fedIdTypeService   = $this->get($fedIdTypeServiceId);
-        $orgIdTypeService   = $this->get($orgIdTypeServiceId);
+        $fedKeyTypeServiceId = sprintf('cerad_person.%s_id_Fake.form_type',      $fedRole);
+        $orgKeyTypeServiceId = sprintf('cerad_person.%s_org_id.form_type',       $fedRole);
+        $badgeTypeServiceId  = sprintf('cerad_person.%s_referee_badge.form_type',$fedRole);
+   
+        $fedKeyTypeService  = $this->get($fedKeyTypeServiceId);
+        $orgKeyTypeService  = $this->get($orgKeyTypeServiceId);
         $badgeTypeService   = $this->get($badgeTypeServiceId);
         
         $formOptions = array(
@@ -155,21 +154,20 @@ class PersonUpdateController extends MyBaseController
         
         $builder = $this->createFormBuilder($model,$formOptions);
         
-        $builder->add('fedId',$fedIdTypeService, array(
+        $builder->setAction($this->generateUrl($model['_route'],array('personId' => $model['person']->getId())));
+        $builder->setMethod('POST');
+         
+        $builder->add('fedKey',$fedKeyTypeService, array(
             'required' => false,
             'disabled' => true,
         ));
-        $builder->add('orgId',$orgIdTypeService, array(
+        $builder->add('orgKey',$orgKeyTypeService, array(
             'required' => true,
             'constraints' => array(
                 new NotBlankConstraint($constraintOptions),
         )));
         $builder->add('badge',$badgeTypeService, array(
             'required' => true,
-        ));
-        $builder->add('fedId',$fedIdTypeService, array(
-            'required' => false,
-            'disabled' => true,
         ));
         $builder->add('upgrading','cerad_person_upgrading', array(
             'required' => false,
@@ -199,14 +197,6 @@ class PersonUpdateController extends MyBaseController
             'trim'     => true,
             'constraints' => array(
                 new NotBlankConstraint($constraintOptions),
-            ),
-            'attr' => array('size' => 20),
-        ));
-        $builder->add('personNameNick','text', array(
-            'required' => false,
-            'label'    => 'Nick Name',
-            'trim'     => true,
-            'constraints' => array(
             ),
             'attr' => array('size' => 20),
         ));

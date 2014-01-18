@@ -12,11 +12,25 @@ use Cerad\Bundle\UserBundle\Model\UserInterface;
 
 class BaseController extends Controller
 {
-    const FED_ROLE_ID = 'USSFC';
+    const FED_ROLE = 'USSFC';
     
     const FLASHBAG_TYPE             = 'cerad_tourn';
     const FLASHBAG_ACCOUNT_CREATED  = 'cerad_tourn_account_created';
     
+    protected function getFedRole()
+    {
+        return $this->container->getParameter('cerad_fed_role_default');
+    }
+    protected function createModel(Request $request)
+    {
+        // Init model
+        $model = array();
+        $model['_route']    = $request->get('_route');
+        $model['_template'] = $request->get('_template');
+        $model['_response'] = null;
+
+        return $model;
+    }
     protected function punt($request,$reason = null)
     {
         $flashBag = $request->getSession()->getFlashBag();

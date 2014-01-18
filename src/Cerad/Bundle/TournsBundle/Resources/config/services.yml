@@ -3,8 +3,6 @@ parameters:
 services:
     cerad_tourns.twig_extension:
         class:  Cerad\Bundle\TournsBundle\TwigExtension\TournsExtension
-        arguments:  
-            - '%cerad_tourn_show_configs%'
         tags:
             - { name: twig.extension }
             

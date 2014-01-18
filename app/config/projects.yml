@@ -1,6 +1,8 @@
 parameters:
 
-    cerad_project_project_default: USSF_AL_HFCKicks_Fall2013
+    cerad_fed_role_default: USSFC
+    
+    cerad_project_project_default: null
     
     cerad_project_project_files:
         - "%kernel.root_dir%/config/projects/USSF_AL_HFCKicks_Fall2013.yml"
