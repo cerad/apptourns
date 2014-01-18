@@ -1,19 +1,20 @@
 <?php
 namespace Cerad\Bundle\TournsBundle\Officials;
 
+use Cerad\Component\Excel\Excel;
 use Cerad\Bundle\PersonBundle\DataTransformer\PhoneTransformer;
 
 class ExportOfficialsXLS
 {
     protected $excel;
+    protected $phoneTransformer;
     
     protected $lodgingNightsHeaders;
     protected $availabilityDaysHeaders;
     
-    public function __construct($excel)
+    public function __construct()
     {
-        $this->excel = $excel;
-        
+        $this->excel = new Excel();
         $this->phoneTransformer = new PhoneTransformer();
     }
     protected function setColumnWidths($ws,$widths)
@@ -53,8 +54,7 @@ class ExportOfficialsXLS
         {
             $name        = $person->getName();
             $address     = $person->getAddress();
-            $personFed   = $person->getFed($project->getFedRoleId());
-            $personOrg   = $personFed->getOrgState();
+            $personFed   = $person->getFed($project->getFedRole());
             $cert        = $personFed->getCertReferee();
             $plan        = $person->getPlan($project->getId());
             $basic       = $plan->getBasic();
@@ -76,9 +76,9 @@ class ExportOfficialsXLS
             $values[] = $city;
             
             $values[] = 'R' . substr($personFed->getId(),5);
-            $values[] = substr($personOrg->getOrgId(),5);
+            $values[] = substr($personFed->getOrgKey(),5);
             $values[] = $cert->getBadge();
-            $values[] = $cert->getVerified();
+            $values[] = $cert->getBadgeVerified();
             
             $values[] = $basic['requestAssessment'];
             $values[] = $cert->getUpgrading();
@@ -176,7 +176,6 @@ class ExportOfficialsXLS
         foreach($officials as $person)
         {
             $address     = $person->getAddress();
-            $personFed   = $person->getFed($project->getFedRoleId());
             $plan        = $person->getPlan($project->getId());
             $basic       = $plan->getBasic();
 
@@ -237,10 +236,7 @@ class ExportOfficialsXLS
         
         foreach($officials as $person)
         {
-            $name        = $person->getName();
-            $address     = $person->getAddress();
-            $personFed   = $person->getFed($project->getFedRoleId());
-            $personOrg   = $personFed->getOrgState();
+            $personFed   = $person->getFed($project->getFedRole());
             $cert        = $personFed->getCertReferee();
             $plan        = $person->getPlan($project->getId());
             $basic       = $plan->getBasic();
@@ -251,7 +247,7 @@ class ExportOfficialsXLS
             $values[] = $person->getEmail();
             $values[] = $this->phoneTransformer->transform($person->getPhone());
             $values[] = $cert->getBadge();
-            $values[] = $cert->getVerified();
+            $values[] = $cert->getBadgeVerified();
             $values[] = $basic['notes'];
             
             $this->setRowValues($ws,$row++,$values);
