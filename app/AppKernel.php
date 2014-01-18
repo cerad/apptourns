@@ -20,11 +20,23 @@ class AppKernel extends Kernel
             new Cerad\Bundle\UserBundle   \CeradUserBundle(),
             new Cerad\Bundle\PersonBundle \CeradPersonBundle(),
             new Cerad\Bundle\ProjectBundle\CeradProjectBundle(),
-           
-          //new Cerad\Bundle\TournBundle  \CeradTournBundle(),
-            new Cerad\Bundle\TournsBundle \CeradTournsBundle(),
-            new Cerad\Bundle\AppBundle    \CeradAppBundle(),
+         
+            // This should eventually get moved to cerad2
+            // It's basically the app bundle
+            new Cerad\Bundle\TournsBundle\CeradTournsBundle(),
+            
+            // This holds arbiter schedule processing stuff
+            // Should be moved to cerad2 as well
             new Cerad\Bundle\ArbiterBundle\CeradArbiterBundle(),
+            
+            // Currently empty
+            // Used when the other bundles are moved to cerad2
+            new Cerad\Bundle\AppBundle\CeradAppBundle(),
+            
+            // Need this to update the feds to a new format
+            // That stuff should have been in the persons bundle
+            //new Cerad\Bundle\AppCeradBundle\CeradAppCeradBundle(),
+            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

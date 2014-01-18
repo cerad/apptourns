@@ -20,3 +20,4 @@
 /src/Acme/
 /app/sessions/
 /app/data/
+/composer.lock
