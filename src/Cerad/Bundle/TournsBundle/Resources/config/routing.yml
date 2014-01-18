@@ -64,6 +64,7 @@ cerad_tourn_person_plan_update:
     pattern:  /person/plan/{personId}/{slug}
     defaults: 
         _controller: CeradTournsBundle:PersonPlan/PersonPlanUpdate:update
+        _template: '@CeradTourns\PersonPlan\Update\PersonPlanUpdateIndex.html.twig'
   
 # =================================
 # TODO: Admin Interface

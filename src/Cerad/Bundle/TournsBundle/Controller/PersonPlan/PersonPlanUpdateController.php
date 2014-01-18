@@ -11,29 +11,27 @@ use Cerad\Bundle\TournBundle\FormType\DynamicFormType;
  */
 class PersonPlanUpdateController extends MyBaseController
 {   
-    public function updateAction(Request $request, $personId, $slug)
+    public function updateAction(Request $request)
     {   
         // Security
         if (!$this->hasRoleUser()) return $this->redirect('cerad_tourn_welcome');
         
-        // The project
-        $project = $this->getProject($slug);
-        
         // The model
-        $model1 = $this->createModel($project,$personId);
-                      
+        $model = $this->createModel($request);
+        if ($model['_response']) return  $model['_response'];
+        
         // The form
-        $form = $this->createModelForm($model1);
+        $form = $this->createModelForm($model);
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {             
             // Maybe dispatch something to adjust form
-            $model2 = $form->getData();
+            $modelPosted = $form->getData();
             
-            $model3 = $this->processModel($model2);
+            $modelProcessed = $this->processModel($modelPosted);
             
-            $this->sendEmail($model3);
+            $this->sendEmail($modelProcessed);
             
             return $this->redirect('cerad_tourn_home');
         }
@@ -43,25 +41,40 @@ class PersonPlanUpdateController extends MyBaseController
         $tplData['msg'    ] = null; // $msg; from flash bag
         $tplData['form'   ] = $form->createView();
         
-        $tplData['plan'   ] = $model1['plan'];
-        $tplData['person' ] = $model1['person'];
-        $tplData['project'] = $model1['project'];
+        $tplData['plan'   ] = $model['plan'];
+        $tplData['person' ] = $model['person'];
+        $tplData['project'] = $model['project'];
 
-        return $this->render('@CeradTourns\PersonPlan\Update\PersonPlanUpdateIndex.html.twig',$tplData);        
+        return $this->render($model['_template'],$tplData);        
     }
-    protected function createModel($project,$personId)
+    protected function createModel(Request $request)
     {   
+        // Init
+        $model = parent::createModel($request);
+        
+        // The project
+        $slug = $request->get('slug');
+        $project = $this->getProject($slug);
+        if (!$project)
+        {
+            $model['_response'] = $this->redirect('cerad_tourn_home');
+            return $model;
+        }
+
         // Should always have a valid personId
         $personRepo = $this->get('cerad_person.person_repository');
+        $personId = $request->get('personId');
         $person = $personRepo->find($personId);
        
-        if (!$person) throw new \Exception('Person not found in lan update');
-        
-        $plan = $person->getPlan($project->getId());
+        if (!$person) 
+        {
+            $model['_response'] = $this->redirect('cerad_tourn_home');
+            return $model;
+        }
+        $plan = $person->getPlan($project->getKey());
         $plan->mergeBasicProps($project->getBasic());
         
         // Pack it up
-        $model = array();
         $model['plan'  ]  = $plan;
         $model['basic' ]  = $plan->getBasic();
         $model['person']  = $person;
@@ -69,6 +82,9 @@ class PersonPlanUpdateController extends MyBaseController
         
         return $model;
     }
+    /* ========================================================
+     * Lots of majic here but hey it works
+     */
     protected function createModelForm($model)
     {   
         $project = $model['project'];
@@ -84,14 +100,6 @@ class PersonPlanUpdateController extends MyBaseController
         
         $builder->add('basic',$basicType, array('label' => false));
         
-/* ==============================
- * Does not quit work
-        $builder->add('notes','textarea', array(
-            'label' => false,
-            'required' => false,
-            'attr' => array('cols' => 50, 'rows' => 5)
-        ));
-        */
         return $builder->getForm();
     }
     /* ===============================================
@@ -123,7 +131,7 @@ class PersonPlanUpdateController extends MyBaseController
         $person  = $model['person'];
         $plan    = $model['plan'];
         
-        $personFed = $person->getFed($project->getFedRoleId());
+        $personFed = $person->getFed($project->getFedRole());
         
         $prefix = $project->getPrefix(); // OpenCup2013
         
@@ -148,7 +156,6 @@ class PersonPlanUpdateController extends MyBaseController
         $tplData['person']      = $person;
         
         $tplData['fed']         = $personFed;
-        $tplData['org']         = $personFed->getOrg();
         $tplData['certReferee'] = $personFed->getCertReferee();
         
         $tplData['project']  = $project;

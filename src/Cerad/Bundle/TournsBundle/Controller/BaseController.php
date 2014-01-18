@@ -163,9 +163,8 @@ class BaseController extends Controller
     {
         $projectRepo = $this->get('cerad_project.project_repository');
         $project = $projectRepo->findBySlug($slug);
-        if ($project) return $project;
-            
-        throw new \Exception('No Project For: ' . $slug);
+        
+        return $project;
     }
 }
 ?>

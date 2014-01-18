@@ -18,7 +18,7 @@ class AccountCreateController extends MyBaseController
     public function createFormAction(Request $request)
     {
         // The model
-        $model = $this->createModel();
+        $model = $this->createModel($request);
         
         // The form
         $form = $this->createModelForm($model);
@@ -175,7 +175,7 @@ class AccountCreateController extends MyBaseController
     /* ==================================
      * Your basic dto model
      */
-    protected function createModel()
+    protected function createModel(Request $request)
     {
         // Do this here so janrain can add stuff
         $userManager = $this->get('cerad_user.user_manager');

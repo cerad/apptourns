@@ -2,9 +2,9 @@
 {% autoescape false %}
 {{ project.desc }}
 
-{{ person.name.full }} "{{ person.name.nick }}"
+{{ person.name.full }}
 
-{{ org.OrgId }} {{ fed.id | slice(5) }} {{ certReferee.badgex }}
+{{ fed.orgKey }} {{ fed.fedKey | slice(5) }} {{ certReferee.badgeUser }}
 
 {{ person.email }} {{ person.phone | cerad_phone }} {{ person.address.city }} {{ person.address.state }}
 
