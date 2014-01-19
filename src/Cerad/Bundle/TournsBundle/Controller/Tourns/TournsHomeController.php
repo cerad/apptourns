@@ -12,8 +12,9 @@ class TournsHomeController extends MyBaseController
         // Must be signed in
         if (!$this->hasRoleUser()) return $this->redirect('cerad_tourn_welcome');
         
-        // Need to make sure the account has a person
-        $person = $this->getUserPerson(false);
+        // The model
+        $model = $this->createModel($request);
+        if ($model['_response']) return $model['_response'];
         
         // Is this the first time since the account was created?
         $msgs = $request->getSession()->getFlashBag()->get(self::FLASHBAG_ACCOUNT_CREATED);
@@ -23,15 +24,20 @@ class TournsHomeController extends MyBaseController
             return $this->redirect('cerad_tourn_person_update',array('personId' => $person->getId()));
         }
         
-        $projects = $this->getProjects();
-        
-        $person = $this->getUserPerson();
-        
         $tplData = array();
-        $tplData['person']   = $person;
-        $tplData['projects'] = $projects;
+        $tplData['person']   = $model['person'];
+        $tplData['projects'] = $model['projects'];
         
-        return $this->render('@CeradTourns/Tourns/Home/TournsHomeIndex.html.twig',$tplData);        
+        return $this->render($model['_template'],$tplData);        
+    }
+    protected function createModel(Request $request)
+    {
+        $model = parent::createModel($request);
+        
+        $model['person']   = $this->getUserPerson();
+        $model['projects'] = $this->getProjects();
+        
+        return $model;
     }
 }
 ?>
