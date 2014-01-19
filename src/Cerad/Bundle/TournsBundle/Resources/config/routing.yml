@@ -3,7 +3,9 @@
 
 cerad_tourn_account_create:
     pattern:  /account/create
-    defaults: { _controller: CeradTournsBundle:Account/AccountCreate:create }
+    defaults: 
+        _controller: CeradTournsBundle:Account/AccountCreate:create
+        _template: '@CeradTourns/Account/Create/AccountCreateIndex.html.twig'
 #               _template    CeradTourn/Account/Create/AccountCreateIndex.html.twig
 #                                                     /AccountCreateForm.html.twig
 #                                                     /AccountCreateHelp.html.twig

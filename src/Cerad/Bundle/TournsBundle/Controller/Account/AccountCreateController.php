@@ -15,10 +15,19 @@ use Symfony\Component\Validator\Constraints\NotBlank  as NotBlankConstraint;
 
 class AccountCreateController extends MyBaseController
 {
+    /* ========================================================
+     * This gets called by the welcome template
+     * No eays way to inject the template name?
+     * render(route( instead of render(controller
+     * Maybe create a fake route?
+     */
     public function createFormAction(Request $request)
     {
         // The model
         $model = $this->createModel($request);
+        if ($model['_response']) return $model['_response'];
+        
+        $model['_route'] = 'cerad_tourn_account_create';
         
         // The form
         $form = $this->createModelForm($model);
@@ -28,21 +37,21 @@ class AccountCreateController extends MyBaseController
         
         return $this->render('@CeradTourns/Account/Create/AccountCreateForm.html.twig',$tplData);   
     }
-
     public function createAction(Request $request)
     {
         // If already signed in then no need to make an account
         if ($this->hasRoleUser()) return $this->redirect('cerad_tourn_home');
             
         // The model
-        $model1 = $this->createModel();
+        $model = $this->createModel($request);
+        if ($model['_response']) return $model['_response'];
         
         // This will let janrain have a shot at it
         $dispatcher = $this->get('event_dispatcher');
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, new UserEvent($model1['user'], $request));
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, new UserEvent($model['user'], $request));
          
         // Simple custom form
-        $form = $this->createModelForm($model1);
+        $form = $this->createModelForm($model);
         
         $form->handleRequest($request);
 
@@ -56,9 +65,9 @@ class AccountCreateController extends MyBaseController
           //$formEvent = new FormEvent($form, $request);
           //$dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $formEvent);
 
-            $model2 = $form->getData();
+            $modelPosted = $form->getData();
             
-            $model3 = $this->processModel($model2);
+            $modelProcessed = $this->processModel($modelPosted);
             
             // If all went well then user and person were created and persisted
             $response = null; //$formEvent->getResponse();
@@ -72,7 +81,7 @@ class AccountCreateController extends MyBaseController
           //);
             
             // Flag as just having created an account
-            $user = $model3['user'];
+            $user = $modelProcessed['user'];
             $request->getSession()->getFlashBag()->add(self::FLASHBAG_ACCOUNT_CREATED,$user->getUsername());;
 
             // Log the user in
@@ -85,36 +94,36 @@ class AccountCreateController extends MyBaseController
         $tplData = array();
         $tplData['form'] = $form->createView();
         
-        return $this->render('@CeradTourns/Account/Create/AccountCreateIndex.html.twig',$tplData);   
-    }  
+        return $this->render($model['_template'],$tplData);   
+    }
     protected function processModel($model)
     {
         // Unpack
         $user      = $model['user'    ];
         $name      = $model['name'    ];
-        $fedId     = $model['fedId'   ];
-        $fedRoleId = $model['fedRoleId' ];
+        $fedKey    = $model['fedKey'  ];
+        $fedRole   = $model['fedRole' ];
         $email     = $model['email'   ];
         $password  = $model['password'];
  
         // If they left it blank
-        if (!$fedId)
+        if (!$fedKey)
         {
        
-            $fedIdTransformerServiceId = sprintf('cerad_person.%s_id_fake.data_transformer',$fedRoleId);
+            $fedKeyTransformerServiceId = sprintf('cerad_person.%s_id_fake.data_transformer',$fedRole);
 
-            $fedIdTransformer = $this->get($fedIdTransformerServiceId);
+            $fedKeyTransformer = $this->get($fedKeyTransformerServiceId);
             
-            $fedId = $fedIdTransformer->reverseTransform('99');
+            $fedKey = $fedKeyTransformer->reverseTransform('11');
             
-            $model['fedId'] = $fedId;
+            $model['fedKey'] = $fedKey;
         }
         /* =================================================
          * Process the person first
          */
         $personRepo = $this->get('cerad_person.person_repository');
         
-        $personFed = $personRepo->findFed($fedId);
+        $personFed = $personRepo->findFedByFedKey($fedKey);
         
         if (!$personFed)
         {
@@ -129,8 +138,8 @@ class AccountCreateController extends MyBaseController
             
             $person->setEmail($email);
            
-            $personFed = $person->getFed($fedRoleId);
-            $personFed->setId($fedId);
+            $personFed = $person->getFed($fedRole);
+            $personFed->setFedKey($fedKey);
         }
         else
         {
@@ -157,7 +166,6 @@ class AccountCreateController extends MyBaseController
         $user->setAccountEnabled(true);
         $user->setPasswordPlain ($password);
         $user->setPersonGuid    ($person->getGuid());
-      //$user->setPersonFedId($personFed->getId());
         
         $model['user'] = $user;
         
@@ -177,19 +185,21 @@ class AccountCreateController extends MyBaseController
      */
     protected function createModel(Request $request)
     {
+        $model = parent::createModel($request);
+        
         // Do this here so janrain can add stuff
         $userManager = $this->get('cerad_user.user_manager');
         $user = $userManager->createUser();
 
-        $model = array(
-            'fedId'     => null,
-            'fedRoleId' => self::FED_ROLE_ID,
+        $modelx = array(
+            'fedKey'    => null,
+            'fedRole'   => $this->getFedRole(),
             'user'      => $user,
             'name'      => null,
             'email'     => null,
             'password'  => null,
         );
-        return $model;
+        return array_merge($model,$modelx);
     }
     /* ================================================
      * Create the form
@@ -202,11 +212,11 @@ class AccountCreateController extends MyBaseController
          * Be nice if the constraibnt type could come along with the form
          * Need to see how to inject the constraint options
          */
-        $fedRoleId = $model['fedRoleId'];
+        $fedRole = $model['fedRole'];
         
-        $fedIdTypeServiceId = sprintf('cerad_person.%s_id_Fake.form_type',$fedRoleId);
+        $fedKeyTypeServiceId = sprintf('cerad_person.%s_id_Fake.form_type',$fedRole);
 
-        $fedIdTypeService   = $this->get($fedIdTypeServiceId);
+        $fedKeyTypeService   = $this->get($fedKeyTypeServiceId);
         
         /* ======================================================
          * Start building
@@ -218,8 +228,10 @@ class AccountCreateController extends MyBaseController
         $constraintOptions = array(); // array('groups' => 'basic');
         
         $builder = $this->createFormBuilder($model,$formOptions);
+        $builder->setMethod('POST');
+        $builder->setAction($this->generateUrl($model['_route']));
         
-        $builder->add('fedId',$fedIdTypeService, array(
+        $builder->add('fedKey',$fedKeyTypeService, array(
             'required' => false,
         ));
         $builder->add('email','email', array(

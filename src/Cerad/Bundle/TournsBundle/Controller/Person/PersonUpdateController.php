@@ -17,7 +17,7 @@ class PersonUpdateController extends MyBaseController
         
         // Simple model
         $model = $this->createModel($request);
-        if ($model['_response']) return $model['response'];
+        if ($model['_response']) return $model['_response'];
 
         $form = $this->createModelForm($model);
         $form->handleRequest($request);

@@ -6,10 +6,6 @@ services:
         tags:
             - { name: twig.extension }
             
-    cerad_tourns.excel:
-        class:  Cerad\Component\Excel\Excel
-            
     cerad_tourns.officials.export_xls:
         class:  Cerad\Bundle\TournsBundle\Officials\ExportOfficialsXLS
-        arguments:  
-            - '@cerad_tourns.excel'
+
