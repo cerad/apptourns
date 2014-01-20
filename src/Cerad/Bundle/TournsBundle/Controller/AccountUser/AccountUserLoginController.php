@@ -14,7 +14,7 @@ class AccountUserLoginController extends MyBaseController
     public function loginFormAction(Request $request)
     {
         $model = $this->createAccountUserLoginModel($request);
-        
+     
         $form = $this->createModelForm($model);
         
         // Render
@@ -36,28 +36,36 @@ class AccountUserLoginController extends MyBaseController
         $tplData['form'] = $form->createView();
         $tplData['error'] = $model['loginError'];
         
-        return $this->render('@CeradTourns/AccountUser/Login/AccountUserLoginIndex.html.twig',$tplData);      
+        return $this->render($model['_template'],$tplData);      
     }
     /* ================================================
      * Create the model
+     * TODO: Renaming this to createModel causes exception?
      */
     protected function createAccountUserLoginModel($request)
     {
+        $model = parent::createModel($request);
+        
          // Majic to get any previous errors
         $info = $this->getAuthenticationInfo($request);
         
-        $model = array(
+        $modelx = array(
             'loginError'  => $info['error'],
             'username'    => $info['lastUsername'],
             'password'    => null,
             'remember_me' => true,
         );
-        return $model;
+        return array_merge($model,$modelx);
     }
     /* ================================================
      * Create the form
      * This is a little bit different in that we are creating a named form
      * As opposed to a regulat form
+     * 
+     * And why are we creating a named form?
+     * username_parameter:  cerad_tourn_account_user_login[username]
+     * 
+     * The create account form just has name="form[email]
      */
     protected function createModelForm($model)
     {        
