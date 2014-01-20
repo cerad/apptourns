@@ -183,20 +183,20 @@ class PersonUpdateController extends MyBaseController
             'attr' => array('size' => 30),
         ));
         $builder->add('personNameFirst','text', array(
-            'required' => true,
+            'required' => false,
             'label'    => 'First Name',
             'trim'     => true,
             'constraints' => array(
-                new NotBlankConstraint($constraintOptions),
+              //new NotBlankConstraint($constraintOptions),
             ),
             'attr' => array('size' => 20),
         ));
         $builder->add('personNameLast','text', array(
-            'required' => true,
+            'required' => false,
             'label'    => 'Last Name',
             'trim'     => true,
             'constraints' => array(
-                new NotBlankConstraint($constraintOptions),
+              //new NotBlankConstraint($constraintOptions),
             ),
             'attr' => array('size' => 20),
         ));

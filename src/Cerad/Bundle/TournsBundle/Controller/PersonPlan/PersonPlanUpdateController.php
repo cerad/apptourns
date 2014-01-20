@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Cerad\Bundle\TournsBundle\Controller\BaseController as MyBaseController;
 
-use Cerad\Bundle\TournBundle\FormType\DynamicFormType;
+use Cerad\Bundle\TournsBundle\FormType\DynamicFormType;
 
 /* ========================================================
  */

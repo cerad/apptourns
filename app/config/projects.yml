@@ -5,8 +5,7 @@ parameters:
     cerad_project_project_default: null
     
     cerad_project_project_files:
-        - "%kernel.root_dir%/config/projects/USSF_AL_HFCKicks_Fall2013.yml"
-        - "%kernel.root_dir%/config/projects/USSF_AL_StateCup_Fall2013.yml"
-        - "%kernel.root_dir%/config/projects/USSF_AL_StateCupFF_Fall2013.yml"
+        - "%kernel.root_dir%/config/projects/USSF_AL_HFCClassic_Spring2014.yml"
+
 
           

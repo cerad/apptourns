@@ -35,7 +35,7 @@ class AppKernel extends Kernel
             
             // Need this to update the feds to a new format
             // That stuff should have been in the persons bundle
-            //new Cerad\Bundle\AppCeradBundle\CeradAppCeradBundle(),
+            // new Cerad\Bundle\AppCeradBundle\CeradAppCeradBundle(),
             
         );
 
