@@ -117,8 +117,11 @@ class PersonPlanUpdateController extends MyBaseController
         
         $basic['notes'] = strip_tags($basic['notes']);
         
+        if (!$plan->getPersonName()) $plan->setPersonName($person->getName()->full);
+        
         $plan->setBasic($basic);
-                
+        $plan->setUpdatedOn();
+        
         // And save
         $personRepo->save($person);
         $personRepo->commit();
