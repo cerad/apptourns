@@ -1,10 +1,10 @@
 
-USSF_AL_HFC_Classic: # Index is not used
+USSF_AL_OpenCup: # Index is not used
     
   info:     
-    id: USSF_AL_HFCClassic_Spring2014
+    id: USSF_AL_OpenCup_Spring2014
                 
-    slugs: [classic, classic2014]
+    slugs: [opencup, opencup2014]
                   
     fed:     USSF
     fedRole: USSFC
@@ -12,10 +12,10 @@ USSF_AL_HFC_Classic: # Index is not used
     fedId:     USSF
     fedRoleId: USSFC
                 
-    title:   "HFC Classic 2014"
-    desc:    "USSF HFC Classic 2014 - Huntsville, Alabama - April 4.5.6"
+    title:   "Open Cup 2014"
+    desc:    "USSF Open Cup 2014 - Decatur, Alabama - April 11.12,13"
     
-    general_url:  'http://www.huntsvillefc.org/springclassic/'
+    general_url:  http://www.premiersoccerservices.com/home/566816.html
     
     status:    Active
     verified:  Yes
@@ -23,13 +23,13 @@ USSF_AL_HFC_Classic: # Index is not used
     season:    SP2014
     sport:     Soccer
     group:     ALYS
-    groupSub:  HFC Classic
+    groupSub:  Open Cup
 
     domain:    USSF
     domainSub: USSF_AL
                                 
     submit:  "Emails your application to Art Hundiak and yourself."
-    prefix:   Classic
+    prefix:   OpenCup
              
     assignor:
       name:  "Art Hundiak"
@@ -67,13 +67,13 @@ USSF_AL_HFC_Classic: # Index is not used
         Fri:
           type:      radio
           label:     Lodging Friday Night
-          date:     '2014-04-04'
+          date:     '2014-04-11'
           choices:  {No: No, Yes: Yes}
           default:   No
         Sat:
           type:      radio
           label:     Lodging Saturday Night
-          date:     '2014-04-05'
+          date:     '2014-04-12'
           choices:  {No: No, Yes: Yes}
           default:   No
                             
@@ -98,20 +98,20 @@ USSF_AL_HFC_Classic: # Index is not used
         Fri:
           type:      select
           label:     Availability Friday
-          date:     '2014-04-04'
+          date:     '2014-04-11'
           default:   None
           choices: { None: None, Evening: Kickoff 5PM, NotSure: Not Sure }
         Sat:
           type:      select
           label:     Availability Saturday
-          date:     '2014-04-05'
+          date:     '2014-04-12'
           default:   None
           choices: { None: None, AllDay: All Day, MorningOnly: Morning Only, AfternoonOnly: Afternoon Only, NotSure: Not Sure }
         Sun:
           type:      select
           label:     Availability Sunday
-          date:     '2014-04-06'
+          date:     '2014-04-13'
           default:   None
-          choices: { None: None,AllDay: All Day, MorningOnly: Morning Only, AfternoonOnly: Afternoon Only, NotSure: Not Sure }
+          choices: { None: None, AllDay: All Day, MorningOnly: Morning Only, AfternoonOnly: Afternoon Only, NotSure: Not Sure }
                             
     notes: { type: textarea, label: Notes, rows: 5, cols: 50}
