@@ -13,9 +13,10 @@ USSF_AL_HFC_Classic: # Index is not used
     fedRoleId: USSFC
                 
     title:   "HFC Classic 2014"
-    desc:    "USSF HFC Classic 2014 - Huntsville, Alabama - April 4.5.6"
+    desc:    "USSF HFC Classic 2014 - Huntsville, Alabama - April 4,5,6"
     
     general_url:  'http://www.huntsvillefc.org/springclassic/'
+    register_url: 'http://zayso.org/arbiter/tourn/opencup'
     
     status:    Active
     verified:  Yes
