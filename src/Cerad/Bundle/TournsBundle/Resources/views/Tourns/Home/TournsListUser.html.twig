@@ -1,17 +1,18 @@
-{# @CeradTourns/Tourns/Home/TournsListPublic.html.twig   #}
+{# @CeradTourns/Tourns/Home/TournsListUser.html.twig   #}
 
 <h3>Register For Tournament</h3>
-<ul>
+<ul class="tournaments-list">
 {% for project in projects %}
 {% if  project.status == 'Active' %}
     <li>
         <a href="{{ path('cerad_tourn_person_plan_update', { 'slug': project.slug, 'personId' : person.id }) }}">{{ project.desc }}</a>
     </li>
-</ul>
 {% endif  %}
 {% endfor %}
+</ul>
 {% if is_granted('ROLE_ADMIN') %}
 <h3>Admin List</h3>
+<ul class="tournaments-list">
 {% for project in projects %}
 {% if  project.status == 'Active' %}
     <li>
@@ -19,4 +20,5 @@
     </li>
 {% endif  %}
 {% endfor %}
+</ul>
 {% endif  %} {# ROLE_ADMIN #}
