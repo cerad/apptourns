@@ -5,8 +5,7 @@
 {% for project in projects %}
 {% if  project.status == 'Active' %}
     <li>
-        <a href="{{ path('cerad_tourn_person_plan_update', { 'slug': project.slug, 'personId' : person.id }) }}"
-        >{{ project.desc }}</a>
+        <a href="{{ path('cerad_tourn_person_plan_update', { 'slug': project.slug, 'personId' : person.id }) }}">{{ project.desc }}</a>
     </li>
 </ul>
 {% endif  %}
@@ -16,8 +15,7 @@
 {% for project in projects %}
 {% if  project.status == 'Active' %}
     <li>
-        <a href="{{ path('cerad_tourn_admin_person_plans_list', { 'slug': project.slug }) }}"
-        >{{ project.desc }}</a>
+        <a href="{{ path('cerad_tourn_admin_person_plans_list', { 'slug': project.slug }) }}">{{ project.desc }}</a>
     </li>
 {% endif  %}
 {% endfor %}
