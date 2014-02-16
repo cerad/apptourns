@@ -3,7 +3,9 @@ USSF_AL_HFC_Classic: # Index is not used
     
   info:     
     id: USSF_AL_HFCClassic_Spring2014
-                
+         
+    slug: classic-2014
+    
     slugs: [classic, classic2014]
                   
     fed:     USSF

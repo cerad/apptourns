@@ -1,3 +1,18 @@
-cerad_app_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: CeradAppBundle:Default:index }
+cerad_app_index:
+    pattern:  /home
+    defaults: 
+        _controller: CeradTournsBundle:Tourns/TournsHome:home
+        _template: '@CeradTourns/Tourns/Home/TournsHomeIndex.html.twig'
+ 
+# ==================================================
+# Note that _projectPerson is the id of the person
+cerad_person__project__project_person__register:
+    path:  /project/{_project}/project-person/{_projectPerson}/register
+    defaults:
+        _role:       ROLE_USER
+        _model:      cerad_person__project__project_person__register__model_factory
+        _form:       cerad_person__project__project_person__register__form_factory
+        _controller: cerad_person__project__project_person__register__controller:action
+        _template: '@CeradGame/Project/Game/Update/ByScorer/GameUpdateByScorerIndex.html.twig'
+        _redirect:   cerad_app_index
+  
