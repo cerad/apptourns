@@ -29,7 +29,9 @@ $loader = require __DIR__.'/../vendor/autoload.php';
 
 // Order is important
 $loader->add('Cerad', __DIR__ . '/../../cerad2/src',true);
-$loader->add('Cerad', __DIR__ . '/../..',           true);
+
+//17 Feb 2014 - See README file.
+//$loader->add('Cerad', __DIR__ . '/../..',           true);
 
 // AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
