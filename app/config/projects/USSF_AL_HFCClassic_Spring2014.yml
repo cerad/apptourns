@@ -1,120 +1,56 @@
-
-USSF_AL_HFC_Classic: # Index is not used
-    
-  info:     
-    id: USSF_AL_HFCClassic_Spring2014
+     
+key: USSF_AL_HFCClassic_Spring2014
          
-    slug: classic-2014
+slug:       Classic2014
+slugPrefix: Classic
+role:       Tournament
     
-    slugs: [classic, classic2014]
-                  
-    fed:     USSF
-    fedRole: USSFC
-        
-    fedId:     USSF
-    fedRoleId: USSFC
+fed:     USSF
+fedOrg:  USSF_AL
+fedRole: USSFC
                 
-    title:   "HFC Classic 2014"
-    desc:    "USSF HFC Classic 2014 - Huntsville, Alabama - April 4,5,6"
+name:    HFC Classic 2014
+desc:    USSF HFC Classic 2014 - Huntsville, Alabama - April 4,5,6
     
-    general_url:  'http://www.huntsvillefc.org/springclassic/'
-    register_url: 'http://zayso.org/arbiter/tourn/opencup'
+   #general_url:  'http://www.huntsvillefc.org/springclassic/'
+   #register_url: 'http://zayso.org/arbiter/tourn/opencup'
     
-    status:    Active
-    verified:  Yes
+status:    Active
+verified:  Yes
                 
-    season:    SP2014
-    sport:     Soccer
-    group:     ALYS
-    groupSub:  HFC Classic
-
-    domain:    USSF
-    domainSub: USSF_AL
+season:    Spring2014
+sport:     Soccer
+domain:    ALYS
+domainSub: HFC Classic
                                 
-    submit:  "Emails your application to Art Hundiak and yourself."
-    prefix:   Classic
-             
-    assignor:
-      name:  "Art Hundiak"
-      email: "ahundiak@gmail.com"
-      phone:  256.457.5943
-                 
-  basic:
-    refereeLevel:
-      type:    select
-      label:   Level to Referee At
-      default: Competitive
-      choices: { Competitive: Competitive, Elite: Elite, Recreational: Recreational }
-                                                
-    comfortLevelCenter:
-      type:    select
-      label:   Comfort Level To Center
-      default: U10
-      choices: { U10: U10, U12: U12, U14: U14, U16: U16, U19: U19 }
+assignor:
+  name:   Art Hundiak
+  email:  ahundiak@gmail.com
+  phone:  256.457.5943
+  submit: Emails your application to Art Hundiak and yourself.
+  prefix: Classic
+              
+dates:
+  - { date: '2014-04-04', label: Fri, lodging: true,  search: true, avail: 5PM Kickoff }
+  - { date: '2014-04-05', label: Sat, lodging: true,  search: true, avail: AllDay }
+  - { date: '2014-04-06', label: Sun, lodging: false, search: true, avail: AllDay }
+      
+plan:
+  refereeLevel:       ~                                   
+  comfortLevelCenter: ~             
+  comfortLevelAssist: ~
                         
-    comfortLevelAssist:
-      type:    select
-      label:   Comfort Level To Assist
-      default: U10
-      choices: { U10: U10, U12: U12, U14: U14, U16: U16, U19: U19 }
-                        
-    requestAssessment:
-      type:      radio
-      label:     Assessment Request
-      choices:  {None: None, Informal: Informal, Formal: Formal}
-      default:   None
+  requestAssessment: ~
 
-    lodgingNights:
-      type: collection
-      items:
-        Fri:
-          type:      radio
-          label:     Lodging Friday Night
-          date:     '2014-04-04'
-          choices:  {No: No, Yes: Yes}
-          default:   No
-        Sat:
-          type:      radio
-          label:     Lodging Saturday Night
-          date:     '2014-04-05'
-          choices:  {No: No, Yes: Yes}
-          default:   No
-                            
-    lodgingWith:   { type: text, label: Lodging With,   size: 30 }
-    travelingWith: { type: text, label: Traveling With, size: 30 }
-    travelingFrom: { type: text, label: Traveling From, size: 30 }
+  lodging: ~
+  lodgingWith:   ~
+    
+  travelingWith: ~
+  travelingFrom: ~
                     
-    teamClubAffilation:
-      type:    select
-      label:   Team/Club Affiliation
-      default: None
-      choices: 
-        None: None
-        Yes1: Club/Team is     in this tournament
-        Yes2: Club/Team is NOT in this tournament
-                        
-    teamClubName: { type: text, label: Team/Club Name, size: 30 }
+  teamClubAffilation: ~            
+  teamClubName: ~
                              
-    availabilityDays:
-      type: collection
-      items:
-        Fri:
-          type:      select
-          label:     Availability Friday
-          date:     '2014-04-04'
-          default:   None
-          choices: { None: None, Evening: Kickoff 5PM, NotSure: Not Sure }
-        Sat:
-          type:      select
-          label:     Availability Saturday
-          date:     '2014-04-05'
-          default:   None
-          choices: { None: None, AllDay: All Day, MorningOnly: Morning Only, AfternoonOnly: Afternoon Only, NotSure: Not Sure }
-        Sun:
-          type:      select
-          label:     Availability Sunday
-          date:     '2014-04-06'
-          default:   None
-          choices: { None: None,AllDay: All Day, MorningOnly: Morning Only, AfternoonOnly: Afternoon Only, NotSure: Not Sure }
+  availability: ~
                             
-    notes: { type: textarea, label: Notes, rows: 5, cols: 50}
+  notes: ~

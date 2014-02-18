@@ -6,7 +6,7 @@ parameters:
     
     cerad_project_project_files:
         - "%kernel.root_dir%/config/projects/USSF_AL_HFCClassic_Spring2014.yml"
-        - "%kernel.root_dir%/config/projects/USSF_AL_OpenCup_Spring2014.yml"
-        - "%kernel.root_dir%/config/projects/USSF_AL_StateCup_Spring2014.yml"
-        - "%kernel.root_dir%/config/projects/USSF_AL_StateCupFF_Spring2014.yml"
-        - "%kernel.root_dir%/config/projects/USSF_AL_PresidentsCup_Spring2014.yml"
+#        - "%kernel.root_dir%/config/projects/USSF_AL_OpenCup_Spring2014.yml"
+#        - "%kernel.root_dir%/config/projects/USSF_AL_StateCup_Spring2014.yml"
+#        - "%kernel.root_dir%/config/projects/USSF_AL_StateCupFF_Spring2014.yml"
+#        - "%kernel.root_dir%/config/projects/USSF_AL_PresidentsCup_Spring2014.yml"

@@ -28,7 +28,11 @@ $loader = require __DIR__.'/../vendor/autoload.php';
 // ader->add('Cerad',sprintf("%s%s..%s..",          __DIR__,DIRECTORY_SEPARATOR,DIRECTORY_SEPARATOR),true);
 
 // Order is important
-$loader->add('Cerad', __DIR__ . '/../../cerad2/src',true);
+// 
+// Cerad2 is no more
+// $loader->add('Cerad', __DIR__ . '/../../cerad2/src',true);
+
+
 $loader->add('Cerad', __DIR__ . '/../..',           true);
 
 // AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
