@@ -2,6 +2,25 @@ parameters:
 #    cerad_app.example.class: Cerad\Bundle\AppBundle\Example
 
 services:
-#    cerad_app.example:
-#        class: %cerad_app.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+
+# =======================================================================
+# ProjectPerson Register
+#
+    cerad_person__project_person__model_factory:
+        class: Cerad\Bundle\AppBundle\Action\ProjectPerson\ProjectPersonModel
+        calls:
+             - [setDispatcher,['@event_dispatcher']]
+        arguments:
+           - '@cerad_person__person_repository'
+
+    cerad_person__project_person__register__form_factory:
+        class: Cerad\Bundle\AppBundle\Action\ProjectPerson\Register\ProjectPersonRegisterFormFactory
+        calls:
+             - [setRouter,      ['@router']]
+             - [setFormFactory, ['@form.factory']]
+             
+    cerad_person__project_person__register__controller:
+        class: Cerad\Bundle\AppBundle\Action\ProjectPerson\Register\ProjectPersonRegisterController
+        calls:
+             - [setRouter,     ['@router']]
+             - [setTemplating, ['@templating']]

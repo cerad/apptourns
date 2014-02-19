@@ -15,4 +15,17 @@ cerad_person__project__project_person__register:
         _controller: cerad_person__project__project_person__register__controller:action
         _template: '@CeradGame/Project/Game/Update/ByScorer/GameUpdateByScorerIndex.html.twig'
         _redirect:   cerad_app_index
+        
+# ==================================================
+# A ProjectPerson will have Project Person PersonPlan PersonFed
+
+cerad_person__project_person__register:
+    path:  /project/{_project}/person/{_person}/register
+    defaults:
+        _rolex:       ROLE_USER
+        _model:      cerad_person__project_person__model_factory
+        _form:       cerad_person__project_person__register__form_factory
+        _controller: cerad_person__project_person__register__controller:action
+        _template: '@CeradPerson/ProjectPerson/Register/ProjectPersonRegisterIndex.html.twig'
+        _redirect:   cerad_app_index
   
