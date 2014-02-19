@@ -1,9 +1,23 @@
-cerad_app_index:
-    pattern:  /home
+cerad_app__index:
+    path:  /home
     defaults: 
         _controller: CeradTournsBundle:Tourns/TournsHome:home
         _template: '@CeradTourns/Tourns/Home/TournsHomeIndex.html.twig'
- 
+
+cerad_app__welcome:
+    path: /welcome
+    defaults:
+        _controller: cerad_app__welcome__controller:action
+        _model:      cerad_app__welcome__model_factory
+        _template: '@CeradApp/Welcome/WelcomeIndex.html.twig'
+
+cerad_app__userinfo:
+    path: /userinfo
+    defaults:
+        _controller: cerad_app__userinfo__controller:action
+        _user:       ~
+        _templateGuest: '@CeradApp/UserInfo/GuestIndex.html.twig'
+    
 # ==================================================
 # Note that _projectPerson is the id of the person
 cerad_person__project__project_person__register:

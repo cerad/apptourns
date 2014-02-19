@@ -1,0 +1,24 @@
+{# @CeradApp/Layout.html.twig #}
+{% extends '@CeradApp/Base.html.twig' %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('bundles/ceradapp/css/reset.css') }}" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/ceradapp/css/basic.css') }}" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/ceradapp/css/forms.css') }}" media="all" />
+{% endblock %}
+
+{% block layout_body %}
+<div id="layout-body">
+
+{% block layout_userinfo %}
+<div id="layout-userinfo">
+    {# render(route('cerad_app__user_info__controller:action', { '_model': 'cerad_app__welcome__model_factory' } )) #}
+    {{ render(route('cerad_app__userinfo')) }}
+</div>
+{% endblock %}
+    
+<div id="layout-content">{% block content %}{% endblock %}</div>
+
+</div>
+{% endblock %} {# end body block #}
+

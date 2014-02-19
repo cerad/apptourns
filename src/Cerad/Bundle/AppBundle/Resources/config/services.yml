@@ -24,3 +24,24 @@ services:
         calls:
              - [setRouter,     ['@router']]
              - [setTemplating, ['@templating']]
+             
+# ====================================================
+# Welcome and home stuff
+    cerad_app__welcome__model_factory:
+        class: Cerad\Bundle\AppBundle\Action\Welcome\WelcomeModel
+        calls:
+             - [setDispatcher,['@event_dispatcher']]
+        arguments:
+           - '@cerad_project__project_repository'
+           
+    cerad_app__welcome__controller:
+        class: Cerad\Bundle\AppBundle\Action\Welcome\WelcomeController
+        calls:
+             - [setRouter,     ['@router']]
+             - [setTemplating, ['@templating']]
+             
+    cerad_app__user_info__controller:
+        class: Cerad\Bundle\AppBundle\Action\UserInfo\UserInfoController
+        calls:
+             - [setRouter,     ['@router']]
+             - [setTemplating, ['@templating']]
