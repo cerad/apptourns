@@ -1,17 +1,18 @@
 <?php
 
-namespace Cerad\Bundle\AppBundle\Action\Home;
+namespace Cerad\Bundle\AppBundle\Action;
 
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class HomeModel
+class ProjectsModel
 {   
     // Injected
     protected $dispatcher;
     protected $projectRepo;
-    protected $created = false;
+    
+    protected $created = false; // Singleton for sub requests?
     
     public function setDispatcher(EventDispatcherInterface $dispatcher) { $this->dispatcher = $dispatcher; }
     
@@ -24,19 +25,15 @@ class HomeModel
     }
     public function getProjects()
     {
-        return $this->projectRepo->findAll();
+        return $this->projectRepo->findBy(array('status' => 'Active','role' => 'Tournament'));
     }
     public function create(Request $request)
     { 
-        return $this;
+        if ($this->created) return;
         
-        $this->project = $project = $request->attributes->get('project');
-        $this->person  = $person  = $request->attributes->get('person');
-        
-        $this->plan    = $person->getPlan($this->project);
-        
-      //$this->fed     = $request->attributes->get('fed');
+        $this->created = true;
         
         return $this;
+        if ($request);
     }
 }

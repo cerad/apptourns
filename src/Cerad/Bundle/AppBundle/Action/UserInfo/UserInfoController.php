@@ -20,7 +20,12 @@ class UserInfoController extends Controller
         if ($this->isGranted('ROLE_ADMIN')) $tplRole = 'Admin';
         
         $tplName = str_replace('ROLE',$tplRole,$request->attributes->get('_template'));
-   
-        return $this->renderResponse($tplName);
+        
+        // View Data
+        $tplData = array();
+        $tplData['user']       = $request->attributes->get('user');
+        $tplData['userPerson'] = $request->attributes->get('userPerson');
+
+        return $this->regularResponse($tplName,$tplData);
     }    
 }

@@ -1,0 +1,37 @@
+/* 
+    Document   : general
+    Created on : Sep 16, 2013, 2:59:55 PM
+    Author     : ahundiak
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+h3
+{
+    margin-top:    5px;
+    margin-left:  10px;
+    margin-bottom: 5px;
+}
+div
+{
+    margin-top:    5px;
+    margin-left:  10px;
+    margin-bottom: 5px;
+}
+p
+{
+    width:       700px;
+    margin-top:    5px;
+    margin-left:  10px;
+    margin-bottom: 5px;
+}
+ul
+{
+    margin-top:    5px;
+    margin-left:  10px;
+    margin-bottom:10px;
+}
+li
+{
+    margin-bottom: 4px;
+}

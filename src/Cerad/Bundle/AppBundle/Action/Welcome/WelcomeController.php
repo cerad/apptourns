@@ -10,7 +10,7 @@ use Cerad\Bundle\CoreBundle\Action\Controller;
 
 class WelcomeController extends Controller
 {
-    public function action(Request $request, WelcomeModel $model)
+    public function action(Request $request, $model)
     {   
         // Special case for session timeouts
         if ($this->isGranted('ROLE_USER'))
@@ -22,6 +22,6 @@ class WelcomeController extends Controller
         
         $tplName = $request->attributes->get('_template');
         
-        return $this->renderResponse($tplName,$tplData);
+        return $this->regularResponse($tplName,$tplData);
     }    
 }

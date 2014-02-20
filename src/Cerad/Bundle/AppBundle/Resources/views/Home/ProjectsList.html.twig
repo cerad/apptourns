@@ -1,12 +1,8 @@
 {# @CeradTourns/Tourns/Welcome/TournsListPublic.html.twig   #}
 
-<h3>Register For Tournament (Account Required)</h3>
+<h3>Register For Tournament</h3>
 <ul class="tournaments-list">
 {% for project in projects %}
-{% if  project.status == 'Active' %}
-    <li>
-        {{ project.desc }}
-    </li>
-{% endif  %}
+  <li><a href="{{ project.registerUrl }}">{{ project.desc }}</a></li>
 {% endfor %}
 </ul>

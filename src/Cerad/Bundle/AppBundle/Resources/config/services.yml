@@ -6,20 +6,20 @@ services:
 # =======================================================================
 # ProjectPerson Register
 #
-    cerad_person__project_person__model_factory:
+    cerad_person__project_person_model_factory:
         class: Cerad\Bundle\AppBundle\Action\ProjectPerson\ProjectPersonModel
         calls:
              - [setDispatcher,['@event_dispatcher']]
         arguments:
            - '@cerad_person__person_repository'
 
-    cerad_person__project_person__register__form_factory:
+    cerad_person__project_person__register_form_factory:
         class: Cerad\Bundle\AppBundle\Action\ProjectPerson\Register\ProjectPersonRegisterFormFactory
         calls:
              - [setRouter,      ['@router']]
              - [setFormFactory, ['@form.factory']]
              
-    cerad_person__project_person__register__controller:
+    cerad_person__project_person__register_controller:
         class: Cerad\Bundle\AppBundle\Action\ProjectPerson\Register\ProjectPersonRegisterController
         calls:
              - [setRouter,     ['@router']]
@@ -27,8 +27,8 @@ services:
              
 # ====================================================
 # Welcome and home stuff
-    cerad_app__welcome_model_factory:
-        class: Cerad\Bundle\AppBundle\Action\Welcome\WelcomeModel
+    cerad_app__projects_model_factory:
+        class: Cerad\Bundle\AppBundle\Action\ProjectsModel
         calls:
              - [setDispatcher,['@event_dispatcher']]
         arguments:
@@ -40,13 +40,6 @@ services:
              - [setRouter,          ['@router']]
              - [setTemplating,      ['@templating']]
              - [setSecurityContext, ['@security.context']]
-             
-    cerad_app__home_model_factory:
-        class: Cerad\Bundle\AppBundle\Action\Home\HomeModel
-        calls:
-             - [setDispatcher,['@event_dispatcher']]
-        arguments:
-           - '@cerad_project__project_repository'
            
     cerad_app__home_controller:
         class: Cerad\Bundle\AppBundle\Action\Home\HomeController
@@ -54,6 +47,12 @@ services:
              - [setRouter,          ['@router']]
              - [setTemplating,      ['@templating']]
              - [setSecurityContext, ['@security.context']]
+             
+    cerad_app__home_view:
+        class: Cerad\Bundle\AppBundle\Action\Home\HomeView
+        calls:
+             - [setRouter,          ['@router']]
+             - [setTemplating,      ['@templating']]
              
     cerad_app__userinfo_controller:
         class: Cerad\Bundle\AppBundle\Action\UserInfo\UserInfoController

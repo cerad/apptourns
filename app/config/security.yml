@@ -44,7 +44,7 @@ security:
                 provider:            cerad_tourn_account_user_provider
                 login_path:          cerad_tourn_account_user_login
                 check_path:          cerad_tourn_account_user_login_check
-                default_target_path: cerad_tourn_home
+                default_target_path: cerad_app__home
 
                 username_parameter:  cerad_tourn_account_user_login[username]
                 password_parameter:  cerad_tourn_account_user_login[password]
@@ -54,12 +54,12 @@ security:
                 
             logout:
                 path:   cerad_tourn_account_user_logout
-                target: cerad_tourn_welcome
+                target: cerad_app__welcome
                                 
             remember_me:
                 key:      "%secret%"
                 lifetime: 31536000  # 365 days in seconds
-                path:     cerad_tourn_welcome
+                path:     cerad_app__welcome
                 domain:   ~
                 name:     zayso_remember_me
                 remember_me_parameter: cerad_tourn_account_user_login[remember_me]
