@@ -1,0 +1,32 @@
+{% autoescape false %}
+{{ project.desc }}
+
+{{ person.name.full }}
+
+{{ personFed.orgKey }} {{ personFed.fedKey | slice(5) }} {{ certReferee.badgeUser }}
+
+{{ person.email }} {{ person.phone | cerad_phone }} {{ person.address.city }} {{ person.address.state }}
+
+{% set basic = personPlan.basic %}
+Lodging: {% for key, value in basic.lodgingNights %}{{ key }}-{{ value }}{% if not loop.last %}, {% endif %} {% endfor %} {{ basic.lodgingWith }} 
+Traveling: {{ basic.travelingFrom }} - {{ basic.travelingWith }}
+Availability: {% for key, value in basic.availability %}{{ key }}-{{ value }}{% if not loop.last %}, {% endif %} {% endfor %} {{ ' ' }}
+Level: {{ basic.refereeLevel }} {{ basic.comfortLevelCenter }} {{ basic.comfortLevelAssist }} 
+Club Team: {{ basic.teamClubAffilation }} {{ basic.teamClubName}}
+
+Upgrading: {{ personFed.certReferee.upgrading }}, Assessment: {{ basic.requestAssessment }}
+
+Notes:
+{{ basic.notes }}
+---
+
+Change Availability at: {{ url('cerad_app__home') }}
+
+Thanks
+
+{{ project.assignor.name }}
+{{ project.name }} Assignor
+{{ assignor.phone }}
+{{ assignor.email }}
+
+{% endautoescape %}

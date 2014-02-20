@@ -19,7 +19,7 @@ class ProjectPersonRegisterController extends Controller
 
         if ($form->isValid()) 
         {   
-            $model->process();
+            $model->processRegistration();
             
             $formAction = $form->getConfig()->getAction();
             return new RedirectResponse($formAction);  // To form
