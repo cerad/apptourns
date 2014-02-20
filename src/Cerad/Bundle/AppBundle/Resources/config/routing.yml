@@ -36,10 +36,10 @@ cerad_app__index:
 cerad_person__project_person__register:
     path:  /project/{_project}/person/{_person}/register
     defaults:
-        _rolex:       ROLE_USER
+        _role:       ROLE_USER
         _model:      cerad_person__project_person_model_factory
         _form:       cerad_person__project_person__register_form_factory
         _controller: cerad_person__project_person__register_controller:action
-        _template: '@CeradPerson/ProjectPerson/Register/ProjectPersonRegisterIndex.html.twig'
+        _template: '@CeradApp/ProjectPerson/Register/RegisterIndex.html.twig'
         _redirect:   cerad_app__home
   

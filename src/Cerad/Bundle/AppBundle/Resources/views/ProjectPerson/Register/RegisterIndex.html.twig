@@ -1,0 +1,11 @@
+{% extends '@CeradApp/Layout.html.twig' %}
+
+{% block content %}
+   
+<h3>{{ project.desc}}</h3>
+<h3>{{ person.name.full}}</h3>
+
+{% include '@CeradApp/ProjectPerson/Register/RegisterForm.html.twig' %}
+{% include '@CeradApp/ProjectPerson/Register/RegisterHelp.html.twig' %}
+
+{% endblock %}{# end content block #}

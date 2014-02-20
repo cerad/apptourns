@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+<fieldset><legend><span>Basic Plans</span></legend>
+  {{ form_rest(form.basic) }}
+</fieldset>
+<fieldset>
+  <div class="controls">
+    <span>{{ project.assignor.submit }}</span>{{ form_widget(form.register) }}
+  </div>
+</fieldset>
+{{ form_rest(form) }}
+{{ form_end (form) }}

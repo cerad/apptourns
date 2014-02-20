@@ -7,22 +7,33 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Symfony\Component\Form\FormInterface;
 
-use Symfony\Component\Routing\RouterInterface;
-
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Cerad\Bundle\CoreBundle\Action\Controller;
 
 use Cerad\Bundle\AppBundle\Action\ProjectPerson\ProjectPersonModel;
 
-class ProjectPersonRegisterController
-{
-    protected $router;
-    protected $templating;
-    
-    public function setRouter    (RouterInterface $router)     { $this->router     = $router;     }
-    public function setTemplating(EngineInterface $templating) { $this->templating = $templating; }
-    
+class ProjectPersonRegisterController extends Controller
+{   
     public function action(Request $request, ProjectPersonModel $model, FormInterface $form)
     {   
-        die('register.action');
+        $form->handleRequest($request);
+
+        if ($form->isValid()) 
+        {   
+            $model->process();
+            
+            $formAction = $form->getConfig()->getAction();
+            return new RedirectResponse($formAction);  // To form
+            
+            return $this->redirect('cerad_app__home');
+        }
+        
+        $tplData = array();
+        $tplData['form']    = $form->createView();
+        $tplData['person']  = $model->getPerson();
+        $tplData['project'] = $model->getProject();
+        
+        $tplName = $request->attributes->get('_template');
+        return $this->regularResponse($tplName, $tplData);
+
     }    
 }

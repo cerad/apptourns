@@ -9,12 +9,12 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class ProjectPersonModel
 {
     // Model Listener
-    public $project;
-    public $person;
+    protected $project;
+    protected $person;
     
     // Retrieved
-    public $plan;    // Project Person Plan
-    public $fed;
+    protected $personPlan;    // Project Person Plan
+    protected $personFed;
     
     // Injected
     protected $dispatcher;
@@ -26,19 +26,43 @@ class ProjectPersonModel
     {
         $this->personRepo = $personRepo;
     }
-    public function process()
-    {   
+    public function getPerson () { return $this->person;  }
+    public function getProject() { return $this->project; }
+    public function getPersonPlan()
+    {
+        // Already got
+        if ($this->personPlan) return $this->personPlan;
+        
+        $person  = $this->person;
+        $project = $this->project;
+        
+        // Already registered
+        $this->personPlan = $personPlan = $this->personRepo->findPlanByProjectAndPerson($project,$person);
+        if ($personPlan) 
+        {
+            // Merge in any property changes
+            $personPlan->mergeBasicProps($project->getPlan());
+            return $personPlan;
+        }
+        // New one
+        $this->personPlan = $personPlan = $this->person->createPlan();
+        
+        $personPlan->setPerson($person);
+        $personPlan->setProjectId($project->getKey());
+        $personPlan->mergeBasicProps($project->getPlan());
+        
+        return $personPlan;
     }
-    
     public function create(Request $request)
     { 
-        $this->project = $project = $request->attributes->get('project');
-        $this->person  = $person  = $request->attributes->get('person');
-        
-        $this->plan    = $person->getPlan($this->project);
-        
-      //$this->fed     = $request->attributes->get('fed');
-        
+        $this->person  = $request->attributes->get('person');
+        $this->project = $request->attributes->get('project');
         return $this;
+    }
+    public function process()
+    {
+        if ($this->personPlan) $this->personRepo->persist($this->personPlan);
+        
+        $this->personRepo->flush();
     }
 }

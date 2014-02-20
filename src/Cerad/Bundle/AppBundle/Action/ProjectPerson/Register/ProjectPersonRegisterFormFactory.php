@@ -10,6 +10,8 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 use Cerad\Bundle\AppBundle\Action\ProjectPerson\ProjectPersonModel;
 
+use Cerad\Bundle\CoreBundle\FormType\DynamicFormType;
+
 class ProjectPersonRegisterFormFactory
 {
     protected $router;
@@ -20,66 +22,37 @@ class ProjectPersonRegisterFormFactory
     
     public function create(Request $request, ProjectPersonModel $model)
     {   
-        // The 'form' is actually the type
-        $builder = $this->formFactory->createBuilder('form',$model);
-        return $builder->getForm();
-die('form.factory');
+      //$person     = $model->getPerson();
+        $project    = $model->getProject();
+        $personPlan = $model->getPersonPlan();
+        
         $actionRoute = $request->attributes->get('_route');
+        
+        $attrs = array(
+            'id'    => $actionRoute,
+            'class' => $actionRoute . ' cerad_common_form1');
+        
+        $builder = $this->formFactory->createBuilder('form',$personPlan, array('attr' => $attrs));
+        
         $actionUrl = $this->router->generate($actionRoute,array
         (
-            '_game'    => $model->game->getNum(),
+            '_person'  => $request->attributes->get('_person'),
             '_project' => $request->attributes->get('_project'),
         ));
         $builder->setAction($actionUrl);
         
-        $builder->add('num','text',array(
-            'label'     => 'Game Number',
-            'read_only' => true,
-            'attr'      => array('size' => 4),
-        ));
-        $builder->add('dtBeg','datetime',array(
-            'label' => 'Date Time',
-            'minutes' => array(0,5,10,15,20,25,30,35,40,45,50,55),
-        ));
-        /* Needs more work
-        $builder->add('dateBegin','date',array(
-            'label' => 'Date',
-        ));
-        $builder->add('timeBegin','time',array(
-            'label' => 'Time Begin',
-            'minutes' => array(0,5,10,15,20,25,30,35,40,45,50,55),
-        ));
-         * */
-         
-        $builder->add('field', 'entity', array(
-            'class'    => 'Cerad\Bundle\GameBundle\Entity\GameField',
-            'property' => 'name',
-            'choices'  => $model->getGameFields(),
-        ));
-        $builder->add('levelKey','text',array(
-            'label'     => 'Level',
-            'read_only' => true,
-            'attr'      => array('size' => 20),
-        ));
-        $builder->add('group','text',array(
-            'label'     => 'Group',
-            'read_only' => true,
-            'attr'      => array('size' => 20),
-        ));
-        $teamNameChoices = $model->getTeamNameChoices();
-        $gameTeamFormType = new GameUpdateByScorerTeamFormType($teamNameChoices);
-        
-        $builder->add('homeTeam',$gameTeamFormType);
-        $builder->add('awayTeam',$gameTeamFormType);
-    
-        $builder->add('update', 'submit', array(
-            'label' => 'Update',
+        $basicType = new DynamicFormType('basic',$project->getPlan());
+        $builder->add('basic',$basicType, array('label' => false));
+       
+        // Buttons and such
+        $builder->add('register', 'submit', array(
+            'label' => 'Email Application',
             'attr'  => array('class' => 'submit'),
         ));  
-        $builder->add( 'reset','reset', array(
-            'label' => 'Reset',
-            'attr'  => array('class' => 'submit'),
-        ));  
+//        $builder->add( 'reset','reset', array(
+//            'label' => 'Reset',
+//            'attr'  => array('class' => 'submit'),
+//        ));  
         return $builder->getForm();
     }
 }

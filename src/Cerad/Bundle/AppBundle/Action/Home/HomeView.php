@@ -13,8 +13,10 @@ class HomeView extends View
     
     public function renderResponse(Request $request)
     {
-        $model      = $request->attributes->get('model');
-        $userPerson = $request->attributes->get('userPerson');
+        $requestAttributes = $request->attributes;
+        
+        $model      = $requestAttributes->get('model');
+        $userPerson = $requestAttributes->get('userPerson');
         
         $modelProjects = $model->getProjects();
         $viewProjects = array();
@@ -29,7 +31,7 @@ class HomeView extends View
         $tplData = array();
         $tplData['projects'] = $viewProjects;
         
-        $tplName = $request->attributes->has('_template') ? $request->attributes->get('_template') : $this->tplName;
+        $tplName = $requestAttributes->has('_template') ? $requestAttributes->get('_template') : $this->tplName;
         
         return $this->regularResponse($tplName,$tplData);
     }
