@@ -1,22 +1,21 @@
 <?php
 
-namespace Cerad\Bundle\AppBundle\Action\Welcome;
+namespace Cerad\Bundle\AppBundle\Action\Home;
 
 use Symfony\Component\HttpFoundation\Request;
 
-//  Symfony\Component\Form\FormInterface;
-
 use Cerad\Bundle\CoreBundle\Action\Controller;
 
-class WelcomeController extends Controller
+class HomeController extends Controller
 {
-    public function action(Request $request, WelcomeModel $model)
+    public function action(Request $request, HomeModel $model)
     {   
         // Special case for session timeouts
-        if ($this->isGranted('ROLE_USER'))
+        if (!$this->isGranted('ROLE_USER'))
         {
-            return $this->redirectResponse('cerad_app__home');
+            return $this->redirectResponse('cerad_app__welcome');
         }
+        
         $tplData = array();
         $tplData['projects'] = $model->getProjects();
         

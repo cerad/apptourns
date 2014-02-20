@@ -29,7 +29,7 @@ class AppKernel extends Kernel
             
             // This holds arbiter schedule processing stuff
             // Should be moved to cerad2 as well
-            new Cerad\Bundle\ArbiterBundle\CeradArbiterBundle(),
+            // new Cerad\Bundle\ArbiterBundle\CeradArbiterBundle(),
             
             // Currently empty
             // Used when the other bundles are moved to cerad2

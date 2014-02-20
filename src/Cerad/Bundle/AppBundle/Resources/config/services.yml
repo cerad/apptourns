@@ -27,21 +27,37 @@ services:
              
 # ====================================================
 # Welcome and home stuff
-    cerad_app__welcome__model_factory:
+    cerad_app__welcome_model_factory:
         class: Cerad\Bundle\AppBundle\Action\Welcome\WelcomeModel
         calls:
              - [setDispatcher,['@event_dispatcher']]
         arguments:
            - '@cerad_project__project_repository'
            
-    cerad_app__welcome__controller:
+    cerad_app__welcome_controller:
         class: Cerad\Bundle\AppBundle\Action\Welcome\WelcomeController
         calls:
-             - [setRouter,     ['@router']]
-             - [setTemplating, ['@templating']]
+             - [setRouter,          ['@router']]
+             - [setTemplating,      ['@templating']]
+             - [setSecurityContext, ['@security.context']]
              
-    cerad_app__user_info__controller:
+    cerad_app__home_model_factory:
+        class: Cerad\Bundle\AppBundle\Action\Home\HomeModel
+        calls:
+             - [setDispatcher,['@event_dispatcher']]
+        arguments:
+           - '@cerad_project__project_repository'
+           
+    cerad_app__home_controller:
+        class: Cerad\Bundle\AppBundle\Action\Home\HomeController
+        calls:
+             - [setRouter,          ['@router']]
+             - [setTemplating,      ['@templating']]
+             - [setSecurityContext, ['@security.context']]
+             
+    cerad_app__userinfo_controller:
         class: Cerad\Bundle\AppBundle\Action\UserInfo\UserInfoController
         calls:
-             - [setRouter,     ['@router']]
-             - [setTemplating, ['@templating']]
+             - [setRouter,          ['@router']]
+             - [setTemplating,      ['@templating']]
+             - [setSecurityContext, ['@security.context']]
