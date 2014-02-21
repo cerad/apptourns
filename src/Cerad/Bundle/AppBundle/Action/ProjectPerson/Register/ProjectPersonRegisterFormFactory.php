@@ -4,22 +4,14 @@ namespace Cerad\Bundle\AppBundle\Action\ProjectPerson\Register;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Symfony\Component\Routing\RouterInterface;
+use Cerad\Bundle\CoreBundle\FormType\DynamicFormType;
 
-use Symfony\Component\Form\FormFactoryInterface;
+use Cerad\Bundle\CoreBundle\Action\ActionFormFactory;
 
 use Cerad\Bundle\AppBundle\Action\ProjectPerson\ProjectPersonModel;
 
-use Cerad\Bundle\CoreBundle\FormType\DynamicFormType;
-
-class ProjectPersonRegisterFormFactory
+class ProjectPersonRegisterFormFactory extends ActionFormFactory
 {
-    protected $router;
-    protected $formFactory;
-    
-    public function setRouter     (RouterInterface      $router)      { $this->router      = $router; }
-    public function setFormFactory(FormFactoryInterface $formFactory) { $this->formFactory = $formFactory; }
-    
     public function create(Request $request, ProjectPersonModel $model)
     {   
       //$person     = $model->getPerson();

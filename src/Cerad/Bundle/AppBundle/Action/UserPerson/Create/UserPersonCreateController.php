@@ -1,6 +1,6 @@
 <?php
 
-namespace Cerad\Bundle\AppBundle\Action\ProjectPerson\Register;
+namespace Cerad\Bundle\AppBundle\Action\UserPerson\Create;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -9,17 +9,15 @@ use Symfony\Component\Form\FormInterface;
 
 use Cerad\Bundle\CoreBundle\Action\ActionController;
 
-use Cerad\Bundle\AppBundle\Action\ProjectPerson\ProjectPersonModel;
-
-class ProjectPersonRegisterController extends ActionController
+class UserPersonCreateController extends ActionController
 {   
-    public function action(Request $request, ProjectPersonModel $model, FormInterface $form)
+    public function action(Request $request, UserPersonCreateModel $model, FormInterface $form)
     {   
         $form->handleRequest($request);
 
         if ($form->isValid()) 
         {   
-            $model->processRegistration();
+            $model->process();
             
             $formAction = $form->getConfig()->getAction();
             return new RedirectResponse($formAction);  // To form
@@ -28,9 +26,7 @@ class ProjectPersonRegisterController extends ActionController
         }
         
         $tplData = array();
-        $tplData['form']    = $form->createView();
-        $tplData['person']  = $model->getPerson();
-        $tplData['project'] = $model->getProject();
+        $tplData['form'] = $form->createView();
         
         $tplName = $request->attributes->get('_template');
         return $this->regularResponse($tplName, $tplData);

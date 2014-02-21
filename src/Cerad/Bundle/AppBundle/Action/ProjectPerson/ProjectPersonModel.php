@@ -4,12 +4,12 @@ namespace Cerad\Bundle\AppBundle\Action\ProjectPerson;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 use Cerad\Bundle\CoreBundle\Events\PersonEvents;
 use Cerad\Bundle\CoreBundle\Event\RegisterProjectPersonEvent;
 
-class ProjectPersonModel
+use Cerad\Bundle\CoreBundle\Action\ActionModelFactory;
+
+class ProjectPersonModel extends ActionModelFactory
 {
     // Model Listener
     protected $project;
@@ -20,10 +20,7 @@ class ProjectPersonModel
     protected $personPlan;    // Project Person Plan
     
     // Injected
-    protected $dispatcher;
     protected $personRepo;
-    
-    public function setDispatcher(EventDispatcherInterface $dispatcher) { $this->dispatcher = $dispatcher; }
     
     public function __construct($personRepo)
     {

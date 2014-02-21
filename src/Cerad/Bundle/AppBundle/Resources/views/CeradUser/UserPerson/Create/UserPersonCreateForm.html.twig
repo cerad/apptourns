@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+<fieldset><legend><span>Account Information</span></legend>
+  {{ form_row(form.fedKey)         }}
+  {{ form_row(form.email)          }}
+  {{ form_row(form.name)           }}
+  {{ form_row(form.password.pass1) }}
+  {{ form_row(form.password.pass2) }}
+</fieldset>
+<fieldset>
+  <div class="controls">
+    <span><a href="{{ path('cerad_app__welcome') }}">Return to Welcome</a></span>
+    {{ form_widget(form.create) }}
+  </div>
+</fieldset>
+{{ form_rest(form) }}
+{{ form_end (form) }}
+
+

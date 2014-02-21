@@ -60,3 +60,28 @@ services:
              - [setRouter,          ['@router']]
              - [setTemplating,      ['@templating']]
              - [setSecurityContext, ['@security.context']]
+
+# =======================================================================
+# UserPerson Create
+#
+    cerad_user__user_person__create_model_factory:
+        class: Cerad\Bundle\AppBundle\Action\UserPerson\Create\UserPersonCreateModel
+        calls:
+             - [setDispatcher,['@event_dispatcher']]
+        arguments:
+           - '@cerad_user__user_manager'
+           - '@cerad_person__person_repository'
+           - '%cerad_fed_role_default%'
+
+    cerad_user__user_person__create__form_factory:
+        class: Cerad\Bundle\AppBundle\Action\UserPerson\Create\UserPersonCreateFormFactory
+        calls:
+             - [setRouter,      ['@router']]
+             - [setFormFactory, ['@form.factory']]
+             - [setDispatcher,  ['@event_dispatcher']]
+             
+    cerad_user__user_person__create__controller:
+        class: Cerad\Bundle\AppBundle\Action\UserPerson\Create\UserPersonCreateController
+        calls:
+             - [setRouter,     ['@router']]
+             - [setTemplating, ['@templating']]

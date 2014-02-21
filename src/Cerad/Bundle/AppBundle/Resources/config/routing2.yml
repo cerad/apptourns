@@ -4,7 +4,6 @@
         
 # ==================================================
 # A ProjectPerson will have Project Person PersonPlan PersonFed
-
 cerad_person__project_person__register:
     path:  /project/{_project}/person/{_person}/register
     defaults:
@@ -14,4 +13,22 @@ cerad_person__project_person__register:
         _controller: cerad_person__project_person__register_controller:action
         _template: '@CeradApp/ProjectPerson/Register/RegisterIndex.html.twig'
         _redirect:   cerad_app__home
-  
+
+# ===================================================
+# Override the create user person  to allows adding referee certification
+# Want to  break this into steps later on
+cerad_user__user_person__create:
+  path: /user-person/create
+  defaults:
+    _model:      cerad_user__user_person__create_model_factory
+    _form:       cerad_user__user_person__create_form_factory
+    _controller: cerad_user__user_person__create_controller:action
+    _template: '@CeradUser\UserPerson\Create\UserPersonCreateIndex.html.twig'
+    
+cerad_user__user_person__create_form:
+  path: /user-person/create-form
+  defaults:
+    _model:      cerad_user__user_person__create_model_factory
+    _form:       cerad_user__user_person__create_form_factory
+    _controller: cerad_user__user_person__create_controller:action
+    _template: '@CeradUser\UserPerson\Create\UserPersonCreateForm.html.twig'
