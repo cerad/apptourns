@@ -6,7 +6,7 @@ services:
 # =======================================================================
 # ProjectPerson Register
 #
-    cerad_person__project_person_model_factory:
+    cerad_person__project_person__model_factory:
         class: Cerad\Bundle\AppBundle\Action\ProjectPerson\ProjectPersonModel
         calls:
              - [setDispatcher,['@event_dispatcher']]

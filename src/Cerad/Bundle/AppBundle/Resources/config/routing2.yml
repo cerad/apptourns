@@ -1,0 +1,17 @@
+# =============================================
+# These are intended to override bundle routes
+
+        
+# ==================================================
+# A ProjectPerson will have Project Person PersonPlan PersonFed
+
+cerad_person__project_person__register:
+    path:  /project/{_project}/person/{_person}/register
+    defaults:
+        _role:       ROLE_USER
+        _model:      cerad_person__project_person__model_factory
+        _form:       cerad_person__project_person__register_form_factory
+        _controller: cerad_person__project_person__register_controller:action
+        _template: '@CeradApp/ProjectPerson/Register/RegisterIndex.html.twig'
+        _redirect:   cerad_app__home
+  

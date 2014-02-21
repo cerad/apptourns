@@ -11,8 +11,8 @@
     By doing so you will avoid the need to enter all your USSF information for each tournament.
     It slao allows you to update your tournament plans if necessary.
 </p>
-<h3>Log in below if you have an account.</h3>
-{# render(controller('CeradTournsBundle:AccountUser/AccountUserLogin:loginForm')) #}
+<h3>Log in below if you already have an account.</h3>
+{{ render(route('cerad_user__user__login_form')) }}
 
 <h3>Create an account.</h3>
 {# render(controller('CeradTournsBundle:Account/AccountCreate:createForm')) #}

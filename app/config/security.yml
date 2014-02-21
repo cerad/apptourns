@@ -4,7 +4,7 @@ security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
         Cerad\Bundle\UserBundle\Entity\User: 
-            id: cerad_user.user_encoder
+            id: cerad_user__user_encoder
         
     role_hierarchy:
         ROLE_USER:        [ROLE_USER]
@@ -16,7 +16,7 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ASSIGNOR, ROLE_SCORE_ADMIN, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        in_memory_user_provider:
+        in_memory__user_provider:
             memory:
                 users:
                     user:     { password: user894,  roles: [ 'ROLE_USER' ]  }
@@ -24,12 +24,12 @@ security:
                     su:       { password: su894,    roles: [ 'ROLE_SUPER_ADMIN'] }
                     assignor: { password: assign,   roles: [ 'ROLE_ASSIGNOR'] }
                     
-        cerad_tourn_account_user_provider:
-            id: cerad_user.user_provider
+        cerad_user__user_provider:
+            id: cerad_user__user_provider
             
-        chained_user_provider:
+        chained__user_provider:
             chain:
-                providers: [ in_memory_user_provider, cerad_tourn_account_user_provider ]
+                providers: [ in_memory__user_provider, cerad_user__user_provider ]
                 
 # ================================================================================
     firewalls:
@@ -41,19 +41,19 @@ security:
             anonymous: ~
             
             form_login:
-                provider:            cerad_tourn_account_user_provider
-                login_path:          cerad_tourn_account_user_login
-                check_path:          cerad_tourn_account_user_login_check
+                provider:            chained__user_provider
+                login_path:          cerad_user__user__login
+                check_path:          cerad_user__user__login_check
                 default_target_path: cerad_app__home
 
-                username_parameter:  cerad_tourn_account_user_login[username]
-                password_parameter:  cerad_tourn_account_user_login[password]
-                csrf_parameter:      cerad_tourn_account_user_login[_token]
+                username_parameter:  cerad_user__user__login[username]
+                password_parameter:  cerad_user__user__login[password]
+                csrf_parameter:      cerad_user__user__login[_token]
                 csrf_provider:       form.csrf_provider
                 intention:           authenticate
                 
             logout:
-                path:   cerad_tourn_account_user_logout
+                path:   cerad_user__user__logout
                 target: cerad_app__welcome
                                 
             remember_me:
@@ -62,7 +62,7 @@ security:
                 path:     cerad_app__welcome
                 domain:   ~
                 name:     zayso_remember_me
-                remember_me_parameter: cerad_tourn_account_user_login[remember_me]
+                remember_me_parameter: cerad_user__user__login[rememberMe]
 
     access_control:
         - { path: '^/[A-Za-z0-9_-]+/admin',roles: ROLE_ASSIGNOR }
