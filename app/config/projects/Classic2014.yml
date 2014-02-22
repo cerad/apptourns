@@ -1,6 +1,6 @@
      
-key: USSF_AL_HFCClassic_Spring2014
-         
+key:        USSF_AL_HFCClassic_Spring2014
+arbiter:    ALYS_SOCCER_HFCCLASSIC_SPRING2014
 slug:       Classic2014
 slugPrefix: Classic
 role:       Tournament
