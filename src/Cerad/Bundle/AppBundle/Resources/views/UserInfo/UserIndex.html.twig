@@ -1,7 +1,7 @@
 <div>
     User: {{ user.accountName }}
     <a href="{{ path('cerad_app__home') }}">Home</a>
-    <a href="{{ path('cerad_tourn_person_update', { personId: person.id }) }}">My Info</a>
+    <a href="{{ path('cerad_tourn_person_update', { personId: userPerson.id }) }}">My Info</a>
     
     <a href="{{ path('cerad_user__user__logout') }}">Logout</a>
 </div>

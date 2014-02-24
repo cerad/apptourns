@@ -13,12 +13,10 @@ class UserPersonCreateModel extends ActionModelFactory
 {
     public $fedKey;
     public $fedRole;
-    public $user;
     public $name;
     public $email;
     public $password;
     
-    // Injected
     protected $userManager;
     protected $personRepo;
     
@@ -29,22 +27,62 @@ class UserPersonCreateModel extends ActionModelFactory
         $this->fedRole     = $fedRole;
     }
     public function create(Request $request)
-    { 
-        $this->user = $this->userManager->createUser();
-        
+    {
         return $this;
     }
     public function process()
     {
-        $personFed  = $this->getPersonFed();
-        $personPlan = $this->getPersonPlan();
+        $personFed = $this->personRepo->findFedByFedKey($this->fedKey);
         
-        $registerEvent = new RegisterProjectPersonEvent($this->project,$this->person,$personPlan,$personFed);
-        $this->dispatcher->dispatch(PersonEvents::RegisterProjectPerson,$registerEvent);
+        if (!$personFed)
+        {
+            // Build a complete person record
+            $person = $this->personRepo->createPerson();
+            $person->getPersonPersonPrimary();
+            
+            // A value object
+            $personName = $person->createName();
+            $personName->full = $this->name;
+            $person->setName($personName);
+            
+            $person->setEmail($this->email);
+           
+            $personFed = $person->getFed($this->fedRole);
+            $personFed->setFedKey($this->fedKey);
+        }
+        else
+        {
+            // TODO: More security, check email etc
+            $person = $personFed->getPerson();
+            
+            // If this person has an account then we need to use it as well
+            // Or else two accounts pointing to the same person?
+            
+        }
+        $this->person    = $person;
+        $this->personFed = $personFed;
         
-        $this->personRepo->persist($this->personFed);
-        $this->personRepo->persist($this->personPlan);
+        /* ==================================================
+         * Now take care of the account
+         * Already checked for duplicate emails/user names
+         */
+        $user = $this->userManager->createUser();
         
+        $user->setEmail         ($this->email);
+        $user->setUsername      ($this->email);
+        $user->setAccountName   ($this->name);
+        $user->setAccountEnabled(true);
+        $user->setPasswordPlain ($this->password);
+        $user->setPersonGuid    ($person->getGuid());
+        
+        $this->user = $user;
+        
+        /* ===============================
+         * And persist
+         */
+        $this->userManager->updateUser($user);
+        
+        $this->personRepo->persist($person);
         $this->personRepo->flush();
     }
 }

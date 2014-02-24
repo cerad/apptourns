@@ -19,10 +19,10 @@ class UserPersonCreateController extends ActionController
         {   
             $model->process();
             
-            $formAction = $form->getConfig()->getAction();
-            return new RedirectResponse($formAction);  // To form
+          //$formAction = $form->getConfig()->getAction();
+          //return new RedirectResponse($formAction);  // To form
             
-            return $this->redirect('cerad_app__home');
+            return $this->redirectResponse('cerad_app__home');
         }
         
         $tplData = array();
