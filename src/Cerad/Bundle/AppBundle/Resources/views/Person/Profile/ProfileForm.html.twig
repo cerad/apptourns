@@ -1,0 +1,24 @@
+{{ form_start(form) }}
+<fieldset><legend><span>Person Information</span></legend>
+  {{ form_row(form.person.name.full)  }}
+  {{ form_row(form.person.name.first) }}
+  {{ form_row(form.person.name.last)  }}
+  {{ form_row(form.person.email) }}
+  {{ form_row(form.person.phone) }}
+  {{ form_row(form.person.address.city)  }}
+  {{ form_row(form.person.address.state) }}
+</fieldset>
+<fieldset><legend><span>Certification Information</span></legend>
+  {{ form_row(form.personFed.fedKey) }}
+  {{ form_row(form.personFed.orgKey) }}
+  {{ form_row(form.personFed.certReferee.badgeUser) }}
+  {{ form_row(form.personFed.certReferee.upgrading) }}
+</fieldset>
+<fieldset>
+  <div class="controls">
+    <span><a href="{{ homeUrl }}">Register for Tournaments when Done</a></span>
+    {{ form_widget(form.update) }}
+  </div>
+</fieldset>
+{{ form_rest(form) }}
+{{ form_end (form) }}

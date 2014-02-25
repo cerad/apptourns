@@ -1,0 +1,10 @@
+{% extends '@CeradApp/Layout.html.twig' %}
+
+{% block content %}
+
+<h3>{{ person.name.full}}</h3>
+
+{% include '@CeradApp/Person/Profile/ProfileForm.html.twig' %}
+{% include '@CeradApp/Person/Profile/ProfileHelp.html.twig' %}
+
+{% endblock %}{# end content block #}

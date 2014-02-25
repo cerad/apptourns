@@ -4,6 +4,30 @@ parameters:
 services:
 
 # =======================================================================
+# Person Profile
+#
+    cerad_person__person__profile_model_factory:
+        class: Cerad\Bundle\AppBundle\Action\Person\Profile\PersonProfileModel
+        calls:
+             - [setDispatcher,['@event_dispatcher']]
+        arguments:
+           - '@cerad_person__person_repository'
+           - '%cerad_fed_role_default%'
+
+    cerad_person__person__profile_form_factory:
+        class: Cerad\Bundle\AppBundle\Action\Person\Profile\PersonProfileFormFactory
+        calls:
+             - [setRouter,      ['@router']]
+             - [setDispatcher,  ['@event_dispatcher']]
+             - [setFormFactory, ['@form.factory']]
+             
+    cerad_person__person__profile_controller:
+        class: Cerad\Bundle\AppBundle\Action\Person\Profile\PersonProfileController
+        calls:
+             - [setRouter,     ['@router']]
+             - [setTemplating, ['@templating']]
+             
+# =======================================================================
 # ProjectPerson Register
 #
     cerad_person__project_person__model_factory:
