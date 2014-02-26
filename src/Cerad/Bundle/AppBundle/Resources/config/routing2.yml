@@ -23,6 +23,15 @@ cerad_person__person__profile:
         _controller: cerad_person__person__profile_controller:action
         _template: '@CeradApp/Person/Profile/ProfilePage.html.twig'
         _redirect:   cerad_app__home
+        
+cerad_person_admin__project_persons__list:
+    path:  /admin//project/{_project}/persons
+    defaults:
+        _role:       ROLE_ADMIN
+        _model:      cerad_person_admin__project_persons__list_model_factory
+        _form:       cerad_person_admin__project_persons__list_form_factory
+        _controller: cerad_person_admin__project_persons__list_controller:action
+        _template: '@CeradApp/ProjectPersons/ListAdmin/PersonsListPage.html.twig'
   
 # ===================================================
 # Override the create user person  to allows adding referee certification
