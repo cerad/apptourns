@@ -1,0 +1,7 @@
+<h3>Administer Tournament People</h3>
+<ul class="tournaments-list">
+{% for project in projects %}
+  <li><a href="{{ project.personsUrl }}">{{ project.desc }}</a></li>
+{% endfor %}
+</ul>
+

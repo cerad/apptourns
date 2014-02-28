@@ -1,8 +1,11 @@
-{# @CeradApp/Welcome/WelcomeIndex.html.twig   #}
 {% extends '@CeradApp/Layout.html.twig' %}
 
 {% block content %}
 
-{{ include('@CeradApp/Home/ProjectsList.html.twig') }}
+{{ include(local(_self,'ProjectsList.html.twig')) }}
+
+{% if is_granted('ROLE_ADMIN') %}
+{{ include(local(_self,'PersonsList.html.twig')) }}
+{% endif %}
 
 {% endblock %}{# end content block #}

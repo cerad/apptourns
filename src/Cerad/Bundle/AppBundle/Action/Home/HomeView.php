@@ -22,11 +22,18 @@ class HomeView extends View
         $viewProjects = array();
         foreach($modelProjects as $modelProject)
         {
-            $params = array('_project' => $modelProject->getSlugPrefix(), '_person' => $userPerson->getId());
-            
-            $registerUrl = $this->generateUrl('cerad_person__project_person__register',$params);
-            
-            $viewProjects[] = array('desc' => $modelProject->getDesc(), 'registerUrl' => $registerUrl);
+            $registerUrl = $this->generateUrl('cerad_person__project_person__register',array(
+                '_project' => $modelProject->getSlugPrefix(), 
+                '_person'  => $userPerson->getId()
+            ));   
+            $personsUrl = $this->generateUrl('cerad_person_admin__project_persons__list',array(
+                '_project' => $modelProject->getSlug(),
+            ));
+            $viewProjects[] = array(
+                'desc'        => $modelProject->getDesc(), 
+                'registerUrl' => $registerUrl,
+                'personsUrl'  => $personsUrl,
+            );
         }
         $tplData = array();
         $tplData['projects'] = $viewProjects;
