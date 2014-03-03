@@ -11,7 +11,7 @@ use Cerad\Bundle\CoreBundle\Action\ActionController;
 
 class PersonsListController extends ActionController
 {   
-    public function action(Request $request, PersonsListModel $model, FormInterface $form)
+    public function action(Request $request, PersonsListModel $model) //, FormInterface $form)
     {   
         die('persons.list.controller');
         

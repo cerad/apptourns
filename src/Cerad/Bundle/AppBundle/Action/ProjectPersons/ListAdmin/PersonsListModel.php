@@ -26,6 +26,7 @@ class PersonsListModel extends ActionModelFactory
     public function create(Request $request)
     { 
         $this->project = $request->attributes->get('project');
+        
         return $this;
     }
     public function getPersons()
