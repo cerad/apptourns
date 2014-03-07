@@ -15,11 +15,11 @@ class PersonsListModel extends ActionModelFactory
     protected $project;
     
     // Injected
-    protected $personRepo;
+    protected $personPlanRepo;
     
-    public function __construct($personRepo)
+    public function __construct($personPlanRepo)
     {
-        $this->personRepo = $personRepo;
+        $this->personPlanRepo = $personPlanRepo;
     }
     public function getProject() { return $this->project; }
     
@@ -31,7 +31,7 @@ class PersonsListModel extends ActionModelFactory
     }
     public function getPersons()
     {
-        return array();
+        return $this->personPlanRepo->findByProject($this->project);
     }
     public function processSearch()
     {

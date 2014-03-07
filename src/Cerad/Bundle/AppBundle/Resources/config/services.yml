@@ -118,8 +118,7 @@ services:
         calls:
              - [setDispatcher,['@event_dispatcher']]
         arguments:
-           - '@cerad_person__person_repository'
-           - '%cerad_fed_role_default%'
+           - '@cerad_person__person_plan_repository'
 
     cerad_person_admin__project_persons__list_form_factory:
         class: Cerad\Bundle\AppBundle\Action\ProjectPersons\ListAdmin\PersonsListFormFactory

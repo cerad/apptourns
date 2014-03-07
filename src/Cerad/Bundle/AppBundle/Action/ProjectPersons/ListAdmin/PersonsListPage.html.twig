@@ -1,0 +1,44 @@
+{% extends '@CeradApp/Layout.html.twig' %}
+
+{% block content %}
+
+<h3>{{ project.desc }}</h3>
+<table id="person-list" border="1" style="max-widthx: 850px;">
+<thead>
+<tr><th colspan="20">
+        <a href="{# path('cerad_person_admin__project_person__update:', {'slug' : slug, '_format': 'xls'} )#}">Generate Excel</a>
+        Tournament Officials - Count: {{ persons | length }}
+    </th></tr>
+<tr>
+    <th>Update</th>
+    <th>Person</th>
+</tr>
+</thead>
+<tbody>
+{% for personPlan in persons %}
+{% set person = personPlan.person %}
+{% set name = person.name %}
+{% set fed = person.fed(project.fedRole) %}
+{% set certRef = fed.certReferee %}
+<tr id="person-{{person.id}}">
+    <td>
+        <a href="{{ path('cerad_person_admin__project_person__update', { '_person' : person.id, '_project': project.slug}) }}">
+            Update
+        </a>
+    </td>
+    <td>
+        {{ name.full    }}<br />
+        {{ person.email }}<br />
+        {{ person.phone | cerad_phone }}
+    </td>
+    <td>
+        {{ fed.fedKey    }}<br />
+        {{ fed.orgKey    }}<br />
+        {{ certRef.badgeUser }}
+    </td>
+</tr>
+{% endfor %} {# persons #}
+</tbody>
+</table>
+    
+{% endblock %}{# end content block #}

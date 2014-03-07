@@ -1,0 +1,59 @@
+     
+key:        USSF_AL_PresidentsCup_Spring2014
+arbiter:    ALYS_SOCCER_PRESIDENTSCUP_SPRING2014
+slug:       PresidentsCup2014
+slugPrefix: PresidentsCup
+role:       Tournament
+    
+fed:     USSF
+fedOrg:  USSF_AL
+fedRole: USSFC
+                
+name:    Region III President's Cup
+desc:    USSF Region III President's Cup 2014 - Decatur, Alabama - June 12-16
+    
+general_url:  http://regioniii.usyouthsoccer.org/presidents_cup/Home/
+register_url: http://zayso.org/arbiter/tourn/presidentscup
+    
+status:    Active
+verified:  Yes
+                
+season:    Spring2014
+sport:     Soccer
+domain:    ALYS
+domainSub: Presidents Cup
+                                
+assignor:
+  name:   Ohannes Younanian
+  email:  ohannesy@yahoo.com
+  phone:  334.477.6313
+  submit: Emails your application to Ohannes Younanian and yourself.
+  prefix: PresidentsCup
+  bcc:    { name: Art Hundiak, email: ahundiak@gmail.com }
+  
+dates:
+  - { date: '2014-06-12', label: Thu, lodging: true,  search: true, avail: 5PM Kickoff }
+  - { date: '2014-06-13', label: Fri, lodging: true,  search: true, avail: AllDay }
+  - { date: '2014-06-14', label: Sat, lodging: true,  search: true, avail: AllDay }
+  - { date: '2014-06-15', label: Sun, lodging: true,  search: true, avail: AllDay }
+  - { date: '2014-06-16', label: Mon, lodging: false, search: true, avail: AllDay }
+      
+plan:
+  refereeLevel:       ~                                   
+  comfortLevelCenter: ~             
+  comfortLevelAssist: ~
+                        
+  requestAssessment: ~
+
+  lodging: ~
+  lodgingWith:   ~
+    
+  travelingWith: ~
+  travelingFrom: ~
+                    
+  teamClubAffilation: ~            
+  teamClubName: ~
+                             
+  availability: ~
+                            
+  notes: ~

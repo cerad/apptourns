@@ -1,0 +1,57 @@
+     
+key:        USSF_AL_OpenCup_Spring2014
+arbiter:    ALYS_SOCCER_OPENCUP_SPRING2014
+slug:       OpenCup2014
+slugPrefix: OpenCup
+role:       Tournament
+    
+fed:     USSF
+fedOrg:  USSF_AL
+fedRole: USSFC
+                
+name:    Open Cup 2014
+desc:    USSF Open Cup 2014 - Decatur, Alabama - April 11,12,13
+    
+generalUrl:  http://www.premiersoccerservices.com/home/566816.html
+registerUrl: http://zayso.org/arbiter/tourn/opencup
+    
+status:    Active
+verified:  Yes
+                
+season:    Spring2014
+sport:     Soccer
+domain:    ALYS
+domainSub: Open Cup
+                                
+assignor:
+  name:   Art Hundiak
+  email:  ahundiak@gmail.com
+  phone:  256.457.5943
+  submit: Emails your application to Art Hundiak and yourself.
+  prefix: OpenCup
+  bcc:    { name: Art Hundiak, email: ahundiak@gmail.com }
+  
+dates:
+  - { date: '2014-04-11', label: Fri, lodging: true,  search: true, avail: 5PM Kickoff }
+  - { date: '2014-04-12', label: Sat, lodging: true,  search: true, avail: AllDay }
+  - { date: '2014-04-13', label: Sun, lodging: false, search: true, avail: AllDay }
+      
+plan:
+  refereeLevel:       ~                                   
+  comfortLevelCenter: ~             
+  comfortLevelAssist: ~
+                        
+  requestAssessment: ~
+
+  lodging: ~
+  lodgingWith:   ~
+    
+  travelingWith: ~
+  travelingFrom: ~
+                    
+  teamClubAffilation: ~            
+  teamClubName: ~
+                             
+  availability: ~
+                            
+  notes: ~

@@ -13,8 +13,8 @@ class PersonsListController extends ActionController
 {   
     public function action(Request $request, PersonsListModel $model) //, FormInterface $form)
     {   
-        die('persons.list.controller');
-        
+        //die('persons.list.controller');
+        /*
         $form->handleRequest($request);
 
         if ($form->isValid()) 
@@ -26,10 +26,10 @@ class PersonsListController extends ActionController
             
             return $this->redirect('cerad_app__home');
         }
-        
+        */
         $tplData = array();
-        $tplData['form']    = $form->createView();
-        $tplData['person']  = $model->getPerson();
+      //$tplData['form']    = $form->createView();
+        $tplData['persons'] = $model->getPersons();
         $tplData['project'] = $model->getProject();
         
         $tplName = $request->attributes->get('_template');
