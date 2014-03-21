@@ -128,6 +128,11 @@ services:
              
     cerad_person_admin__project_persons__list_controller:
         class: Cerad\Bundle\AppBundle\Action\ProjectPersons\ListAdmin\PersonsListController
+        arguments:
+            - '@cerad_person_admin__project_persons__export_xls'
         calls:
              - [setRouter,     ['@router']]
              - [setTemplating, ['@templating']]
+             
+    cerad_person_admin__project_persons__export_xls:
+        class:  Cerad\Bundle\AppBundle\Action\ProjectPersons\ListAdmin\PersonsListExportXLS

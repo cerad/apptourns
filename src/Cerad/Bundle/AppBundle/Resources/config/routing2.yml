@@ -25,13 +25,16 @@ cerad_person__person__profile:
         _redirect:   cerad_app__home
         
 cerad_person_admin__project_persons__list:
-    path:  /admin//project/{_project}/persons
+    path:  /admin//project/{_project}/persons.{_format}
     defaults:
         _role:       ROLE_ADMIN
         _model:      cerad_person_admin__project_persons__list_model_factory
         _form:       cerad_person_admin__project_persons__list_form_factory
         _controller: cerad_person_admin__project_persons__list_controller:action
         _template: '@CeradApp/ProjectPersons/ListAdmin/PersonsListPage.html.twig'
+        _format:     html
+    requirements:
+        _format:  html|csv|xls|xlsx|pdf
         
 cerad_person_admin__project_person__update:
     path:  /admin//project/{_project}/person{_person}/update
