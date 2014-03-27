@@ -28,6 +28,7 @@ doctrine:
         connection: default
         mappings:
           CeradUserBundle:   ~
+          CeradGameBundle:   ~
           CeradPersonBundle: ~
           
       project:
