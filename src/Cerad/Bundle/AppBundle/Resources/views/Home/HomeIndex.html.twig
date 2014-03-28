@@ -2,10 +2,12 @@
 
 {% block content %}
 
-{{ include(local(_self,'ProjectsList.html.twig')) }}
+{# include(local(_self,'ProjectsList.html.twig')) #}
+{{ include('@CeradApp/Home/ProjectsList.html.twig') }}
 
 {% if is_granted('ROLE_ADMIN') %}
-{{ include(local(_self,'PersonsList.html.twig')) }}
+{# include(local(_self,'PersonsList.html.twig')) #}
+{{ include('@CeradApp/Home/PersonsList.html.twig') }}
 {% endif %}
 
 {% endblock %}{# end content block #}
