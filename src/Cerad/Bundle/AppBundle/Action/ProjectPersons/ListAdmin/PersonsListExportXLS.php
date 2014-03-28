@@ -70,60 +70,42 @@ class PersonsListExportXLS extends ExcelExport
         {
             $this->setRow($ws,$map,$person,$row);
         }
+        return; if ($project);
     }
-    /* =============================================================
-     * The availability
+    /* ========================================================
+     * Availability
      */
-    protected function generateAvailSheet($ws,$project,$officials)
+    protected function generateAvailSheet($ws,$project,$persons)
     {
         $ws->setTitle('Availability');
-
-        $headers = array_merge(
-            array(
-                'Official','Email','Cell Phone','Age',
-                'Badge','Level','LE CR','LE AR','Assess','Upgrading',
-                'Team Aff','Team Desc',
-            ),
-            $this->availabilityDaysHeaders
+                
+        $map1 = array(
+            'Applied Date' => 'appliedDate',
+            'Official'     => 'name',
+            'Email'        => 'email',
+            'Cell Phone'   => 'phone',
+            'Age'          => 'gage',
+            'Home City'    => 'city',
+            'Badge'        => 'badge',
+            
+            'Level' => 'refereeLevel',
+            'LE CR' => 'comfortLevelCenter',
+            'LE AR' => 'comfortLevelAssist',
+            
+            'Assess'       => 'requestAssessment',
+            'Upgrading'    => 'upgrading',
+            'Team Aff'     => 'teamClubAffilation',
+            'Team Desc'    => 'teamClubName',
         );
+        $map = array_merge($map1,$this->availabilityMap);
         
-        $this->writeHeaders($ws,1,$headers);
-        $row = 2;
-        
-        foreach($officials as $person)
+        $row = 1;
+        $this->setHeaders($ws,array_keys($map),$row);
+        foreach($persons as $person)
         {
-            $personFed   = $person->getFed($project->getFedRoleId());
-            $cert        = $personFed->getCertReferee();
-            $plan        = $person->getPlan($project->getId());
-            $basic       = $plan->getBasic();
-            
-            $values = array();
-            $values[] = $person->getName()->full;
-            $values[] = $person->getEmail();
-            $values[] = $this->phoneTransformer->transform($person->getPhone());
-            
-            $gender = $person->getGender();
-            $age    = $person->getAge();
-            $gage   = $gender . $age;
-            $values[] = $gage;
-            
-            $values[] = $basic['refereeLevel'];
-            $values[] = $basic['comfortLevelCenter'];
-            $values[] = $basic['comfortLevelAssist'];
-            
-            $values[] = $basic['requestAssessment'];
-            $values[] = $cert->getUpgrading();
-            $values[] = $basic['teamClubAffilation'];
-            $values[] = $basic['teamClubName'];
-
-            foreach($basic['availabilityDays'] as $value)
-            {
-                $values[] = $value;
-            }
-            $this->setRowValues($ws,$row++,$values);
+            $this->setRow($ws,$map,$person,$row);
         }
-        // Done
-        return;
+        return; if ($project);
     }
     /* ========================================================
      * Officials that have requested lodging
@@ -160,6 +142,7 @@ class PersonsListExportXLS extends ExcelExport
             
             $this->setRow($ws,$map,$person,$row);
         }
+        return; if ($project);
     }
     /* ==========================================================
      * Put the notes on their own sheer
@@ -169,9 +152,6 @@ class PersonsListExportXLS extends ExcelExport
     {
         $ws->setTitle('Notes');
 
-        $headers = array(
-            'Status','Official','Email','Cell Phone','Badge','Verified','Notes');
-        
         $map = array(
             'ID'           => 'id',
             'Status'       => 'status',
@@ -192,7 +172,8 @@ class PersonsListExportXLS extends ExcelExport
             if (!$person['notes']) continue;
             
             $this->setRow($ws,$map,$person,$row);
-        }        
+        }
+        return; if ($projects);
     }
     /* ==========================================================
      * Main entry point
@@ -201,8 +182,6 @@ class PersonsListExportXLS extends ExcelExport
     {
         $persons = $this->processOfficials($project,$officials);
         
-        $plan = $project->getPlan();
-        
         $this->ss = $ss = $this->createSpreadSheet();
         
         $si = 0;
@@ -210,7 +189,7 @@ class PersonsListExportXLS extends ExcelExport
         $this->generateOfficialsSheet($ss->createSheet($si++),$project,$persons);
         $this->generateNotesSheet    ($ss->createSheet($si++),$project,$persons);
         $this->generateLodgingSheet  ($ss->createSheet($si++),$project,$persons);
-      //$this->generateAvailSheet    ($ss->createSheet($si++),$project,$officials);
+        $this->generateAvailSheet    ($ss->createSheet($si++),$project,$persons);
         
         // Finish up
         $ss->setActiveSheetIndex(1);
@@ -226,7 +205,9 @@ class PersonsListExportXLS extends ExcelExport
             
             $person['id']     = $officialPlan->getId();
             $person['status'] = $officialPlan->getStatus();
-            $person['appliedDate'] = $officialPlan->getCreatedOn()->format('Y-m-d H:i');
+            
+            $createdOn = $officialPlan->getCreatedOn();
+            $person['appliedDate'] = $createdOn ? $createdOn->format('Y-m-d H:i') : null;
             
             $official = $officialPlan->getPerson();
             $person['name'] = $official->getName()->full;
