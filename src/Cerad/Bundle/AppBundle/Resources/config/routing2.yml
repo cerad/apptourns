@@ -25,7 +25,7 @@ cerad_person__person__profile:
         _redirect:   cerad_app__home
         
 cerad_person_admin__project_persons__list:
-    path:  /admin//project/{_project}/persons.{_format}
+    path:  /admin/project/{_project}/persons.{_format}
     defaults:
         _role:       ROLE_ADMIN
         _model:      cerad_person_admin__project_persons__list_model_factory
@@ -37,7 +37,7 @@ cerad_person_admin__project_persons__list:
         _format:  html|csv|xls|xlsx|pdf
         
 cerad_person_admin__project_person__update:
-    path:  /admin//project/{_project}/person/{_person}/update
+    path:  /admin/project/{_project}/person/{_person}/update
     defaults:
         _role:       ROLE_ADMIN
         _model:      cerad_person_admin__project_persons__list_model_factory
