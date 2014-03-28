@@ -8,7 +8,7 @@
 {{ person.email }} {{ person.phone | cerad_phone }} {{ person.address.city }} {{ person.address.state }}
 
 {% set basic = personPlan.basic %}
-Lodging: {% for key, value in basic.lodgingNights %}{{ key }}-{{ value }}{% if not loop.last %}, {% endif %} {% endfor %} {{ basic.lodgingWith }} 
+Lodging: {% for key, value in basic.lodging %}{{ key }}-{{ value }}{% if not loop.last %}, {% endif %} {% endfor %} {{ basic.lodgingWith }} 
 Traveling: {{ basic.travelingFrom }} - {{ basic.travelingWith }}
 Availability: {% for key, value in basic.availability %}{{ key }}-{{ value }}{% if not loop.last %}, {% endif %} {% endfor %} {{ ' ' }}
 Level: {{ basic.refereeLevel }} {{ basic.comfortLevelCenter }} {{ basic.comfortLevelAssist }} 

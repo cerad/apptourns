@@ -20,7 +20,7 @@ class UserPersonCreateController extends ActionController
             
           //$formAction = $form->getConfig()->getAction();
           //return new RedirectResponse($formAction);  // To form
-            $personId = $model->getPerson()->getId();
+            $personId = $model->person->getId();
             return $this->redirectResponse('cerad_person__person__profile',array('_person' => $personId));
         }
         
