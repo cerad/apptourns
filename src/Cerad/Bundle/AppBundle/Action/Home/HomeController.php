@@ -8,7 +8,7 @@ use Cerad\Bundle\CoreBundle\Action\Controller;
 
 class HomeController extends Controller
 {
-    public function action(Request $request, $model, $userPerson)
+    public function action(Request $request, $model, $userPerson = null)
     {   
         // Special case for session timeouts
         if (!$this->isGranted('ROLE_USER'))
