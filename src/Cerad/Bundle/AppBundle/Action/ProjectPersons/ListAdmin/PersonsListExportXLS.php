@@ -80,11 +80,10 @@ class PersonsListExportXLS extends ExcelExport
         $ws->setTitle('Availability');
                 
         $map1 = array(
-            'Applied Date' => 'appliedDate',
             'Official'     => 'name',
+        );
+        $map2 = array(
             'Email'        => 'email',
-            'Cell Phone'   => 'phone',
-            'Age'          => 'gage',
             'Home City'    => 'city',
             'Badge'        => 'badge',
             
@@ -97,7 +96,8 @@ class PersonsListExportXLS extends ExcelExport
             'Team Aff'     => 'teamClubAffilation',
             'Team Desc'    => 'teamClubName',
         );
-        $map = array_merge($map1,$this->availabilityMap);
+        $map = array_merge($map1,$this->availabilityMap,$map2);
+      //$map = array_merge($map1);
         
         $row = 1;
         $this->setHeaders($ws,array_keys($map),$row);
@@ -134,7 +134,10 @@ class PersonsListExportXLS extends ExcelExport
         foreach($persons as $person)
         {
             $needLodging = false;
-            foreach($person['lodgingNights'] as $value)
+            
+            $lodging = isset($person['lodgingNights']) ? $person['lodgingNights'] : $person['lodging'];
+
+            foreach($lodging as $value)
             {
                 if ($value == 'Yes') $needLodging = true;
             }
@@ -192,7 +195,7 @@ class PersonsListExportXLS extends ExcelExport
         $this->generateAvailSheet    ($ss->createSheet($si++),$project,$persons);
         
         // Finish up
-        $ss->setActiveSheetIndex(1);
+        $ss->setActiveSheetIndex(0);
         return $ss;
     }
     protected function processOfficials($project,$officialPlans)
@@ -222,7 +225,7 @@ class PersonsListExportXLS extends ExcelExport
             $fed  = $official->getFed($project->getFedRole());
             $cert = $fed->getCertReferee();
             
-            $person['ussfId']        = 'R' . substr($fed->getId(),5);
+            $person['ussfId']        = 'R' . substr($fed->getFedKey(),5);
             $person['org']           = substr($fed->getOrgKey(),5);
             $person['badge']         = $cert->getBadge();
             $person['badgeVerified'] = $cert->getBadgeVerified();
@@ -230,7 +233,8 @@ class PersonsListExportXLS extends ExcelExport
             
             $basic = $officialPlan->getBasic();
             
-            foreach($basic['lodgingNights'] as $key => $value)
+            $lodging = isset($basic['lodgingNights']) ? $basic['lodgingNights'] : $basic['lodging'];
+            foreach($lodging as $key => $value)
             {
                 $header = 'LO ' . $key;
                 $index  = 'lo'  . $key;
@@ -238,7 +242,9 @@ class PersonsListExportXLS extends ExcelExport
                 $this->lodgingMap[$header] = $index;
                 $person[$index] = $value;
             }
-            foreach($basic['availabilityDays'] as $key => $value)
+          //print_r($basic); die();
+            $avail = isset($basic['availabilityDays']) ? $basic['availabilityDays'] : $basic['availability'];
+            foreach($avail as $key => $value)
             {
                 $header = 'AV ' . $key;
                 $index  = 'av'  . $key;
