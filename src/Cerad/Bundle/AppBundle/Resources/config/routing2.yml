@@ -64,3 +64,10 @@ cerad_user__user_person__create_form:
     _form:       cerad_user__user_person__create_form_factory
     _controller: cerad_user__user_person__create_controller:action
     _template: '@CeradUser\UserPerson\Create\UserPersonCreateForm.html.twig'
+    
+cerad_app__default:
+    path: /{xxx}
+    defaults:
+        _model:      cerad_app__projects_model_factory
+        _controller: cerad_app__welcome_controller:action
+        _template: '@CeradApp/Welcome/WelcomeIndex.html.twig'
