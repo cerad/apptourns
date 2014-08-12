@@ -1,0 +1,56 @@
+key:        USSF_AL_HFCKicks_Fall2014
+arbiter:    ALYS_SOCCER_HFCKICKS_FALL2014
+slug:       Kicks2014
+slugPrefix: Kicks
+role:       Tournament
+    
+fed:     USSF
+fedOrg:  USSF_AL
+fedRole: USSFC
+                
+name:   "HFC Kicks 2014"
+desc:   "USSF HFC Kicks 2014 - Huntsville, Alabama - October 17, 18, 19"
+    
+   #general_url:  'http://www.huntsvillefc.org/springclassic/'
+   #register_url: 'http://zayso.org/arbiter/tourn/opencup'
+    
+status:    Active
+verified:  Yes
+                
+season:    Fall2014
+sport:     Soccer
+domain:    ALYS
+domainSub: HFC Kicks
+                                
+assignor:
+  name:   Art Hundiak
+  email:  ahundiak@gmail.com
+  phone:  256.457.5943
+  submit: Emails your application to Art Hundiak and yourself.
+  prefix: Kicks
+  bcc:    { name: Art Hundiak, email: ahundiak@gmail.com }
+  
+dates:
+  - { date: '2014-10-17', label: Fri, lodging: true,  search: true, avail: 5PM Kickoff }
+  - { date: '2014-10-18', label: Sat, lodging: true,  search: true, avail: AllDay }
+  - { date: '2014-10-19', label: Sun, lodging: false, search: true, avail: AllDay }
+      
+plan:
+  refereeLevel:       ~                                   
+  comfortLevelCenter: ~             
+  comfortLevelAssist: ~
+                        
+  requestAssessment: ~
+
+  lodging: ~
+  lodgingWith:   ~
+    
+  travelingWith: ~
+  travelingFrom: ~
+                    
+  teamClubAffilation: ~            
+  teamClubName: ~
+                             
+  availability: ~
+                            
+  notes: ~
