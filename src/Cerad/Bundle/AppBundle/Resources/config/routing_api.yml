@@ -1,0 +1,4 @@
+cerad_api__project_persons:
+    path: /projects/{_project}/persons
+    defaults:
+        _controller: cerad_api__project_persons__controller:getAction

@@ -1,0 +1,25 @@
+{% extends '@CeradApp/Layout.html.twig' %}
+
+{% block content %}
+   
+<h3>{{ project.desc}}</h3>
+    
+<div ng-controller="ProjectController as project" project-key="{{ project.key }}" prefix="/arbiter/tourn">
+  <table border="1">
+    <tr ng-repeat="projectPerson in project.persons">
+{% verbatim %}
+      <td>{{ projectPerson.createdOn }}</td>
+      <td>{{ projectPerson.fullName  }}</td>
+{% endverbatim %}
+      {#
+      <td>{{ projectPerson.projectPersonId }}</td>
+      <td>{{ projectPerson.personId  }}</td>
+      <td>{{ projectPerson.email     }}</td>
+      <td>{{ projectPerson.fullName  }}</td>
+      <td>{{ projectPerson.firstName }}</td>
+      <td>{{ projectPerson.lastName  }}</td>
+      <td>{{ projectPerson.createdOn }}</td>#}
+    </tr>
+  </table>
+</div>
+{% endblock %}

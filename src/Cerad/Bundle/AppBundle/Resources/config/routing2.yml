@@ -13,6 +13,12 @@ cerad_person__project_person__register:
         _controller: cerad_person__project_person__register_controller:action
         _template: '@CeradApp/ProjectPerson/Register/RegisterIndex.html.twig'
         _redirect:   cerad_app__home
+        
+cerad_person__project_persons__registered:
+    path:  /project/{_project}/persons/registered
+    defaults:
+        _controller: cerad_person__project_persons__registered_controller:action
+        _template: '@CeradApp/ProjectPersons/Registered/RegisteredIndex.html.twig'
 
 cerad_person__person__profile:
     path:  /person/{_person}/profile

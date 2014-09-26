@@ -11,6 +11,10 @@ cerad_game_routing:
     resource: "@CeradGameBundle/Resources/config/routing.yml"
     prefix:   /
     
+cerad_app__routing_api:
+    resource: "@CeradAppBundle/Resources/config/routing_api.yml"
+    prefix:   /
+
 cerad_app__routing_2:
     resource: "@CeradAppBundle/Resources/config/routing2.yml"
     prefix:   /

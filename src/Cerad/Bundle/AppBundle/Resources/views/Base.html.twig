@@ -1,6 +1,6 @@
 {# @CeradApp/Base.html.twig #}
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="zaysoApp">
 <head>
     <meta charset="utf-8"/>
     <meta name="description" content="Cerad Referee Scheduling"/>
@@ -9,6 +9,9 @@
     <title>{% block title %}ArbiterTourn{% endblock %}</title>
     
     <link rel="icon" type="image/x-icon" href="{{ asset('bundles/ceradapp/images/favicon.ico') }}" />
+    
+    <script type="text/javascript" src="{{ asset('bundles/ceradapp/js/angular.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/ceradapp/js/app.js')         }}"></script>
 
 {% block stylesheets %}{%endblock %} 
 

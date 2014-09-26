@@ -49,6 +49,11 @@ services:
              - [setRouter,     ['@router']]
              - [setTemplating, ['@templating']]
              
+    cerad_person__project_persons__registered_controller:
+        class: Cerad\Bundle\AppBundle\Action\ProjectPersons\Registered\RegisteredController
+        calls:
+             - [setTemplating, ['@templating']]
+             
 # ====================================================
 # Welcome and home stuff
     cerad_app__projects_model_factory:
@@ -136,3 +141,12 @@ services:
              
     cerad_person_admin__project_persons__export_xls:
         class:  Cerad\Bundle\AppBundle\Action\ProjectPersons\ListAdmin\PersonsListExportXLS
+
+# ==========================================================================
+# API
+    cerad_api__project_persons__controller:
+        class:  Cerad\Bundle\AppBundle\Action\ProjectPersons\API\ProjectPersonsController
+        arguments:
+           - '@cerad_person__person_repository'
+           - '@doctrine.dbal.default_connection'
+ 

@@ -26,13 +26,17 @@ class HomeView extends View
                 '_project' => $modelProject->getSlugPrefix(), 
                 '_person'  => $userPerson->getId()
             ));   
+            $registeredUrl = $this->generateUrl('cerad_person__project_persons__registered',array(
+                '_project' => $modelProject->getSlugPrefix(),
+            ));   
             $personsUrl = $this->generateUrl('cerad_person_admin__project_persons__list',array(
                 '_project' => $modelProject->getSlug(),
             ));
             $viewProjects[] = array(
-                'desc'        => $modelProject->getDesc(), 
-                'registerUrl' => $registerUrl,
-                'personsUrl'  => $personsUrl,
+                'desc'          => $modelProject->getDesc(), 
+                'registerUrl'   => $registerUrl,
+                'registeredUrl' => $registeredUrl,
+                'personsUrl'    => $personsUrl,
             );
         }
         $tplData = array();
