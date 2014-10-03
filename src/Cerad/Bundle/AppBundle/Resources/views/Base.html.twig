@@ -10,8 +10,11 @@
     
     <link rel="icon" type="image/x-icon" href="{{ asset('bundles/ceradapp/images/favicon.ico') }}" />
     
-    <script type="text/javascript" src="{{ asset('bundles/ceradapp/js/angular.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/ceradapp/js/app.js')         }}"></script>
+    <link id="prefix" href="/arbiter/games" />
+    
+    <script src="{{ asset('bundles/ceradapp/js/angular.min.js') }}"></script>
+    <script src="{{ asset('bundles/ceradapp/js/angular-resource.min.js') }}"></script>
+    <script src="{{ asset('bundles/ceradapp/js/app.js') }}"></script>
 
 {% block stylesheets %}{%endblock %} 
 

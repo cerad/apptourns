@@ -2,13 +2,22 @@
 
 (function() {
     
-  angular.module('zaysoApp', []);
+    var app = angular.module('zaysoApp', ['ngResource']);
     
-  angular.module('zaysoApp').controller('ProjectController',[ '$http','$attrs',function($http,$attrs) {
+    app.factory('Phone', ['$resource', function($resource){
+            
+        var url = '/arbiter/tourn' + '/projects/' + 'kicks' + '/persons';
+        
+        return $resource(url, {}, {
+            query: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+        });
+    }]);    
+    app.controller('ProjectController',[ '$http','$attrs','Phone',function($http,$attrs,Phone) {
     
     var project = this;
     
     project.persons = [];
+    project.phones = Phone.query();
     
     var url = $attrs.prefix + '/projects/' + $attrs.projectKey + '/persons';
     

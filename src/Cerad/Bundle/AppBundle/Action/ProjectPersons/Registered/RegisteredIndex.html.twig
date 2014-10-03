@@ -4,7 +4,9 @@
    
 <h3>{{ project.desc}}</h3>
     
-<div ng-controller="ProjectController as project" project-key="{{ project.key }}" prefix="/arbiter/tourn">
+<div ng-controller="ProjectController as project" project-key="{{ project.key }}" 
+  prefix1="arbiter" prefix2="tourn"
+  >
   <table border="1">
     <tr ng-repeat="projectPerson in project.persons">
 {% verbatim %}
