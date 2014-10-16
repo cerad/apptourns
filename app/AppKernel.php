@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Cerad\Bundle\ProjectBundle\CeradProjectBundle(),
          
             new Cerad\Bundle\AppBundle\CeradAppBundle(),
+            new Cerad\Bundle\ArbiterBundle\CeradArbiterBundle(),
             
         );
 

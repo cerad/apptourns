@@ -51,14 +51,14 @@ class TournxCommand extends ContainerAwareCommand
         $loader = $this->getService('cerad_arbiter.schedule.tourn.arbiter.load');
         
         $datax = $this->getParameter('datax');
-        
-        $items = $loader->load($datax . '/kicks/ScheduleArbiter20131018a.xls');
+    
+        $items = $loader->load($datax . '/Schedule20141015.xls');
         
         echo sprintf("Games: %d\n",count($items));
         
         $saver = $this->getService('cerad_arbiter.schedule.tourn.referee.save');
         
-        $saver->save($datax . '/kicks/ScheduleReferee20131018a.csv',$items);
+        $saver->save($datax . '/ScheduleReferee20141015.csv',$items);
     }
     /* ===========================================================================
      * Old stuff
