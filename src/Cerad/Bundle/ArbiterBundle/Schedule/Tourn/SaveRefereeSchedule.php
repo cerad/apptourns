@@ -28,6 +28,7 @@ class SaveRefereeSchedule
             $pos,
             $game['num'],
             $game['date'],
+            '',
             $game['dow'],
             $game['time'],
             $game['sport'],
