@@ -1,3 +1,6 @@
+# 27 Jan 2015
+# This is not longer used
+# Load projects with console command
 parameters:
 
     cerad_fed_role_default: USSFC
