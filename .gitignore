@@ -21,3 +21,4 @@
 /app/sessions/
 /app/data/
 /composer.lock
+/web/app.php
