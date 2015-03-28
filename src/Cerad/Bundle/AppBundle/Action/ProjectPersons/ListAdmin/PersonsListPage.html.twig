@@ -11,7 +11,7 @@
      Tournament Officials - Count: {{ persons | length }}
 </th></tr>
 <tr>
-    <th>Update</th>
+    <th>View</th>
     <th>Person</th>
 </tr>
 </thead>
@@ -23,9 +23,11 @@
 {% set certRef = fed.certReferee %}
 <tr id="person-{{person.id}}">
     <td>
-        <a href="{{ path('cerad_person_admin__project_person__update', { '_person' : person.id, '_project': project.slug}) }}">
-            Update
-        </a>
+      {#<a href="
+          {{ path('cerad_person_admin__project_person__update', 
+          { '_person' : person.id, '_project': project.slug}) }}
+        ">Update</a> #}
+      {{ person.id }}
     </td>
     <td>
         {{ name.full    }}<br />

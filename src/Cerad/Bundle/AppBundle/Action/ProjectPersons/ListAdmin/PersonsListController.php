@@ -45,7 +45,8 @@ class PersonsListController extends ActionController
         
             $response = new Response();
             $response->setContent($this->export->getBuffer());
-            $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+            $contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            $response->headers->set('Content-Type', $contentType);
             $response->headers->set('Content-Disposition', "attachment; filename=\"$outFileName\"");
             
             return $response;
